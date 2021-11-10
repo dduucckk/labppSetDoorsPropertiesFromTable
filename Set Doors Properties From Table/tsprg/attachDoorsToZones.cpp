@@ -1,409 +1,509 @@
-// Задать свойства дверям в соответствии с прилежащими зонами.
-// LABPP AVTOMAT скрипт
-// Иван Матвеев
-// 2021
-//
-//
-//
-// Комбинации зон — в таблице «Зоны и двери.xlsx»
-//
-// Структура таблицы:
-// ...
-//
+// Шаблон для обработки дверей
+// 26.2021
+// LabPP
+//string TSModuleVersion = "26.10.2021 - Стартовая версия";
+string TSModuleVersion = "28.10.2021 - Первый рабочий вариант";
+//-----------------------
+
+int iDialogDescr; // Дескриптор диалога
+int iListBoxDoors, iTableDoors;    // Листбокс элементов дверей и его список
+int iEditSearchListBoxDoors, iBarControlSearchListBoxDoors; // Элементы поиска в листбоксе
+
+int iNormalTab, iTabPage1, iTabPage2, iTabPage3;
+int iProgressBar; 
+
+int iButtonAttachDoorsToRoomAsExits, iButtonAttachDoorsToRoomAsEntrances, iButtonShowRoomExits, iButtonShowRoomEntrances, iButtonDetachDoorsFromRoom;
 
 
-
-//--------------------------------------------------
-// ЗАДАТЬ СВОЙСТВА ДВЕРЯМ ИЗ ТАБЛИЦЫ
-//--------------------------------------------------
-
-
-string sExcelGUIDs = "ЗОНЫ И ДВЕРИ_2.xlsx";
-int iTableGUIDs; // номер таблицы с GUIDами и значениями. Заголовки в таблице Excel находятся в первой строке.
-int tableRowsNumber;
+int iButtonLoadDoors;
 
 int main()
 {
+	coutvar << TSModuleVersion;
+
+	// pragma region - удобная инструкция для редактора C++ она позволяет скрывать большие куски текста и оставлять наименование только
+#pragma region Создаем диалог
+	int x, y, w, h;
+	object("create", "ts_dialog", iDialogDescr);
+	ts_dialog(iDialogDescr, "init_dialog", "palette", 0, 0, 450, 400); // Создаем окно диалога как палитку, т.е. немодальное
+	ts_dialog(iDialogDescr, "set_as_main_panel"); // Если так сделать, то все немодальные окна этого сеанса будут закрываться вместе с этим окном
+	ts_dialog(iDialogDescr, "SetTitle", "Здесь название назначаем сами");
+
+	// Создаем панель с лепестками
+	object("create", "ts_dialogcontrol", iNormalTab, "NT1");
+	ts_dialogcontrol(iNormalTab, "init_control", "normaltab", iDialogDescr, 0, 0, 450, 340); 
+	// закрепить границы этого элемента на случай изменения размера его носителя слева, сверху, справа, снизу
+	// 0,0,1,1 - означает что при изменении ширины окна диалога левая сторона на месте, верх на месте, право - поползет вслед за изменением и низ - тоже.
+	// может быть -1, это будет значить, что при увеличении диалога стотв.сторона поползет в обратную сторону.
+	ts_dialogcontrol(iNormalTab, "SetAnchorToPanelResize", 0, 0, 1, 1); 
+
+	// добавляем лепестки
+	ts_dialogcontrol(iNormalTab, "AppendItem");
+	ts_dialogcontrol(iNormalTab, "AppendItem");
+	ts_dialogcontrol(iNormalTab, "AppendItem");
+
+	// именуем лепестки
+	ts_dialogcontrol(iNormalTab, "SetItemText", 1, "Двери");
+	ts_dialogcontrol(iNormalTab, "SetItemText", 2, "-");
+	ts_dialogcontrol(iNormalTab, "SetItemText", 3, "-");
+
+	// создаем на лепестках панели для размещения элементов
+	object("create", "ts_dialogcontrol", iTabPage1, "TP1");
+	object("create", "ts_dialogcontrol", iTabPage2, "TP2");
+	object("create", "ts_dialogcontrol", iTabPage3, "TP3");
+
+	// инициируем эти панели
+	ts_dialogcontrol(iTabPage1, "init_control", "tabpage", iNormalTab, 0, 0, 450, 340, 1);
+	ts_dialogcontrol(iTabPage1, "SetAnchorToPanelResize", 0, 0, 1, 1);
+	ts_dialogcontrol(iTabPage2, "init_control", "tabpage", iNormalTab, 0, 0, 450, 340, 2);
+	ts_dialogcontrol(iTabPage2, "SetAnchorToPanelResize", 0, 0, 1, 1);
+	ts_dialogcontrol(iTabPage3, "init_control", "tabpage", iNormalTab, 0, 0, 450, 340, 3);
+	ts_dialogcontrol(iTabPage3, "SetAnchorToPanelResize", 0, 0, 1, 1);
+	// выбираем текущий лепесток
+	ts_dialogcontrol(iNormalTab, "selectitem", 1);
+
+	// Список дверей -------------------------------------------------------------------------------
+
+	// листбокс для листбокс
+	object("create", "ts_dialogcontrol", iListBoxDoors, "iListBoxDoors");
+	ts_dialogcontrol(iListBoxDoors, "init_control", "singlesellistbox", iTabPage1, 0, 0, 450, 290, 48, 20);
+	ts_dialogcontrol(iListBoxDoors, "SetAnchorToPanelResize", 0, 0, 1, 1);
+	ts_dialogcontrol(iListBoxDoors, "eventreaction", "Event_ListBoxDoubleClicked"); // подцепляем к событию листбоксов на двойной щелчек 
+
+	// таблица для листбокса списка дверей
+	object("create", "ts_table", iTableDoors);
+	ts_table(iTableDoors, "add_column", 0,  "string", "GUID двери");
+	ts_table(iTableDoors, "add_column", -1,  "string", "ID двери");
+	ts_table(iTableDoors, "add_column", -1,  "int", "Ширина");
+	ts_table(iTableDoors, "add_column", -1,  "int", "Высота");
+	ts_table(iTableDoors, "add_column", -1,  "int", "Индекс этажа");
+	ts_table(iTableDoors, "add_column", -1,  "string", "Из зоны №");
+	ts_table(iTableDoors, "add_column", -1,  "string", "Категория зоны \"из\"");
+	ts_table(iTableDoors, "add_column", -1,  "string", "Имя зоны\"из\"");
+	ts_table(iTableDoors, "add_column", -1,  "string", "GUID зоны \"из\"");
+	ts_table(iTableDoors, "add_column", -1,  "string", "В зону №");
+	ts_table(iTableDoors, "add_column", -1,  "string", "GUID зоны \"в\"");
+	ts_table(iTableDoors, "add_column", -1, "string", "Категория зоны \"в\"");
+	ts_table(iTableDoors, "add_column", -1, "string", "Имя зоны \"в\"");
+	ts_table(iTableDoors, "add_column", -1, "string", "Имя этажа");         // номер колонки можно ставить -1 - тогда система сама присваивает номер
+	//ts_table(iTableDoors, "resetofffromexport");
+	ts_table(iTableDoors, "export_to_dialogcontrol", iListBoxDoors, -1, -1);
+	//ts_table(iTableDoors, "set_first_key", 0);
+
+	int delta = 3;
+	int yy = 295;
+	x = 25; y = yy; w = 120; h = 20;
+
+	object("create", "ts_dialogcontrol", iEditSearchListBoxDoors, "iEditSearchListBoxDoors");
+	ts_dialogcontrol(iEditSearchListBoxDoors, "init_control", "textedit", iTabPage1, x, y, w, h);
+	object("create", "ts_dialogcontrol", iBarControlSearchListBoxDoors, "iBarControlSearchListBoxDoors");
+	ts_dialogcontrol(iBarControlSearchListBoxDoors, "init_control", "singlespin", iTabPage1, 120, 0, 18, 22);
+	ts_dialogcontrol(iEditSearchListBoxDoors, "create_simple_searcher", iListBoxDoors, iBarControlSearchListBoxDoors);
+	ts_dialogcontrol(iEditSearchListBoxDoors, "SetAnchorToPanelResize", 0, 1, 0, 0);
+
+	x = x + w + delta+20; y = yy; w = 120; h = 20;
+	object("create", "ts_dialogcontrol", iButtonAttachDoorsToRoomAsExits, "iButtonAttachDoorsToRoomAsExits");
+	ts_dialogcontrol(iButtonAttachDoorsToRoomAsExits, "init_control", "button", iTabPage1, x, y, w, h);
+	ts_dialogcontrol(iButtonAttachDoorsToRoomAsExits, "eventreaction", "Event_ButtonClicked");
+	ts_dialogcontrol(iButtonAttachDoorsToRoomAsExits, "settext", "Назначить выходы");
+	ts_dialogcontrol(iButtonAttachDoorsToRoomAsExits, "SetAnchorToPanelResize", 0, 1, 0, 0);
+	ts_dialogcontrol(iButtonAttachDoorsToRoomAsExits, "SetToolTip", "Назначить выбранные двери как выходы из выбранного помещения");
+
+	x = x + w + delta; y = yy; w = 120; h = 20;
+	object("create", "ts_dialogcontrol", iButtonAttachDoorsToRoomAsEntrances, "iButtonAttachDoorsToRoomAsEntrances");
+	ts_dialogcontrol(iButtonAttachDoorsToRoomAsEntrances, "init_control", "button", iTabPage1, x, y, w, h);
+	ts_dialogcontrol(iButtonAttachDoorsToRoomAsEntrances, "eventreaction", "Event_ButtonClicked");
+	ts_dialogcontrol(iButtonAttachDoorsToRoomAsEntrances, "settext", "Назначить входы");
+	ts_dialogcontrol(iButtonAttachDoorsToRoomAsEntrances, "SetAnchorToPanelResize", 0, 1, 0, 0);
+	ts_dialogcontrol(iButtonAttachDoorsToRoomAsEntrances, "SetToolTip", "Назначить выбранные двери как ВХОДЫ в выбранное помещение");
+
+	x = x + w + delta; y = yy; w = 120; h = 20;
+	object("create", "ts_dialogcontrol", iButtonShowRoomExits, "iButtonShowRoomExits");
+	ts_dialogcontrol(iButtonShowRoomExits, "init_control", "button", iTabPage1, x, y, w, h);
+	ts_dialogcontrol(iButtonShowRoomExits, "eventreaction", "Event_ButtonClicked");
+	ts_dialogcontrol(iButtonShowRoomExits, "settext", "Показать выходы");
+	ts_dialogcontrol(iButtonShowRoomExits, "SetAnchorToPanelResize", 0, 1, 0, 0);
+	ts_dialogcontrol(iButtonShowRoomExits, "SetToolTip", "Показать в проекте все двери-выходы у выбранной зоны");
+
+	x = x + w + delta; y = yy; w = 120; h = 20;
+	object("create", "ts_dialogcontrol", iButtonShowRoomEntrances, "iButtonShowRoomEntrances");
+	ts_dialogcontrol(iButtonShowRoomEntrances, "init_control", "button", iTabPage1, x, y, w, h);
+	ts_dialogcontrol(iButtonShowRoomEntrances, "eventreaction", "Event_ButtonClicked");
+	ts_dialogcontrol(iButtonShowRoomEntrances, "settext", "Показать входы");
+	ts_dialogcontrol(iButtonShowRoomEntrances, "SetAnchorToPanelResize", 0, 1, 0, 0);
+	ts_dialogcontrol(iButtonShowRoomEntrances, "SetToolTip", "Показать в проекте все двери-ВХОДЫ в выбранную зону");
+
+	x = x + w + delta; y = yy; w = 120; h = 20;
+	object("create", "ts_dialogcontrol", iButtonDetachDoorsFromRoom, "iButtonDetachDoorsFromRoom");
+	ts_dialogcontrol(iButtonDetachDoorsFromRoom, "init_control", "button", iTabPage1, x, y, w, h);
+	ts_dialogcontrol(iButtonDetachDoorsFromRoom, "eventreaction", "Event_ButtonClicked");
+	ts_dialogcontrol(iButtonDetachDoorsFromRoom, "settext", "Отвязать двери");
+	ts_dialogcontrol(iButtonDetachDoorsFromRoom, "SetAnchorToPanelResize", 0, 1, 0, 0);
+	ts_dialogcontrol(iButtonDetachDoorsFromRoom, "SetToolTip", "Отвязать выбраные двери о выбранной зоны");
+
+	//-----------------------------------------------------------------------------------------------------------------
+	delta = 3;
+	yy = 374;
+	x = delta / 2; y = yy; w = 80; h = 20;
+	object("create", "ts_dialogcontrol", iButtonLoadDoors, "iButtonLoadDoors");
+	ts_dialogcontrol(iButtonLoadDoors, "init_control", "button", iDialogDescr, x, y, w, h);
+	ts_dialogcontrol(iButtonLoadDoors, "eventreaction", "Event_ButtonClicked");
+	ts_dialogcontrol(iButtonLoadDoors, "settext", "Загрузка");
+	ts_dialogcontrol(iButtonLoadDoors, "SetAnchorToPanelResize", 0, 1, 0, 0);
+	ts_dialogcontrol(iButtonLoadDoors, "SetToolTip", "Загрузка дверей из проекта");
+
+	y = yy - 16; w = 415; h = 10;
+	object("create", "ts_dialogcontrol", iProgressBar, "ProgressBar");
+	ts_dialogcontrol(iProgressBar, "init_control", "progressbar", iDialogDescr, x, y, w, h);
+	ts_dialogcontrol(iProgressBar, "SetMin", 0);
+	ts_dialogcontrol(iProgressBar, "SetMax", 100);
+	ts_dialogcontrol(iProgressBar, "SetValue", 0);
+	ts_dialogcontrol(iProgressBar, "SetAnchorToPanelResize", 0, 1, 1, 0);
+
+#pragma endregion 
+
+	bool bres;
+    ts_dialog(iDialogDescr, "invoke", bres);
+    return 0;
+}
+// обработчик событий кнопок на щелчек
+int Event_ButtonClicked(int iDescr, string sDescr)
+{
+	if (sDescr == "iButtonAttachDoorsToRoomAsExits") {
+		cout << sDescr << "\n";
+		do_iButtonAttachDoorsToRoom(true, true);
+	}
+	else if (sDescr == "iButtonAttachDoorsToRoomAsEntrances") {
+		cout << sDescr << "\n";
+		do_iButtonAttachDoorsToRoom(true, false);
+	}
+	else if (sDescr == "iButtonShowRoomExits") {
+		cout << sDescr << "\n";
+		do_iButtonShowDoors(true);
+	}
+	else if (sDescr == "iButtonShowRoomEntrances") {
+		cout << sDescr << "\n";
+		do_iButtonShowDoors(false);
+	}
+	else if (sDescr == "iButtonDetachDoorsFromRoom") {
+		do_iButtonDetachDoorsFromRoom();
+	}
+	else if (sDescr == "iButtonLoadDoors") {
+		cout << sDescr << "\n";
+		Load();
+	}
+}
+// обработчик событий листбоксов на двойной щелчек
+int Event_ListBoxDoubleClicked(int iDescr, string sDescr)
+{
+	if (sDescr == "iListBoxDoors") { 
+		cout << sDescr << "\n";
+		Zoom(); 
+	}
+}
+// дальше пока не читать
+
+//--------------------------------------------------
+// Загрузка данных
+//--------------------------------------------------
+int Load()
+{
 	int ires;
-	int icount;
 
-	//--------------------------------------------------
-	// ЗАГРУЖАЕМ ДВЕРИ (ВСЕ)
-	//--------------------------------------------------
+	cout << "Загрузка данных\n";
+	ts_dialogcontrol(iListBoxDoors, "DeleteItem", 0); // удалить все элементы в листбоксе
+	ts_table(iTableDoors, "clear_rows");              // очистить таблицу дверей - только удалить строки, сохраняя структуру
+	ts_dialogcontrol(iNormalTab,"SelectItem",1);      // выбрать первый лепесток на диалоге
+	ac_request("clear_list", 1);                      // очистить список №1
 
-	// ..######..########.##.......########..######..########
-	// .##....##.##.......##.......##.......##....##....##...
-	// .##.......##.......##.......##.......##..........##...
-	// ..######..######...##.......######...##..........##...
-	// .......##.##.......##.......##.......##..........##...
-	// .##....##.##.......##.......##.......##....##....##...
-	// ..######..########.########.########..######.....##...
+	// загрузить элементы дверей в список №1
+	ac_request_special("load_elements_list", 1, "DoorType", 2 + 1024);
 
+	//ac_request_special("load_elements_list", 1, "DoorType", 2 + 1024,
+	//	"", "Cls", "Классификация АБ Скуратов", "=", sUPClassifValue, "", "OR",
+	//	"", "Cls", "Классификация АБ Скуратов", "=", sUPClassifValue2, "", "OR",
+	//	"", "Cls", "Классификация АБ Скуратов", "=", sUPClassifValue3, "");
 
-	//--------------------------------------------------
-	// ПОМЕНЯТЬ НА ЗАГРУЖАЕМ ДВЕРИ ИЗ ВЫБРАННЫХ !!!!
-	//--------------------------------------------------
-
-	// ЗАГРУЗИТЬ ДВЕРИ ИЗ СПИСКА ВЫБРАННЫХ ЭЛЕМЕНТОВ
-	ac_request_special("load_elements_list_from_selection", 1, "DoorType", 2);
-
-	// ЗАГРУЗИТЬ ВСЕ ДВЕРИ ИЗ ПРОЕКТА
-	// ac_request("load_elements_list", 1, "DoorType", "MainFilter", 2);
-	//
-
-	ac_request("get_loaded_elements_list_count", 1); // считать количество элементов, находящихся в списке №1
-	icount = ac_getnumvalue(); // получить в переменную icount результат предыдущей операции как число
-	cout << "Количество выбранных дверей: " << icount << "\n"; // выдать сообщение о количестве элементов
-
+	// запросить количество считанных элементов дверей
+	ac_request("get_loaded_elements_list_count", 1);
+	int icount = ac_getnumvalue();
+	coutvar << icount;
 
 	if (icount == 0)
 	{
-		// значит в списке нет элементов, поэтому сообщаем в окно сообщений и завершаем программу
-		cout << "Нет элементов для обработки\n";
-		return -1; // число здесь не важно, но обычно если возвращается отрицательное значение, значит программа не сделала то, что хотелось.
+		cout << "В проекте не найдены двери (возможно закрыты слои)";
+		return -1;
 	}
 
-	cout << "Список дверей загружен.\n";
+	int i;
 
-	checkAndCreateUserParameters(); // проверка параметров и создание недостающих, если вдруг
+	string floorname;
+	int floorindex;
+    string sText, sguid, szoneguidFrom, szoneguidTo, sIDdoor, sZoneNumberFrom, sZoneNumberTo, sZoneCatFrom, sZoneCatTo, sZoneNameFrom, sZoneNameTo;
 
+    ts_dialogcontrol(iProgressBar, "SetMax", icount);
 
-	//--------------------------------------------------
-	// СОЗДАЕМ ТАБЛИЦУ
-	//--------------------------------------------------
+	// создаем объект типа ts_guid
+	int iGuid;
+	object("create", "ts_guid", iGuid);
+	int width, height;
 
-	createTable();
-	ts_table(iTableGUIDs, "get_rows_count", tableRowsNumber);
-	cout << "\n";
-
-
-	// ..######..##....##..######..##.......########
-	// .##....##..##..##..##....##.##.......##......
-	// .##.........####...##.......##.......##......
-	// .##..........##....##.......##.......######..
-	// .##..........##....##.......##.......##......
-	// .##....##....##....##....##.##.......##......
-	// ..######.....##.....######..########.########
-
-	//--------------------------------------------------
-	// ЦИКЛ ПО ДВЕРЯМ
-	//--------------------------------------------------
-
-	cout << "Проходим по выбранным дверям. \n";
-	cout << "\n";
-
-	for (int i = 0; i < icount; i++)
+	for (i = 0; i < icount; i++)
 	{
-		ac_request("set_current_element_from_list", 1, i); // установить текущим элемент из списка № 1 с индексом i
+		ts_dialogcontrol(iProgressBar, "SetValue", i);
 
-		//--------------------------------------------------
-		// ВЫЯСНЯЕМ, К КАКИМ ЗОНАМ ОТНОСИТСЯ ЭЛЕМЕНТ
-		//--------------------------------------------------
+		// установить текущим i-товый элемент списка №1 для обращения из скрипта (guid двери)
+		ac_request("set_current_element_from_list", 1, i);
 
-		cout << "Получаем зоны двери.\n";
-		string sText, sguid, curObjFromGUID, curObjToGUID, sIDdoor, curObjFromNumber, curObjToNumber, curObjFromCat, curObjToCat, curObjFromName, curObjToName;
+		ac_request("get_element_value", "ID");
+		sIDdoor = ac_getstrvalue();
 
-		ac_request("get_element_value", "GuidAsText");   // считываем guid текущего элемента как текст
+		ac_request("get_element_value", "StoreIndex"); // считать индекс этажа у двери
+		floorindex = ac_getnumvalue();
+		ac_request("get_floor_name_by_floor_index", floorindex, floorname); // получить имя этажа по его индексу
+
+		ac_request("get_element_value", "GuidAsText"); // считываем guid текущего элемента как текст
 		sguid = ac_getstrvalue();
 
-		// ТУТ НАДО ПОЛУЧИТЬ ЗОНЫ ТЕКУЩЕЙ ДВЕРИ
+		ac_request_special("get_element_value", "GDL", "A");
+		width = ac_getnumvalue() * 1000;
 
-		curObjFromGUID = getLinkedZoneGUID (sguid, true); // получить айди зоны: true откуда ведет дверь, false — куда ведёт дверь
-		curObjToGUID = getLinkedZoneGUID (sguid, false);  // получить айди зоны: true откуда ведет дверь, false — куда ведёт дверь
+		ac_request_special("get_element_value", "GDL", "B");
+		height = ac_getnumvalue() * 1000;
 
-		// ВЫЯСНЯЕМ ИМЯ И ПРОЧИЕ ПАРАМЕТРЫ ПОЛУЧЕНЫХ ЗОН
-
-		if (curObjToGUID == "") {
-			cout << "   Зона _откуда не привязана.\n";
-		}
-		if (curObjFromGUID == "") {
-			cout << "   Зона _куда не привязана.\n";
-		}
-		curObjToNumber = "";
-		curObjToName = "";
-		curObjToCat = "";
-		curObjFromNumber = "";
-		curObjFromName = "";
-		curObjFromCat = "";
-
-		if (curObjToGUID != "")
+		szoneguidFrom = get_linked_zone_guid(sguid, true);
+		if (szoneguidFrom != "")
 		{
-			ac_request("set_element_by_guidstr_as_current", curObjToGUID);
+			ac_request("set_element_by_guidstr_as_current", szoneguidFrom);
 			ac_request("get_element_value", "ZoneNumber");
-			curObjToNumber = ac_getstrvalue();
+			sZoneNumberFrom = ac_getstrvalue();
 			ac_request("get_element_value", "ZoneName");
-			curObjToName = ac_getstrvalue();
+			sZoneNameFrom = ac_getstrvalue();
 			ac_request("get_element_value", "ZoneCatCode");
-			curObjToCat = ac_getstrvalue();
-			cout << "    ZONE TO GUID =" << curObjToGUID << ".\n";
-			cout << "    ZONE TO NAME=" << curObjToName << ".\n";
+			sZoneCatFrom = ac_getstrvalue();
 		}
-
-		if (curObjFromGUID != "")
+		szoneguidTo = get_linked_zone_guid(sguid, false);
+		if (szoneguidTo != "")
 		{
-			ac_request("set_element_by_guidstr_as_current", curObjFromGUID);
+			ac_request("set_element_by_guidstr_as_current", szoneguidTo);
 			ac_request("get_element_value", "ZoneNumber");
-			curObjFromNumber = ac_getstrvalue();
+			sZoneNumberTo = ac_getstrvalue();
 			ac_request("get_element_value", "ZoneName");
-			curObjFromName = ac_getstrvalue();
+			sZoneNameTo = ac_getstrvalue();
 			ac_request("get_element_value", "ZoneCatCode");
-			curObjFromCat = ac_getstrvalue();
-			cout << "    ZONE FROM GUID=" << curObjFromGUID << ".\n";
-			cout << "    ZONE FROM NAME=" << curObjFromName << ".\n";
+			sZoneCatTo = ac_getstrvalue();
 		}
 
-		// ..######..########....###....########...######..##.....##
-		// .##....##.##.........##.##...##.....##.##....##.##.....##
-		// .##.......##........##...##..##.....##.##.......##.....##
-		// ..######..######...##.....##.########..##.......#########
-		// .......##.##.......#########.##...##...##.......##.....##
-		// .##....##.##.......##.....##.##....##..##....##.##.....##
-		// ..######..########.##.....##.##.....##..######..##.....##
-
-		//--------------------------------------------------
-		// ПОИСК!
-		//--------------------------------------------------
-		// ЗАПРОС К ТАБЛИЦЕ, и сопоставление значений имен зон с категорией (типом) двери
-		//--------------------------------------------------
-
-		// int irow = ts_table(iTableGUIDs, "search", 0, currentObjectZoneCombination);
-
-		// ZONE_FROM_NAME — имя зоны, откуда ведет дверь
-		// ZONE_FROM_CATEGORY — категория зоны, откуда ведет дверь
-		// ZONE_FROM_GUID — GUID зоны, откуда ведет дверь
-
-		// ZONE_TO_NAME — имя зоны, куда ведет дверь
-		// ZONE_TO_CATEGORY — категория зоны, куда ведет дверь
-		// ZONE_TO_GUID — GUID зоны, куда ведет дверь
-
-		string 	curTableFromCat, curTableToCat,
-		        curTableFromName, curTableToName,
-		        curDoorCategory;
-
-		bool doorWithoutCategory = true;
-
-		// СТРУКТУРА ТАБЛИЦЫ:
-		// [ ZONE_FROM_CATEGORY | ZONE_FROM_NAME | ZONE_TO_CATEGORY | ZONE_TO_NAME | DOOR_CATEGORY ]
-		// [ 7 | zone 1 | 3 | zone 5 | 015 ]
-
-		
-		ac_request("set_current_element_from_list", 1, i);
-		cout << "	Записываем параметры...\n";
-
-		//
-		// СВОЙСТВА ДВЕРИ ПО КЛАССИФИКАТОРУ:
-		//
-		// DOOR_CATEGORY — категория двери
-		//
-		// ZONE_FROM_NAME — имя зоны, откуда ведет дверь
-		// ZONE_FROM_CATEGORY — категория зоны, откуда ведет дверь
-		// ZONE_FROM_GUID — GUID зоны, откуда ведет дверь
-		//
-		// ZONE_TO_NAME — имя зоны, куда ведет дверь
-		// ZONE_TO_CATEGORY — категория зоны, куда ведет дверь
-		// ZONE_TO_GUID — GUID зоны, куда ведет дверь
-		//
-		//---------------------------------------
-
-		
-
-		if (curObjFromGUID != "")
-		{
-			ires = ac_request("elem_user_property", "set", "ZONE_FROM_NAME", curObjFromName);
-			// cout << "       имя зоны > " << ires << "\n";
-			ires = ac_request("elem_user_property", "set", "ZONE_FROM_CATEGORY", curObjFromCat);
-			// cout << "       категорию зоны >" << ires << "\n";
-			ires = ac_request("elem_user_property", "set", "ZONE_FROM_GUID", curObjFromGUID);
-			// cout << "       GUID зоны откуда >" << ires << "\n";
-		} else {
-			ires = ac_request("elem_user_property", "set", "ZONE_FROM_NAME", "");
-			ires = ac_request("elem_user_property", "set", "ZONE_FROM_CATEGORY", "");
-			ires = ac_request("elem_user_property", "set", "ZONE_FROM_GUID", "");
-		}
-
-		if (curObjToGUID != "")
-		{
-			ires = ac_request("elem_user_property", "set", "ZONE_TO_NAME", curObjToName);
-			// cout << "       зоны < " << ires << "\n";
-			ires = ac_request("elem_user_property", "set", "ZONE_TO_CATEGORY", curObjToCat);
-			// cout << "       категорию зоны < " << ires << "\n";
-			ires = ac_request("elem_user_property", "set", "ZONE_TO_GUID", curObjToGUID);
-			// cout << "       GUID зоны < " << ires << "\n";
-		} else {
-			ires = ac_request("elem_user_property", "set", "ZONE_TO_NAME", "");
-			ires = ac_request("elem_user_property", "set", "ZONE_TO_CATEGORY", "");
-			ires = ac_request("elem_user_property", "set", "ZONE_TO_GUID", "");
-		}
-
-
-		for (int row = 0; row < tableRowsNumber; row++) // cycle through all table rows
-		{
-			cout << "		Row: " << row+1 << " / " << tableRowsNumber << "\n";
-			ts_table(iTableGUIDs, "select_row", row); // set the row
-
-			curTableFromCat = ""; // сбрасываем переменные, чтобы не думать о возможных проблемах с повторами
-			curTableFromName = "";
-			curTableToCat = "";
-			curTableToName = "";
-			curDoorCategory = "";
-
-			ts_table(iTableGUIDs, "get_value_of", 0, curTableFromCat);	// get current zone_from cat. in this row
-			ts_table(iTableGUIDs, "get_value_of", 1, curTableFromName);	// get current zone_from name in this row
-			ts_table(iTableGUIDs, "get_value_of", 2, curTableToCat);	// get current zone_from name in this row
-			ts_table(iTableGUIDs, "get_value_of", 3, curTableToName);	// get current zone_from name in this row
-			ts_table(iTableGUIDs, "get_value_of", 4, curDoorCategory);	// get current zone_from name in this row
-
-
-			curTableFromCat = tolower(curTableFromCat);
-			curTableFromName = tolower(curTableFromName);
-			curTableToCat = tolower(curTableToCat);
-			curTableToName = tolower(curTableToName);
-			curDoorCategory = tolower(curDoorCategory);
-
-			curObjFromCat = tolower(curObjFromCat);
-			curObjFromName = tolower(curObjFromName);
-			curObjToCat = tolower(curObjToCat);
-			curObjToName = tolower(curObjToName);
-
-
-		
-			// трассировочный вывод значений из таблицы
-			// cout << "!!!!! Current zone from category: " <<  curTableFromCat << "\n";
-			// cout << "!!!!! Current zone from name: " <<  curTableFromName << "\n";
-			// cout << "!!!!! Current zone to category: " <<  curTableToCat << "\n";
-			// cout << "!!!!! Current zone to name: " <<  curTableToName << "\n";
-			// cout << "!!!!! Current door category: " <<  curDoorCategory << "\n";
-
-			// ..######..########.########
-			// .##....##.##..........##...
-			// .##.......##..........##...
-			// ..######..######......##...
-			// .......##.##..........##...
-			// .##....##.##..........##...
-			// ..######..########....##...
-
-			// таблица
-			// curTableFromName, curTableFromCat, curTableToName, curTableToCat — это параметры из текущей строки таблицы
-			// объект
-			// curObjFromName, curObjFromCat, curObjToName, curObjToCat — это параметры текущего объекта
-
-			if (curTableFromCat == "*") { // переменные из таблицы: тут обхожу жопу с пробелом
-				curTableFromCat = "";
-			}
-			if (curTableFromName == "*") {
-				curTableFromName = "";
-			}
-			if (curTableToCat == "*") {
-				curTableToCat = "";
-			}
-			if (curTableToName == "*") {
-				curTableToName = "";
-			}
-
-			string currentObjectFromToCatName, currentTableFromToCatName;
-
-
-			currentObjectFromToCatName = "_|_" + curTableFromCat + "_|_" + curTableFromName + "_|_" + curTableToCat + "_|_" + curTableToName + "_|_";
-
-			currentTableFromToCatName = "_|_" + curObjFromCat + "_|_" + curObjFromName + "_|_" + curObjToCat + "_|_" + curObjToName + "_|_";
-
-
-			// ЕСЛИ ВСЕ ПАРАМЕТРЫ СОВПАДАЮТ, ТО ЗАПИСАТЬ В ДВЕРЬ КАТЕГОРИЮ ДВЕРИ
-
-			
-			//---------------------------------------
-			//
-			// ЗАДАТЬ СВОЙСТВО ДВЕРИ
-			//
-			//---------------------------------------
-
-
-
-			//  тут косяк в логике!!!
-			if (currentObjectFromToCatName == currentTableFromToCatName) {
-				ires = ac_request("elem_user_property", "set", "DOOR_CATEGORY", curDoorCategory);
-				cout << "	Записываем категорию двери: " << ires << "\n";
-				doorWithoutCategory = false;
-			}
-
-		} // end of zones for loop
-			if (doorWithoutCategory == true){
-				ires = ac_request("elem_user_property", "set", "DOOR_CATEGORY", "—");
-				cout << "	Записываем ПУСТУЮ категорию двери: " << ires << "\n";
-			}	
-	} // end of doors for loop
-	cout << "\n";
-	deleteTable(); // очищаем память от таблицы
-	cout << "Программа отработала успешно\n";
+		ts_table(iTableDoors, "add_row",
+			"ID двери", sIDdoor,
+			"GUID двери", sguid,
+			"Индекс этажа", floorindex,
+			"Ширина", width,
+			"Высота", height,
+			"Имя этажа", floorname,
+			"Из зоны №", sZoneNumberFrom,
+			"Категория зоны \"из\"", sZoneCatFrom,
+			"Имя зоны\"из\"", sZoneNameFrom,
+			"GUID зоны \"из\"",szoneguidFrom,
+			"В зону №", sZoneNumberTo,
+			"Категория зоны \"в\"", sZoneCatTo,
+			"Имя зоны \"в\"", sZoneNameTo,
+			"GUID зоны \"в\"", szoneguidTo);
+	}
+	ts_dialogcontrol(iProgressBar, "SetValue", 0);
+	ts_table(iTableDoors, "sort", "Индекс этажа", "Ширина", "Высота");
+	ts_table(iTableDoors, "export_to_dialogcontrol", iListBoxDoors, -1, -1);
+	ts_dialogcontrol(iListBoxDoors, "RepaintBackgroundItemsByColumnValue", 3, 255, 255, 255, 247, 247, 247);
 }
-
-// .########.##.....##.##....##..######..########.####..#######..##....##..######.
-// .##.......##.....##.###...##.##....##....##.....##..##.....##.###...##.##....##
-// .##.......##.....##.####..##.##..........##.....##..##.....##.####..##.##......
-// .######...##.....##.##.##.##.##..........##.....##..##.....##.##.##.##..######.
-// .##.......##.....##.##..####.##..........##.....##..##.....##.##..####.......##
-// .##.......##.....##.##...###.##....##....##.....##..##.....##.##...###.##....##
-// .##........#######..##....##..######.....##....####..#######..##....##..######.
-
-int LoadExcel()
+//--------------------------------------------------
+// Zoom 
+//--------------------------------------------------
+int Zoom()
 {
-	// ОШИБКА IDispatch GetIDsOfNames....
-	// [17:56, 27/10/2021] Юрий Цепов: В двух случаях
-	// [17:56, 27/10/2021] Юрий Цепов: 1 - если Excel находится в режиме редактирования ячейки
-	// [17:57, 27/10/2021] Юрий Цепов: 2 - открыт еще какой-то Excel в виде процесса
-	// [17:58, 27/10/2021] Юрий Цепов: Лечение - запустить диспетчер задач и выкинуть Excel с процессом
-	// [17:58, 27/10/2021] Юрий Цепов: Еще вариант - Excel запустить от имени администратора
-	// [17:58, 27/10/2021] Юрий Цепов: Виндовские заморочки
+	int item, storeindex;
+	string sguid;
 
-	int i, tsalert, res;
-	string sguid, str;
-
-	cout << "Загружаем данные из Excel\n";
-
-	//	runtimecontrol("workline", "setpos", 0);
-
-	// Очень странный способ загрузки таблицы: эксель Подключить Excel для работы.
-	// В момент запуска программа Excel должна быть открыта.
-	// По умолчанию активной становится текущая страница Excel.
-
-
-	res = excel_attach();
-
-	if (res != 0)
-	{
-		tsalert(-1, "Ошибка во время выполнения", "Нет подключения к excel", "");
+	ts_dialogcontrol(iListBoxDoors, "GetSelectedItem", item);
+	if(item == 0) {
 		return -1;
 	}
+	
+	ts_table(iTableDoors,"select_row",item-1);
+	ts_table(iTableDoors,"get_value_of","GUID двери",sguid);
+	ts_table(iTableDoors,"get_value_of","Индекс этажа",storeindex);
 
-
-	res = excel_request("workbook_select", sExcelGUIDs);
-
-	if (res != 0)
-	{
-		tsalert(-1, "Ошибка во время выполнения", "Не получается переключиться в файл excel", sExcelGUIDs);
-		excel_detach();
-		return -1;
-	}
-
-	ts_table(iTableGUIDs, "import_columns_from_excel", "A", 1, -1);  // с первой строки колонки А, до первой пустой ячейки
-	ts_table(iTableGUIDs, "import_from_excel", "A", 2, -1, 0, 1);  // со второй строки колонки А, -1 — с текущей строки, ... , очистить таблицу перед добавлением
-
-	excel_detach();
-
-	cout << "Загрузка закончена.\n";
-
-	//ts_table(iTableGUIDs, "print_to_str", str); // выгрузить всю таблицу в текстовую переменную для проверки
-	//cout << "содержимое таблицы guids ->" << str << "\n"; // вывести в окно сообщений
-
+	ac_request("set_element_by_guidstr_as_current", sguid);
+	ac_request("Environment","Story_GoTo",storeindex);
+	ac_request("clear_list",7);
+    ac_request("store_current_element_to_list",7,-1);
+    ac_request("select_elements_from_list",7,1);
+	ac_request("Automate","ZoomToElements",7);
 	return 0;
 }
 
-string getLinkedZoneGUID(string sDoorGuid, bool bRoomFrom) // получить айди зоны: если true — откуда ведет дверь, если false — куда ведёт дверь
+int do_iButtonAttachDoorsToRoom(bool bOn, bool bRoomFrom)
+{
+	cout << "attach floors to room";
+
+	int flag1, flag2;
+	if (bRoomFrom)
+	{
+		flag1 = 1024; flag2 = 2048;
+	}
+	else
+	{
+		flag1 = 4096; flag2 = 8192;
+	}
+
+	// загружаем выбранные зоны в список 1
+	ac_request_special("load_elements_list_from_selection", 1, "ZoneType", 2);
+	ac_request("get_loaded_elements_list_count", 1);
+	int icount = ac_getnumvalue();
+	if (icount == 0)
+	{
+		tsalert(-2, "Информация", "Не выбрана зона", "Среди выбранных элементов должна быть хотя бы одна зона", "Ok");
+		return -1;
+	}
+
+	coutvar << icount;
+
+	// загружаем выбранные двери в список 2
+	ac_request_special("load_elements_list_from_selection", 2, "DoorType", 2);
+
+	ac_request("get_loaded_elements_list_count", 2);
+	int icount_doors = ac_getnumvalue();
+	if (icount_doors == 0)
+	{
+		tsalert(-2, "Информация", "Не выбраны двери", "Среди выбранных элементов должна быть хотя бы одна дверь", "Ok");
+		return -1;
+	}
+	coutvar << icount_doors;
+
+	ac_request("set_current_element_from_list", 1, 0);
+	ac_request("get_element_value", "GuidAsText");
+	string sGUIDzone = ac_getstrvalue();
+	coutvar << sGUIDzone;
+	int iGuid;
+	object("create", "ts_guid", iGuid);
+	ts_guid(iGuid, "ConvertFromString", sGUIDzone);
+
+	int iTableDoorsTmp;
+	object("create", "ts_table", iTableDoorsTmp);
+	ts_table(iTableDoorsTmp, "load_sguids_from_list", 2);
+	ac_request_special("linkingElems", "uplinkBiWardByFlags", iGuid, flag1, bOn, flag2, bOn, iTableDoorsTmp);
+
+	object("delete", iGuid);
+	object("delete", iTableDoorsTmp);
+}
+
+int do_iButtonShowDoors(bool bRoomFrom)
+{
+	cout << "show doors";
+	int flag1, flag2;
+	if (bRoomFrom)
+	{
+		flag1 = 1024; flag2 = 2048;
+	}
+	else
+	{
+		flag1 = 4096; flag2 = 8192;
+	}
+
+	int ires;
+	ac_request_special("load_elements_list_from_selection", 1, "ZoneType", 2);
+	ac_request("get_loaded_elements_list_count", 1);
+	int icount = ac_getnumvalue();
+	if (icount == 0)
+	{
+		tsalert(-2, "Информация", "Не выбрана зона", "Среди выбранных элементов должна быть зона", "Ok");
+		return -1;
+	}
+	coutvar << icount;
+
+	int iGuid;
+	object("create", "ts_guid", iGuid);
+	ires = ac_request("set_current_element_from_list", 1, 0);
+	ires = ac_request("get_element_value", "GuidAsText");
+	string sGUID = ac_getstrvalue();
+	ts_guid(iGuid, "ConvertFromString", sGUID);
+
+	int iTableDoorsTmp;
+	object("create", "ts_table", iTableDoorsTmp);
+	ac_request_special("linkingElems", "getLinkedElemsByFlags", iGuid, flag1, iTableDoorsTmp);
+
+	ac_request("clear_list", 2);
+	ts_table(iTableDoorsTmp, "add_sguids_to_list", 2);
+
+	ac_request("select_elements_from_list", 2, 1);
+	object("delete", iGuid);
+	object("delete", iTableDoorsTmp);
+}
+
+int do_iButtonDetachDoorsFromRoom()
+{
+	cout << "detach doors from rooms";
+
+	// загружаем выбранные зоны в список 1
+	ac_request_special("load_elements_list_from_selection", 1, "ZoneType", 2);
+	ac_request("get_loaded_elements_list_count", 1);
+	int icount = ac_getnumvalue();
+	if (icount == 0)
+	{
+		tsalert(-2, "Информация", "Не выбрана зона", "Среди выбранных элементов должна быть хотя бы одна зона", "Ok");
+		return -1;
+	}
+
+	coutvar << icount;
+
+	// загружаем выбранные двери в список 2
+	ac_request_special("load_elements_list_from_selection", 2, "DoorType", 2);
+
+	ac_request("get_loaded_elements_list_count", 2);
+	int icount_doors = ac_getnumvalue();
+	if (icount_doors == 0)
+	{
+		tsalert(-2, "Информация", "Не выбраны двери", "Среди выбранных элементов должна быть хотя бы одна дверь", "Ok");
+		return -1;
+	}
+	coutvar << icount_doors;
+
+	ac_request("set_current_element_from_list", 1, 0);
+	ac_request("get_element_value", "GuidAsText");
+	string sGUIDzone = ac_getstrvalue();
+	coutvar << sGUIDzone;
+	int iGuid;
+	object("create", "ts_guid", iGuid);
+	ts_guid(iGuid, "ConvertFromString", sGUIDzone);
+
+	int iTableDoorsTmp;
+	object("create", "ts_table", iTableDoorsTmp);
+	ts_table(iTableDoorsTmp, "load_sguids_from_list", 2);
+
+	int flag1, flag2;
+
+	bool bOff = false;
+	flag1 = 1024; flag2 = 2048;
+	ac_request_special("linkingElems", "uplinkBiWardByFlags", iGuid, flag1, bOff, flag2, bOff, iTableDoorsTmp);
+	flag1 = 4096; flag2 = 8192;
+	ac_request_special("linkingElems", "uplinkBiWardByFlags", iGuid, flag1, bOff, flag2, bOff, iTableDoorsTmp);
+
+	object("delete", iGuid);
+	object("delete", iTableDoorsTmp);
+}
+
+string get_linked_zone_guid(string sDoorGuid, bool bRoomFrom) // получить айди зоны: если true — откуда ведет дверь, если false — куда ведёт дверь
 {
 	string sguid_linked_zone_guid = "";
 
 	int flag1, flag2;
-	if (bRoomFrom) { flag1 = 1024; flag2 = 2048; } else { flag1 = 4096; flag2 = 8192; }
+	if (bRoomFrom)
+	{
+		flag1 = 1024; flag2 = 2048;
+	}
+	else
+	{
+		flag1 = 4096; flag2 = 8192;
+	}
 
 	int iGuid;
 	object("create", "ts_guid", iGuid);
@@ -423,105 +523,3 @@ string getLinkedZoneGUID(string sDoorGuid, bool bRoomFrom) // получить �
 	object("delete", iTableRoomsTmp);
 	return sguid_linked_zone_guid;
 }
-
-int createTable() {
-	string sguid; 	// переменная для guid
-	string svalue; 	// для строковых
-	int ivalue; 	// для числовых
-	int jcount;
-	int icount;
-	int ires;
-	object("create", "ts_table", iTableGUIDs); // создаем объект ts_table и получаем его номер для работы с ним
-	ires = LoadExcel(); // загружаем данные из эксель (см. определение функции ниже)
-	if (ires != 0) {
-		cout << "Ошибка в ходе загрузки из Excel, программа завершена";
-		return -1;
-	}
-	cout << "Создали таблицу. \n";
-	return 0;
-}
-
-int deleteTable() {
-	object("delete", iTableGUIDs);  // очищаем память
-	cout << "Очистили память от таблицы. \n";
-	return 0;
-}
-
-
-int checkAndCreateUserParameters() {
-	// СЮДА НАДО СРАЗУ ВОТКНУТЬ СОЗДАНИЕ ПАРАМЕТРОВ В КЛАССИФИКАТОРЕ, ЕСЛИ ИХ НЕТ
-
-	// ПО ИДЕЕ, ЭТО НАДО ПЕРЕПИСАТЬ ЦИКЛАМИ ПО МАССИВУ, НО ПОТОМ
-
-	// DOOR_CATEGORY — категория двери
-
-	// ZONE_FROM_NAME — имя зоны, откуда ведет дверь
-	// ZONE_FROM_CATEGORY — категория зоны, откуда ведет дверь
-	// ZONE_FROM_GUID — GUID зоны, откуда ведет дверь
-
-	// ZONE_TO_NAME — имя зоны, куда ведет дверь
-	// ZONE_TO_CATEGORY — категория зоны, куда ведет дверь
-	// ZONE_TO_GUID — GUID зоны, куда ведет дверь
-
-	cout << "\nПроверяем набор параметров в группе OPENINGS.\n";
-
-	ac_request("set_current_element_from_list", 1, 0);
-	int r0, r1, r2, r3, r4, r5, r6, ires;
-	bool the_res = true;
-
-	r0 = ac_request_special("get_element_value", "UP", "DOOR_CATEGORY");
-	r1 = ac_request_special("get_element_value", "UP", "ZONE_FROM_NAME");
-	r2 = ac_request_special("get_element_value", "UP", "ZONE_FROM_CATEGORY");
-	r3 = ac_request_special("get_element_value", "UP", "ZONE_FROM_GUID");
-	r4 = ac_request_special("get_element_value", "UP", "ZONE_TO_NAME");
-	r5 = ac_request_special("get_element_value", "UP", "ZONE_TO_CATEGORY");
-	r6 = ac_request_special("get_element_value", "UP", "ZONE_TO_GUID");
-
-	if (r0 == -1222) { 	//-1222 — ошибка какая-то
-		cout << "Одно из свойств не найдено, надо создать.\n";
-		ires = ac_request("elem_user_property", "create", "DOOR_CATEGORY", " ", "String", "OPENINGS");
-		if (ires == 0) { cout << "Создали свойство DOOR_CATEGORY.\n"; } else { cout << "Не вышло создать свойство DOOR_CATEGORY, создайте вручную.\n"; break();}
-	}
-
-	if (r1 == -1222) { 	//-1222 — ошибка какая-то
-		cout << "Одно из свойств не найдено, надо создать.\n";
-		ires = ac_request("elem_user_property", "create", "ZONE_FROM_NAME", " ", "String", "OPENINGS");
-		if (ires == 0) { cout << "Создали свойство ZONE_FROM_CATEGORY.\n"; } else { cout << "Не вышло создать свойство ZONE_FROM_CATEGORY, создайте вручную.\n"; break();}
-	}
-
-	if (r2 == -1222) { 	//-1222 — ошибка какая-то
-		cout << "Одно из свойств не найдено, надо создать.\n";
-		ires = ac_request("elem_user_property", "create", "ZONE_FROM_CATEGORY", " ", "String", "OPENINGS");
-		if (ires == 0) { cout << "Создали свойство ZONE_FROM_CATEGORY.\n"; } else { cout << "Не вышло создать свойство ZONE_FROM_CATEGORY, создайте вручную.\n"; break();}
-	}
-
-	if (r3 == -1222) { 	//-1222 — ошибка какая-то
-		cout << "Одно из свойств не найдено, надо создать.\n";
-		ires = ac_request("elem_user_property", "create", "ZONE_FROM_GUID", " ", "String", "OPENINGS");
-		if (ires == 0) { cout << "Создали свойство ZONE_FROM_GUID.\n"; } else { cout << "Не вышло создать свойство ZONE_FROM_GUID, создайте вручную.\n"; break();}
-	}
-
-	if (r4 == -1222) { 	//-1222 — ошибка какая-то
-		cout << "Одно из свойств не найдено, надо создать.\n";
-		ires = ac_request("elem_user_property", "create", "ZONE_TO_NAME", " ", "String", "OPENINGS");
-		if (ires == 0) { cout << "Создали свойство ZONE_TO_NAME.\n"; } else { cout << "Не вышло создать свойство ZONE_TO_NAME, создайте вручную.\n"; break();}
-	}
-
-	if (r5 == -1222) { 	//-1222 — ошибка какая-то
-		cout << "Одно из свойств не найдено, надо создать.\n";
-		ires = ac_request("elem_user_property", "create", "ZONE_TO_CATEGORY", " ", "String", "OPENINGS");
-		if (ires == 0) { cout << "Создали свойство ZONE_TO_CATEGORY.\n"; } else { cout << "Не вышло создать свойство ZONE_TO_CATEGORY, создайте вручную.\n"; break();}
-	}
-
-	if (r6 == -1222) { 	//-1222 — ошибка какая-то
-		cout << "Одно из свойств не найдено, надо создать.\n";
-		ires = ac_request("elem_user_property", "create", "ZONE_TO_GUID", " ", "String", "OPENINGS");
-		if (ires == 0) { cout << "Создали свойство ZONE_TO_GUID.\n"; } else { cout << "Не вышло создать свойство ZONE_TO_GUID, создайте вручную.\n";  break();}
-	}
-
-
-	cout << "\n";
-	return 0;
-}
-
-
