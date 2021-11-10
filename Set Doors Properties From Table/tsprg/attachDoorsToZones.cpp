@@ -1,13 +1,13 @@
-// Шаблон для обработки дверей
+// РЁР°Р±Р»РѕРЅ РґР»СЏ РѕР±СЂР°Р±РѕС‚РєРё РґРІРµСЂРµР№
 // 26.2021
 // LabPP
-//string TSModuleVersion = "26.10.2021 - Стартовая версия";
-string TSModuleVersion = "28.10.2021 - Первый рабочий вариант";
+//string TSModuleVersion = "26.10.2021 - РЎС‚Р°СЂС‚РѕРІР°СЏ РІРµСЂСЃРёСЏ";
+string TSModuleVersion = "28.10.2021 - РџРµСЂРІС‹Р№ СЂР°Р±РѕС‡РёР№ РІР°СЂРёР°РЅС‚";
 //-----------------------
 
-int iDialogDescr; // Дескриптор диалога
-int iListBoxDoors, iTableDoors;    // Листбокс элементов дверей и его список
-int iEditSearchListBoxDoors, iBarControlSearchListBoxDoors; // Элементы поиска в листбоксе
+int iDialogDescr; // Р”РµСЃРєСЂРёРїС‚РѕСЂ РґРёР°Р»РѕРіР°
+int iListBoxDoors, iTableDoors;    // Р›РёСЃС‚Р±РѕРєСЃ СЌР»РµРјРµРЅС‚РѕРІ РґРІРµСЂРµР№ Рё РµРіРѕ СЃРїРёСЃРѕРє
+int iEditSearchListBoxDoors, iBarControlSearchListBoxDoors; // Р­Р»РµРјРµРЅС‚С‹ РїРѕРёСЃРєР° РІ Р»РёСЃС‚Р±РѕРєСЃРµ
 
 int iNormalTab, iTabPage1, iTabPage2, iTabPage3;
 int iProgressBar; 
@@ -21,71 +21,71 @@ int main()
 {
 	coutvar << TSModuleVersion;
 
-	// pragma region - удобная инструкция для редактора C++ она позволяет скрывать большие куски текста и оставлять наименование только
-#pragma region Создаем диалог
+	// pragma region - СѓРґРѕР±РЅР°СЏ РёРЅСЃС‚СЂСѓРєС†РёСЏ РґР»СЏ СЂРµРґР°РєС‚РѕСЂР° C++ РѕРЅР° РїРѕР·РІРѕР»СЏРµС‚ СЃРєСЂС‹РІР°С‚СЊ Р±РѕР»СЊС€РёРµ РєСѓСЃРєРё С‚РµРєСЃС‚Р° Рё РѕСЃС‚Р°РІР»СЏС‚СЊ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ С‚РѕР»СЊРєРѕ
+#pragma region РЎРѕР·РґР°РµРј РґРёР°Р»РѕРі
 	int x, y, w, h;
 	object("create", "ts_dialog", iDialogDescr);
-	ts_dialog(iDialogDescr, "init_dialog", "palette", 0, 0, 450, 400); // Создаем окно диалога как палитку, т.е. немодальное
-	ts_dialog(iDialogDescr, "set_as_main_panel"); // Если так сделать, то все немодальные окна этого сеанса будут закрываться вместе с этим окном
-	ts_dialog(iDialogDescr, "SetTitle", "Здесь название назначаем сами");
+	ts_dialog(iDialogDescr, "init_dialog", "palette", 0, 0, 450, 400); // РЎРѕР·РґР°РµРј РѕРєРЅРѕ РґРёР°Р»РѕРіР° РєР°Рє РїР°Р»РёС‚РєСѓ, С‚.Рµ. РЅРµРјРѕРґР°Р»СЊРЅРѕРµ
+	ts_dialog(iDialogDescr, "set_as_main_panel"); // Р•СЃР»Рё С‚Р°Рє СЃРґРµР»Р°С‚СЊ, С‚Рѕ РІСЃРµ РЅРµРјРѕРґР°Р»СЊРЅС‹Рµ РѕРєРЅР° СЌС‚РѕРіРѕ СЃРµР°РЅСЃР° Р±СѓРґСѓС‚ Р·Р°РєСЂС‹РІР°С‚СЊСЃСЏ РІРјРµСЃС‚Рµ СЃ СЌС‚РёРј РѕРєРЅРѕРј
+	ts_dialog(iDialogDescr, "SetTitle", "Р—РґРµСЃСЊ РЅР°Р·РІР°РЅРёРµ РЅР°Р·РЅР°С‡Р°РµРј СЃР°РјРё");
 
-	// Создаем панель с лепестками
+	// РЎРѕР·РґР°РµРј РїР°РЅРµР»СЊ СЃ Р»РµРїРµСЃС‚РєР°РјРё
 	object("create", "ts_dialogcontrol", iNormalTab, "NT1");
 	ts_dialogcontrol(iNormalTab, "init_control", "normaltab", iDialogDescr, 0, 0, 450, 340); 
-	// закрепить границы этого элемента на случай изменения размера его носителя слева, сверху, справа, снизу
-	// 0,0,1,1 - означает что при изменении ширины окна диалога левая сторона на месте, верх на месте, право - поползет вслед за изменением и низ - тоже.
-	// может быть -1, это будет значить, что при увеличении диалога стотв.сторона поползет в обратную сторону.
+	// Р·Р°РєСЂРµРїРёС‚СЊ РіСЂР°РЅРёС†С‹ СЌС‚РѕРіРѕ СЌР»РµРјРµРЅС‚Р° РЅР° СЃР»СѓС‡Р°Р№ РёР·РјРµРЅРµРЅРёСЏ СЂР°Р·РјРµСЂР° РµРіРѕ РЅРѕСЃРёС‚РµР»СЏ СЃР»РµРІР°, СЃРІРµСЂС…Сѓ, СЃРїСЂР°РІР°, СЃРЅРёР·Сѓ
+	// 0,0,1,1 - РѕР·РЅР°С‡Р°РµС‚ С‡С‚Рѕ РїСЂРё РёР·РјРµРЅРµРЅРёРё С€РёСЂРёРЅС‹ РѕРєРЅР° РґРёР°Р»РѕРіР° Р»РµРІР°СЏ СЃС‚РѕСЂРѕРЅР° РЅР° РјРµСЃС‚Рµ, РІРµСЂС… РЅР° РјРµСЃС‚Рµ, РїСЂР°РІРѕ - РїРѕРїРѕР»Р·РµС‚ РІСЃР»РµРґ Р·Р° РёР·РјРµРЅРµРЅРёРµРј Рё РЅРёР· - С‚РѕР¶Рµ.
+	// РјРѕР¶РµС‚ Р±С‹С‚СЊ -1, СЌС‚Рѕ Р±СѓРґРµС‚ Р·РЅР°С‡РёС‚СЊ, С‡С‚Рѕ РїСЂРё СѓРІРµР»РёС‡РµРЅРёРё РґРёР°Р»РѕРіР° СЃС‚РѕС‚РІ.СЃС‚РѕСЂРѕРЅР° РїРѕРїРѕР»Р·РµС‚ РІ РѕР±СЂР°С‚РЅСѓСЋ СЃС‚РѕСЂРѕРЅСѓ.
 	ts_dialogcontrol(iNormalTab, "SetAnchorToPanelResize", 0, 0, 1, 1); 
 
-	// добавляем лепестки
+	// РґРѕР±Р°РІР»СЏРµРј Р»РµРїРµСЃС‚РєРё
 	ts_dialogcontrol(iNormalTab, "AppendItem");
 	ts_dialogcontrol(iNormalTab, "AppendItem");
 	ts_dialogcontrol(iNormalTab, "AppendItem");
 
-	// именуем лепестки
-	ts_dialogcontrol(iNormalTab, "SetItemText", 1, "Двери");
+	// РёРјРµРЅСѓРµРј Р»РµРїРµСЃС‚РєРё
+	ts_dialogcontrol(iNormalTab, "SetItemText", 1, "Р”РІРµСЂРё");
 	ts_dialogcontrol(iNormalTab, "SetItemText", 2, "-");
 	ts_dialogcontrol(iNormalTab, "SetItemText", 3, "-");
 
-	// создаем на лепестках панели для размещения элементов
+	// СЃРѕР·РґР°РµРј РЅР° Р»РµРїРµСЃС‚РєР°С… РїР°РЅРµР»Рё РґР»СЏ СЂР°Р·РјРµС‰РµРЅРёСЏ СЌР»РµРјРµРЅС‚РѕРІ
 	object("create", "ts_dialogcontrol", iTabPage1, "TP1");
 	object("create", "ts_dialogcontrol", iTabPage2, "TP2");
 	object("create", "ts_dialogcontrol", iTabPage3, "TP3");
 
-	// инициируем эти панели
+	// РёРЅРёС†РёРёСЂСѓРµРј СЌС‚Рё РїР°РЅРµР»Рё
 	ts_dialogcontrol(iTabPage1, "init_control", "tabpage", iNormalTab, 0, 0, 450, 340, 1);
 	ts_dialogcontrol(iTabPage1, "SetAnchorToPanelResize", 0, 0, 1, 1);
 	ts_dialogcontrol(iTabPage2, "init_control", "tabpage", iNormalTab, 0, 0, 450, 340, 2);
 	ts_dialogcontrol(iTabPage2, "SetAnchorToPanelResize", 0, 0, 1, 1);
 	ts_dialogcontrol(iTabPage3, "init_control", "tabpage", iNormalTab, 0, 0, 450, 340, 3);
 	ts_dialogcontrol(iTabPage3, "SetAnchorToPanelResize", 0, 0, 1, 1);
-	// выбираем текущий лепесток
+	// РІС‹Р±РёСЂР°РµРј С‚РµРєСѓС‰РёР№ Р»РµРїРµСЃС‚РѕРє
 	ts_dialogcontrol(iNormalTab, "selectitem", 1);
 
-	// Список дверей -------------------------------------------------------------------------------
+	// РЎРїРёСЃРѕРє РґРІРµСЂРµР№ -------------------------------------------------------------------------------
 
-	// листбокс для листбокс
+	// Р»РёСЃС‚Р±РѕРєСЃ РґР»СЏ Р»РёСЃС‚Р±РѕРєСЃ
 	object("create", "ts_dialogcontrol", iListBoxDoors, "iListBoxDoors");
 	ts_dialogcontrol(iListBoxDoors, "init_control", "singlesellistbox", iTabPage1, 0, 0, 450, 290, 48, 20);
 	ts_dialogcontrol(iListBoxDoors, "SetAnchorToPanelResize", 0, 0, 1, 1);
-	ts_dialogcontrol(iListBoxDoors, "eventreaction", "Event_ListBoxDoubleClicked"); // подцепляем к событию листбоксов на двойной щелчек 
+	ts_dialogcontrol(iListBoxDoors, "eventreaction", "Event_ListBoxDoubleClicked"); // РїРѕРґС†РµРїР»СЏРµРј Рє СЃРѕР±С‹С‚РёСЋ Р»РёСЃС‚Р±РѕРєСЃРѕРІ РЅР° РґРІРѕР№РЅРѕР№ С‰РµР»С‡РµРє 
 
-	// таблица для листбокса списка дверей
+	// С‚Р°Р±Р»РёС†Р° РґР»СЏ Р»РёСЃС‚Р±РѕРєСЃР° СЃРїРёСЃРєР° РґРІРµСЂРµР№
 	object("create", "ts_table", iTableDoors);
-	ts_table(iTableDoors, "add_column", 0,  "string", "GUID двери");
-	ts_table(iTableDoors, "add_column", -1,  "string", "ID двери");
-	ts_table(iTableDoors, "add_column", -1,  "int", "Ширина");
-	ts_table(iTableDoors, "add_column", -1,  "int", "Высота");
-	ts_table(iTableDoors, "add_column", -1,  "int", "Индекс этажа");
-	ts_table(iTableDoors, "add_column", -1,  "string", "Из зоны №");
-	ts_table(iTableDoors, "add_column", -1,  "string", "Категория зоны \"из\"");
-	ts_table(iTableDoors, "add_column", -1,  "string", "Имя зоны\"из\"");
-	ts_table(iTableDoors, "add_column", -1,  "string", "GUID зоны \"из\"");
-	ts_table(iTableDoors, "add_column", -1,  "string", "В зону №");
-	ts_table(iTableDoors, "add_column", -1,  "string", "GUID зоны \"в\"");
-	ts_table(iTableDoors, "add_column", -1, "string", "Категория зоны \"в\"");
-	ts_table(iTableDoors, "add_column", -1, "string", "Имя зоны \"в\"");
-	ts_table(iTableDoors, "add_column", -1, "string", "Имя этажа");         // номер колонки можно ставить -1 - тогда система сама присваивает номер
+	ts_table(iTableDoors, "add_column", 0,  "string", "GUID РґРІРµСЂРё");
+	ts_table(iTableDoors, "add_column", -1,  "string", "ID РґРІРµСЂРё");
+	ts_table(iTableDoors, "add_column", -1,  "int", "РЁРёСЂРёРЅР°");
+	ts_table(iTableDoors, "add_column", -1,  "int", "Р’С‹СЃРѕС‚Р°");
+	ts_table(iTableDoors, "add_column", -1,  "int", "РРЅРґРµРєСЃ СЌС‚Р°Р¶Р°");
+	ts_table(iTableDoors, "add_column", -1,  "string", "РР· Р·РѕРЅС‹ в„–");
+	ts_table(iTableDoors, "add_column", -1,  "string", "РљР°С‚РµРіРѕСЂРёСЏ Р·РѕРЅС‹ \"РёР·\"");
+	ts_table(iTableDoors, "add_column", -1,  "string", "РРјСЏ Р·РѕРЅС‹\"РёР·\"");
+	ts_table(iTableDoors, "add_column", -1,  "string", "GUID Р·РѕРЅС‹ \"РёР·\"");
+	ts_table(iTableDoors, "add_column", -1,  "string", "Р’ Р·РѕРЅСѓ в„–");
+	ts_table(iTableDoors, "add_column", -1,  "string", "GUID Р·РѕРЅС‹ \"РІ\"");
+	ts_table(iTableDoors, "add_column", -1, "string", "РљР°С‚РµРіРѕСЂРёСЏ Р·РѕРЅС‹ \"РІ\"");
+	ts_table(iTableDoors, "add_column", -1, "string", "РРјСЏ Р·РѕРЅС‹ \"РІ\"");
+	ts_table(iTableDoors, "add_column", -1, "string", "РРјСЏ СЌС‚Р°Р¶Р°");         // РЅРѕРјРµСЂ РєРѕР»РѕРЅРєРё РјРѕР¶РЅРѕ СЃС‚Р°РІРёС‚СЊ -1 - С‚РѕРіРґР° СЃРёСЃС‚РµРјР° СЃР°РјР° РїСЂРёСЃРІР°РёРІР°РµС‚ РЅРѕРјРµСЂ
 	//ts_table(iTableDoors, "resetofffromexport");
 	ts_table(iTableDoors, "export_to_dialogcontrol", iListBoxDoors, -1, -1);
 	//ts_table(iTableDoors, "set_first_key", 0);
@@ -105,41 +105,41 @@ int main()
 	object("create", "ts_dialogcontrol", iButtonAttachDoorsToRoomAsExits, "iButtonAttachDoorsToRoomAsExits");
 	ts_dialogcontrol(iButtonAttachDoorsToRoomAsExits, "init_control", "button", iTabPage1, x, y, w, h);
 	ts_dialogcontrol(iButtonAttachDoorsToRoomAsExits, "eventreaction", "Event_ButtonClicked");
-	ts_dialogcontrol(iButtonAttachDoorsToRoomAsExits, "settext", "Назначить выходы");
+	ts_dialogcontrol(iButtonAttachDoorsToRoomAsExits, "settext", "РќР°Р·РЅР°С‡РёС‚СЊ РІС‹С…РѕРґС‹");
 	ts_dialogcontrol(iButtonAttachDoorsToRoomAsExits, "SetAnchorToPanelResize", 0, 1, 0, 0);
-	ts_dialogcontrol(iButtonAttachDoorsToRoomAsExits, "SetToolTip", "Назначить выбранные двери как выходы из выбранного помещения");
+	ts_dialogcontrol(iButtonAttachDoorsToRoomAsExits, "SetToolTip", "РќР°Р·РЅР°С‡РёС‚СЊ РІС‹Р±СЂР°РЅРЅС‹Рµ РґРІРµСЂРё РєР°Рє РІС‹С…РѕРґС‹ РёР· РІС‹Р±СЂР°РЅРЅРѕРіРѕ РїРѕРјРµС‰РµРЅРёСЏ");
 
 	x = x + w + delta; y = yy; w = 120; h = 20;
 	object("create", "ts_dialogcontrol", iButtonAttachDoorsToRoomAsEntrances, "iButtonAttachDoorsToRoomAsEntrances");
 	ts_dialogcontrol(iButtonAttachDoorsToRoomAsEntrances, "init_control", "button", iTabPage1, x, y, w, h);
 	ts_dialogcontrol(iButtonAttachDoorsToRoomAsEntrances, "eventreaction", "Event_ButtonClicked");
-	ts_dialogcontrol(iButtonAttachDoorsToRoomAsEntrances, "settext", "Назначить входы");
+	ts_dialogcontrol(iButtonAttachDoorsToRoomAsEntrances, "settext", "РќР°Р·РЅР°С‡РёС‚СЊ РІС…РѕРґС‹");
 	ts_dialogcontrol(iButtonAttachDoorsToRoomAsEntrances, "SetAnchorToPanelResize", 0, 1, 0, 0);
-	ts_dialogcontrol(iButtonAttachDoorsToRoomAsEntrances, "SetToolTip", "Назначить выбранные двери как ВХОДЫ в выбранное помещение");
+	ts_dialogcontrol(iButtonAttachDoorsToRoomAsEntrances, "SetToolTip", "РќР°Р·РЅР°С‡РёС‚СЊ РІС‹Р±СЂР°РЅРЅС‹Рµ РґРІРµСЂРё РєР°Рє Р’РҐРћР”Р« РІ РІС‹Р±СЂР°РЅРЅРѕРµ РїРѕРјРµС‰РµРЅРёРµ");
 
 	x = x + w + delta; y = yy; w = 120; h = 20;
 	object("create", "ts_dialogcontrol", iButtonShowRoomExits, "iButtonShowRoomExits");
 	ts_dialogcontrol(iButtonShowRoomExits, "init_control", "button", iTabPage1, x, y, w, h);
 	ts_dialogcontrol(iButtonShowRoomExits, "eventreaction", "Event_ButtonClicked");
-	ts_dialogcontrol(iButtonShowRoomExits, "settext", "Показать выходы");
+	ts_dialogcontrol(iButtonShowRoomExits, "settext", "РџРѕРєР°Р·Р°С‚СЊ РІС‹С…РѕРґС‹");
 	ts_dialogcontrol(iButtonShowRoomExits, "SetAnchorToPanelResize", 0, 1, 0, 0);
-	ts_dialogcontrol(iButtonShowRoomExits, "SetToolTip", "Показать в проекте все двери-выходы у выбранной зоны");
+	ts_dialogcontrol(iButtonShowRoomExits, "SetToolTip", "РџРѕРєР°Р·Р°С‚СЊ РІ РїСЂРѕРµРєС‚Рµ РІСЃРµ РґРІРµСЂРё-РІС‹С…РѕРґС‹ Сѓ РІС‹Р±СЂР°РЅРЅРѕР№ Р·РѕРЅС‹");
 
 	x = x + w + delta; y = yy; w = 120; h = 20;
 	object("create", "ts_dialogcontrol", iButtonShowRoomEntrances, "iButtonShowRoomEntrances");
 	ts_dialogcontrol(iButtonShowRoomEntrances, "init_control", "button", iTabPage1, x, y, w, h);
 	ts_dialogcontrol(iButtonShowRoomEntrances, "eventreaction", "Event_ButtonClicked");
-	ts_dialogcontrol(iButtonShowRoomEntrances, "settext", "Показать входы");
+	ts_dialogcontrol(iButtonShowRoomEntrances, "settext", "РџРѕРєР°Р·Р°С‚СЊ РІС…РѕРґС‹");
 	ts_dialogcontrol(iButtonShowRoomEntrances, "SetAnchorToPanelResize", 0, 1, 0, 0);
-	ts_dialogcontrol(iButtonShowRoomEntrances, "SetToolTip", "Показать в проекте все двери-ВХОДЫ в выбранную зону");
+	ts_dialogcontrol(iButtonShowRoomEntrances, "SetToolTip", "РџРѕРєР°Р·Р°С‚СЊ РІ РїСЂРѕРµРєС‚Рµ РІСЃРµ РґРІРµСЂРё-Р’РҐРћР”Р« РІ РІС‹Р±СЂР°РЅРЅСѓСЋ Р·РѕРЅСѓ");
 
 	x = x + w + delta; y = yy; w = 120; h = 20;
 	object("create", "ts_dialogcontrol", iButtonDetachDoorsFromRoom, "iButtonDetachDoorsFromRoom");
 	ts_dialogcontrol(iButtonDetachDoorsFromRoom, "init_control", "button", iTabPage1, x, y, w, h);
 	ts_dialogcontrol(iButtonDetachDoorsFromRoom, "eventreaction", "Event_ButtonClicked");
-	ts_dialogcontrol(iButtonDetachDoorsFromRoom, "settext", "Отвязать двери");
+	ts_dialogcontrol(iButtonDetachDoorsFromRoom, "settext", "РћС‚РІСЏР·Р°С‚СЊ РґРІРµСЂРё");
 	ts_dialogcontrol(iButtonDetachDoorsFromRoom, "SetAnchorToPanelResize", 0, 1, 0, 0);
-	ts_dialogcontrol(iButtonDetachDoorsFromRoom, "SetToolTip", "Отвязать выбраные двери о выбранной зоны");
+	ts_dialogcontrol(iButtonDetachDoorsFromRoom, "SetToolTip", "РћС‚РІСЏР·Р°С‚СЊ РІС‹Р±СЂР°РЅС‹Рµ РґРІРµСЂРё Рѕ РІС‹Р±СЂР°РЅРЅРѕР№ Р·РѕРЅС‹");
 
 	//-----------------------------------------------------------------------------------------------------------------
 	delta = 3;
@@ -148,9 +148,9 @@ int main()
 	object("create", "ts_dialogcontrol", iButtonLoadDoors, "iButtonLoadDoors");
 	ts_dialogcontrol(iButtonLoadDoors, "init_control", "button", iDialogDescr, x, y, w, h);
 	ts_dialogcontrol(iButtonLoadDoors, "eventreaction", "Event_ButtonClicked");
-	ts_dialogcontrol(iButtonLoadDoors, "settext", "Загрузка");
+	ts_dialogcontrol(iButtonLoadDoors, "settext", "Р—Р°РіСЂСѓР·РєР°");
 	ts_dialogcontrol(iButtonLoadDoors, "SetAnchorToPanelResize", 0, 1, 0, 0);
-	ts_dialogcontrol(iButtonLoadDoors, "SetToolTip", "Загрузка дверей из проекта");
+	ts_dialogcontrol(iButtonLoadDoors, "SetToolTip", "Р—Р°РіСЂСѓР·РєР° РґРІРµСЂРµР№ РёР· РїСЂРѕРµРєС‚Р°");
 
 	y = yy - 16; w = 415; h = 10;
 	object("create", "ts_dialogcontrol", iProgressBar, "ProgressBar");
@@ -166,7 +166,7 @@ int main()
     ts_dialog(iDialogDescr, "invoke", bres);
     return 0;
 }
-// обработчик событий кнопок на щелчек
+// РѕР±СЂР°Р±РѕС‚С‡РёРє СЃРѕР±С‹С‚РёР№ РєРЅРѕРїРѕРє РЅР° С‰РµР»С‡РµРє
 int Event_ButtonClicked(int iDescr, string sDescr)
 {
 	if (sDescr == "iButtonAttachDoorsToRoomAsExits") {
@@ -193,7 +193,7 @@ int Event_ButtonClicked(int iDescr, string sDescr)
 		Load();
 	}
 }
-// обработчик событий листбоксов на двойной щелчек
+// РѕР±СЂР°Р±РѕС‚С‡РёРє СЃРѕР±С‹С‚РёР№ Р»РёСЃС‚Р±РѕРєСЃРѕРІ РЅР° РґРІРѕР№РЅРѕР№ С‰РµР»С‡РµРє
 int Event_ListBoxDoubleClicked(int iDescr, string sDescr)
 {
 	if (sDescr == "iListBoxDoors") { 
@@ -201,37 +201,37 @@ int Event_ListBoxDoubleClicked(int iDescr, string sDescr)
 		Zoom(); 
 	}
 }
-// дальше пока не читать
+// РґР°Р»СЊС€Рµ РїРѕРєР° РЅРµ С‡РёС‚Р°С‚СЊ
 
 //--------------------------------------------------
-// Загрузка данных
+// Р—Р°РіСЂСѓР·РєР° РґР°РЅРЅС‹С…
 //--------------------------------------------------
 int Load()
 {
 	int ires;
 
-	cout << "Загрузка данных\n";
-	ts_dialogcontrol(iListBoxDoors, "DeleteItem", 0); // удалить все элементы в листбоксе
-	ts_table(iTableDoors, "clear_rows");              // очистить таблицу дверей - только удалить строки, сохраняя структуру
-	ts_dialogcontrol(iNormalTab,"SelectItem",1);      // выбрать первый лепесток на диалоге
-	ac_request("clear_list", 1);                      // очистить список №1
+	cout << "Р—Р°РіСЂСѓР·РєР° РґР°РЅРЅС‹С…\n";
+	ts_dialogcontrol(iListBoxDoors, "DeleteItem", 0); // СѓРґР°Р»РёС‚СЊ РІСЃРµ СЌР»РµРјРµРЅС‚С‹ РІ Р»РёСЃС‚Р±РѕРєСЃРµ
+	ts_table(iTableDoors, "clear_rows");              // РѕС‡РёСЃС‚РёС‚СЊ С‚Р°Р±Р»РёС†Сѓ РґРІРµСЂРµР№ - С‚РѕР»СЊРєРѕ СѓРґР°Р»РёС‚СЊ СЃС‚СЂРѕРєРё, СЃРѕС…СЂР°РЅСЏСЏ СЃС‚СЂСѓРєС‚СѓСЂСѓ
+	ts_dialogcontrol(iNormalTab,"SelectItem",1);      // РІС‹Р±СЂР°С‚СЊ РїРµСЂРІС‹Р№ Р»РµРїРµСЃС‚РѕРє РЅР° РґРёР°Р»РѕРіРµ
+	ac_request("clear_list", 1);                      // РѕС‡РёСЃС‚РёС‚СЊ СЃРїРёСЃРѕРє в„–1
 
-	// загрузить элементы дверей в список №1
+	// Р·Р°РіСЂСѓР·РёС‚СЊ СЌР»РµРјРµРЅС‚С‹ РґРІРµСЂРµР№ РІ СЃРїРёСЃРѕРє в„–1
 	ac_request_special("load_elements_list", 1, "DoorType", 2 + 1024);
 
 	//ac_request_special("load_elements_list", 1, "DoorType", 2 + 1024,
-	//	"", "Cls", "Классификация АБ Скуратов", "=", sUPClassifValue, "", "OR",
-	//	"", "Cls", "Классификация АБ Скуратов", "=", sUPClassifValue2, "", "OR",
-	//	"", "Cls", "Классификация АБ Скуратов", "=", sUPClassifValue3, "");
+	//	"", "Cls", "РљР»Р°СЃСЃРёС„РёРєР°С†РёСЏ РђР‘ РЎРєСѓСЂР°С‚РѕРІ", "=", sUPClassifValue, "", "OR",
+	//	"", "Cls", "РљР»Р°СЃСЃРёС„РёРєР°С†РёСЏ РђР‘ РЎРєСѓСЂР°С‚РѕРІ", "=", sUPClassifValue2, "", "OR",
+	//	"", "Cls", "РљР»Р°СЃСЃРёС„РёРєР°С†РёСЏ РђР‘ РЎРєСѓСЂР°С‚РѕРІ", "=", sUPClassifValue3, "");
 
-	// запросить количество считанных элементов дверей
+	// Р·Р°РїСЂРѕСЃРёС‚СЊ РєРѕР»РёС‡РµСЃС‚РІРѕ СЃС‡РёС‚Р°РЅРЅС‹С… СЌР»РµРјРµРЅС‚РѕРІ РґРІРµСЂРµР№
 	ac_request("get_loaded_elements_list_count", 1);
 	int icount = ac_getnumvalue();
 	coutvar << icount;
 
 	if (icount == 0)
 	{
-		cout << "В проекте не найдены двери (возможно закрыты слои)";
+		cout << "Р’ РїСЂРѕРµРєС‚Рµ РЅРµ РЅР°Р№РґРµРЅС‹ РґРІРµСЂРё (РІРѕР·РјРѕР¶РЅРѕ Р·Р°РєСЂС‹С‚С‹ СЃР»РѕРё)";
 		return -1;
 	}
 
@@ -243,7 +243,7 @@ int Load()
 
     ts_dialogcontrol(iProgressBar, "SetMax", icount);
 
-	// создаем объект типа ts_guid
+	// СЃРѕР·РґР°РµРј РѕР±СЉРµРєС‚ С‚РёРїР° ts_guid
 	int iGuid;
 	object("create", "ts_guid", iGuid);
 	int width, height;
@@ -252,17 +252,17 @@ int Load()
 	{
 		ts_dialogcontrol(iProgressBar, "SetValue", i);
 
-		// установить текущим i-товый элемент списка №1 для обращения из скрипта (guid двери)
+		// СѓСЃС‚Р°РЅРѕРІРёС‚СЊ С‚РµРєСѓС‰РёРј i-С‚РѕРІС‹Р№ СЌР»РµРјРµРЅС‚ СЃРїРёСЃРєР° в„–1 РґР»СЏ РѕР±СЂР°С‰РµРЅРёСЏ РёР· СЃРєСЂРёРїС‚Р° (guid РґРІРµСЂРё)
 		ac_request("set_current_element_from_list", 1, i);
 
 		ac_request("get_element_value", "ID");
 		sIDdoor = ac_getstrvalue();
 
-		ac_request("get_element_value", "StoreIndex"); // считать индекс этажа у двери
+		ac_request("get_element_value", "StoreIndex"); // СЃС‡РёС‚Р°С‚СЊ РёРЅРґРµРєСЃ СЌС‚Р°Р¶Р° Сѓ РґРІРµСЂРё
 		floorindex = ac_getnumvalue();
-		ac_request("get_floor_name_by_floor_index", floorindex, floorname); // получить имя этажа по его индексу
+		ac_request("get_floor_name_by_floor_index", floorindex, floorname); // РїРѕР»СѓС‡РёС‚СЊ РёРјСЏ СЌС‚Р°Р¶Р° РїРѕ РµРіРѕ РёРЅРґРµРєСЃСѓ
 
-		ac_request("get_element_value", "GuidAsText"); // считываем guid текущего элемента как текст
+		ac_request("get_element_value", "GuidAsText"); // СЃС‡РёС‚С‹РІР°РµРј guid С‚РµРєСѓС‰РµРіРѕ СЌР»РµРјРµРЅС‚Р° РєР°Рє С‚РµРєСЃС‚
 		sguid = ac_getstrvalue();
 
 		ac_request_special("get_element_value", "GDL", "A");
@@ -295,23 +295,23 @@ int Load()
 		}
 
 		ts_table(iTableDoors, "add_row",
-			"ID двери", sIDdoor,
-			"GUID двери", sguid,
-			"Индекс этажа", floorindex,
-			"Ширина", width,
-			"Высота", height,
-			"Имя этажа", floorname,
-			"Из зоны №", sZoneNumberFrom,
-			"Категория зоны \"из\"", sZoneCatFrom,
-			"Имя зоны\"из\"", sZoneNameFrom,
-			"GUID зоны \"из\"",szoneguidFrom,
-			"В зону №", sZoneNumberTo,
-			"Категория зоны \"в\"", sZoneCatTo,
-			"Имя зоны \"в\"", sZoneNameTo,
-			"GUID зоны \"в\"", szoneguidTo);
+			"ID РґРІРµСЂРё", sIDdoor,
+			"GUID РґРІРµСЂРё", sguid,
+			"РРЅРґРµРєСЃ СЌС‚Р°Р¶Р°", floorindex,
+			"РЁРёСЂРёРЅР°", width,
+			"Р’С‹СЃРѕС‚Р°", height,
+			"РРјСЏ СЌС‚Р°Р¶Р°", floorname,
+			"РР· Р·РѕРЅС‹ в„–", sZoneNumberFrom,
+			"РљР°С‚РµРіРѕСЂРёСЏ Р·РѕРЅС‹ \"РёР·\"", sZoneCatFrom,
+			"РРјСЏ Р·РѕРЅС‹\"РёР·\"", sZoneNameFrom,
+			"GUID Р·РѕРЅС‹ \"РёР·\"",szoneguidFrom,
+			"Р’ Р·РѕРЅСѓ в„–", sZoneNumberTo,
+			"РљР°С‚РµРіРѕСЂРёСЏ Р·РѕРЅС‹ \"РІ\"", sZoneCatTo,
+			"РРјСЏ Р·РѕРЅС‹ \"РІ\"", sZoneNameTo,
+			"GUID Р·РѕРЅС‹ \"РІ\"", szoneguidTo);
 	}
 	ts_dialogcontrol(iProgressBar, "SetValue", 0);
-	ts_table(iTableDoors, "sort", "Индекс этажа", "Ширина", "Высота");
+	ts_table(iTableDoors, "sort", "РРЅРґРµРєСЃ СЌС‚Р°Р¶Р°", "РЁРёСЂРёРЅР°", "Р’С‹СЃРѕС‚Р°");
 	ts_table(iTableDoors, "export_to_dialogcontrol", iListBoxDoors, -1, -1);
 	ts_dialogcontrol(iListBoxDoors, "RepaintBackgroundItemsByColumnValue", 3, 255, 255, 255, 247, 247, 247);
 }
@@ -329,8 +329,8 @@ int Zoom()
 	}
 	
 	ts_table(iTableDoors,"select_row",item-1);
-	ts_table(iTableDoors,"get_value_of","GUID двери",sguid);
-	ts_table(iTableDoors,"get_value_of","Индекс этажа",storeindex);
+	ts_table(iTableDoors,"get_value_of","GUID РґРІРµСЂРё",sguid);
+	ts_table(iTableDoors,"get_value_of","РРЅРґРµРєСЃ СЌС‚Р°Р¶Р°",storeindex);
 
 	ac_request("set_element_by_guidstr_as_current", sguid);
 	ac_request("Environment","Story_GoTo",storeindex);
@@ -355,26 +355,26 @@ int do_iButtonAttachDoorsToRoom(bool bOn, bool bRoomFrom)
 		flag1 = 4096; flag2 = 8192;
 	}
 
-	// загружаем выбранные зоны в список 1
+	// Р·Р°РіСЂСѓР¶Р°РµРј РІС‹Р±СЂР°РЅРЅС‹Рµ Р·РѕРЅС‹ РІ СЃРїРёСЃРѕРє 1
 	ac_request_special("load_elements_list_from_selection", 1, "ZoneType", 2);
 	ac_request("get_loaded_elements_list_count", 1);
 	int icount = ac_getnumvalue();
 	if (icount == 0)
 	{
-		tsalert(-2, "Информация", "Не выбрана зона", "Среди выбранных элементов должна быть хотя бы одна зона", "Ok");
+		tsalert(-2, "РРЅС„РѕСЂРјР°С†РёСЏ", "РќРµ РІС‹Р±СЂР°РЅР° Р·РѕРЅР°", "РЎСЂРµРґРё РІС‹Р±СЂР°РЅРЅС‹С… СЌР»РµРјРµРЅС‚РѕРІ РґРѕР»Р¶РЅР° Р±С‹С‚СЊ С…РѕС‚СЏ Р±С‹ РѕРґРЅР° Р·РѕРЅР°", "Ok");
 		return -1;
 	}
 
 	coutvar << icount;
 
-	// загружаем выбранные двери в список 2
+	// Р·Р°РіСЂСѓР¶Р°РµРј РІС‹Р±СЂР°РЅРЅС‹Рµ РґРІРµСЂРё РІ СЃРїРёСЃРѕРє 2
 	ac_request_special("load_elements_list_from_selection", 2, "DoorType", 2);
 
 	ac_request("get_loaded_elements_list_count", 2);
 	int icount_doors = ac_getnumvalue();
 	if (icount_doors == 0)
 	{
-		tsalert(-2, "Информация", "Не выбраны двери", "Среди выбранных элементов должна быть хотя бы одна дверь", "Ok");
+		tsalert(-2, "РРЅС„РѕСЂРјР°С†РёСЏ", "РќРµ РІС‹Р±СЂР°РЅС‹ РґРІРµСЂРё", "РЎСЂРµРґРё РІС‹Р±СЂР°РЅРЅС‹С… СЌР»РµРјРµРЅС‚РѕРІ РґРѕР»Р¶РЅР° Р±С‹С‚СЊ С…РѕС‚СЏ Р±С‹ РѕРґРЅР° РґРІРµСЂСЊ", "Ok");
 		return -1;
 	}
 	coutvar << icount_doors;
@@ -415,7 +415,7 @@ int do_iButtonShowDoors(bool bRoomFrom)
 	int icount = ac_getnumvalue();
 	if (icount == 0)
 	{
-		tsalert(-2, "Информация", "Не выбрана зона", "Среди выбранных элементов должна быть зона", "Ok");
+		tsalert(-2, "РРЅС„РѕСЂРјР°С†РёСЏ", "РќРµ РІС‹Р±СЂР°РЅР° Р·РѕРЅР°", "РЎСЂРµРґРё РІС‹Р±СЂР°РЅРЅС‹С… СЌР»РµРјРµРЅС‚РѕРІ РґРѕР»Р¶РЅР° Р±С‹С‚СЊ Р·РѕРЅР°", "Ok");
 		return -1;
 	}
 	coutvar << icount;
@@ -443,26 +443,26 @@ int do_iButtonDetachDoorsFromRoom()
 {
 	cout << "detach doors from rooms";
 
-	// загружаем выбранные зоны в список 1
+	// Р·Р°РіСЂСѓР¶Р°РµРј РІС‹Р±СЂР°РЅРЅС‹Рµ Р·РѕРЅС‹ РІ СЃРїРёСЃРѕРє 1
 	ac_request_special("load_elements_list_from_selection", 1, "ZoneType", 2);
 	ac_request("get_loaded_elements_list_count", 1);
 	int icount = ac_getnumvalue();
 	if (icount == 0)
 	{
-		tsalert(-2, "Информация", "Не выбрана зона", "Среди выбранных элементов должна быть хотя бы одна зона", "Ok");
+		tsalert(-2, "РРЅС„РѕСЂРјР°С†РёСЏ", "РќРµ РІС‹Р±СЂР°РЅР° Р·РѕРЅР°", "РЎСЂРµРґРё РІС‹Р±СЂР°РЅРЅС‹С… СЌР»РµРјРµРЅС‚РѕРІ РґРѕР»Р¶РЅР° Р±С‹С‚СЊ С…РѕС‚СЏ Р±С‹ РѕРґРЅР° Р·РѕРЅР°", "Ok");
 		return -1;
 	}
 
 	coutvar << icount;
 
-	// загружаем выбранные двери в список 2
+	// Р·Р°РіСЂСѓР¶Р°РµРј РІС‹Р±СЂР°РЅРЅС‹Рµ РґРІРµСЂРё РІ СЃРїРёСЃРѕРє 2
 	ac_request_special("load_elements_list_from_selection", 2, "DoorType", 2);
 
 	ac_request("get_loaded_elements_list_count", 2);
 	int icount_doors = ac_getnumvalue();
 	if (icount_doors == 0)
 	{
-		tsalert(-2, "Информация", "Не выбраны двери", "Среди выбранных элементов должна быть хотя бы одна дверь", "Ok");
+		tsalert(-2, "РРЅС„РѕСЂРјР°С†РёСЏ", "РќРµ РІС‹Р±СЂР°РЅС‹ РґРІРµСЂРё", "РЎСЂРµРґРё РІС‹Р±СЂР°РЅРЅС‹С… СЌР»РµРјРµРЅС‚РѕРІ РґРѕР»Р¶РЅР° Р±С‹С‚СЊ С…РѕС‚СЏ Р±С‹ РѕРґРЅР° РґРІРµСЂСЊ", "Ok");
 		return -1;
 	}
 	coutvar << icount_doors;
@@ -491,7 +491,7 @@ int do_iButtonDetachDoorsFromRoom()
 	object("delete", iTableDoorsTmp);
 }
 
-string get_linked_zone_guid(string sDoorGuid, bool bRoomFrom) // получить айди зоны: если true — откуда ведет дверь, если false — куда ведёт дверь
+string get_linked_zone_guid(string sDoorGuid, bool bRoomFrom) // РїРѕР»СѓС‡РёС‚СЊ Р°Р№РґРё Р·РѕРЅС‹: РµСЃР»Рё true вЂ” РѕС‚РєСѓРґР° РІРµРґРµС‚ РґРІРµСЂСЊ, РµСЃР»Рё false вЂ” РєСѓРґР° РІРµРґС‘С‚ РґРІРµСЂСЊ
 {
 	string sguid_linked_zone_guid = "";
 
