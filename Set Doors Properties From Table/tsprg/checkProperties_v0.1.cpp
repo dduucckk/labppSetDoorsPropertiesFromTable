@@ -342,58 +342,17 @@ int main()
         string  curTableFromCat, curTableToCat,
                 curTableFromName, curTableToName;
 
-        // СТРУКТУРА ТАБЛИЦЫ:
-        // [ ZONE_FROM_CATEGORY | ZONE_FROM_NAME | ZONE_TO_CATEGORY | ZONE_TO_NAME | DOOR_CATEGORY ]
-        // [ 7 | zone 1 | 3 | zone 5 | 015 ]
+        string curDoorCategoryFromTable, tempCatFromTable;
 
-        
-        ac_request("set_current_element_from_list", 1, i);
-        cout << "   Записываем параметры...\n";
+        curDoorCategory = tolower(curDoorCategory);
 
-        //
-        // СВОЙСТВА ДВЕРИ ПО КЛАССИФИКАТОРУ:
-        //
-        // DOOR_CATEGORY — категория двери
-        //
-        // ZONE_FROM_NAME — имя зоны, откуда ведет дверь
-        // ZONE_FROM_CATEGORY — категория зоны, откуда ведет дверь
-        // ZONE_FROM_GUID — GUID зоны, откуда ведет дверь
-        //
-        // ZONE_TO_NAME — имя зоны, куда ведет дверь
-        // ZONE_TO_CATEGORY — категория зоны, куда ведет дверь
-        // ZONE_TO_GUID — GUID зоны, куда ведет дверь
-        //
-        //---------------------------------------
+        curDoorCategoryFromTable = "";
 
-        
 
-        if (curObjFromGUID != "")
-        {
-            ires = ac_request("elem_user_property", "set", "ZONE_FROM_NAME", curObjFromName);
-            // cout << "       имя зоны > " << ires << "\n";
-            ires = ac_request("elem_user_property", "set", "ZONE_FROM_CATEGORY", curObjFromCat);
-            // cout << "       категорию зоны >" << ires << "\n";
-            ires = ac_request("elem_user_property", "set", "ZONE_FROM_GUID", curObjFromGUID);
-            // cout << "       GUID зоны откуда >" << ires << "\n";
-        } else {
-            ires = ac_request("elem_user_property", "set", "ZONE_FROM_NAME", "");
-            ires = ac_request("elem_user_property", "set", "ZONE_FROM_CATEGORY", "");
-            ires = ac_request("elem_user_property", "set", "ZONE_FROM_GUID", "");
-        }
-
-        if (curObjToGUID != "")
-        {
-            ires = ac_request("elem_user_property", "set", "ZONE_TO_NAME", curObjToName);
-            // cout << "       зоны < " << ires << "\n";
-            ires = ac_request("elem_user_property", "set", "ZONE_TO_CATEGORY", curObjToCat);
-            // cout << "       категорию зоны < " << ires << "\n";
-            ires = ac_request("elem_user_property", "set", "ZONE_TO_GUID", curObjToGUID);
-            // cout << "       GUID зоны < " << ires << "\n";
-        } else {
-            ires = ac_request("elem_user_property", "set", "ZONE_TO_NAME", "");
-            ires = ac_request("elem_user_property", "set", "ZONE_TO_CATEGORY", "");
-            ires = ac_request("elem_user_property", "set", "ZONE_TO_GUID", "");
-        }
+        curObjFromCat = tolower(curObjFromCat);
+        curObjFromName = tolower(curObjFromName);
+        curObjToCat = tolower(curObjToCat);
+        curObjToName = tolower(curObjToName);
 
 
         for (int row = 0; row < tableRowsNumber; row++) // cycle through all table rows
@@ -405,47 +364,22 @@ int main()
             curTableFromName = "";
             curTableToCat = "";
             curTableToName = "";
-            curDoorCategory = "";
+        
 
             ts_table(iTableGUIDs, "get_value_of", 0, curTableFromCat);  // get current zone_from cat. in this row
             ts_table(iTableGUIDs, "get_value_of", 1, curTableFromName); // get current zone_from name in this row
             ts_table(iTableGUIDs, "get_value_of", 2, curTableToCat);    // get current zone_from name in this row
             ts_table(iTableGUIDs, "get_value_of", 3, curTableToName);   // get current zone_from name in this row
-            ts_table(iTableGUIDs, "get_value_of", 4, curDoorCategory);  // get current zone_from name in this row
+            ts_table(iTableGUIDs, "get_value_of", 4, tempCatFromTable);  // get current zone_from name in this row
 
 
             curTableFromCat = tolower(curTableFromCat);
             curTableFromName = tolower(curTableFromName);
             curTableToCat = tolower(curTableToCat);
             curTableToName = tolower(curTableToName);
-            curDoorCategory = tolower(curDoorCategory);
 
-            curObjFromCat = tolower(curObjFromCat);
-            curObjFromName = tolower(curObjFromName);
-            curObjToCat = tolower(curObjToCat);
-            curObjToName = tolower(curObjToName);
+            tempCatFromTable = tolower(tempCatFromTable);
 
-
-        
-            // трассировочный вывод значений из таблицы
-            // cout << "!!!!! Current zone from category: " <<  curTableFromCat << "\n";
-            // cout << "!!!!! Current zone from name: " <<  curTableFromName << "\n";
-            // cout << "!!!!! Current zone to category: " <<  curTableToCat << "\n";
-            // cout << "!!!!! Current zone to name: " <<  curTableToName << "\n";
-            // cout << "!!!!! Current door category: " <<  curDoorCategory << "\n";
-
-            // ..######..########.########
-            // .##....##.##..........##...
-            // .##.......##..........##...
-            // ..######..######......##...
-            // .......##.##..........##...
-            // .##....##.##..........##...
-            // ..######..########....##...
-
-            // таблица
-            // curTableFromName, curTableFromCat, curTableToName, curTableToCat — это параметры из текущей строки таблицы
-            // объект
-            // curObjFromName, curObjFromCat, curObjToName, curObjToCat — это параметры текущего объекта
 
             if (curTableFromCat == "*") { // переменные из таблицы: тут обхожу жопу с пробелом
                 curTableFromCat = "";
@@ -463,32 +397,20 @@ int main()
             string currentObjectFromToCatName, currentTableFromToCatName;
 
 
-            currentObjectFromToCatName = "_|_" + curTableFromCat + "_|_" + curTableFromName + "_|_" + curTableToCat + "_|_" + curTableToName + "_|_";
+            currentTableFromToCatName = "_|_" + curTableFromCat + "_|_" + curTableFromName + "_|_" + curTableToCat + "_|_" + curTableToName + "_|_";
 
-            currentTableFromToCatName = "_|_" + curObjFromCat + "_|_" + curObjFromName + "_|_" + curObjToCat + "_|_" + curObjToName + "_|_";
+           currentObjectFromToCatName  = "_|_" + curObjFromCat + "_|_" + curObjFromName + "_|_" + curObjToCat + "_|_" + curObjToName + "_|_";
 
+           cout << currentObjectFromToCatName << "\\\\\\" << currentTableFromToCatName << "\n";
 
-            // ЕСЛИ ВСЕ ПАРАМЕТРЫ СОВПАДАЮТ, ТО ЗАПИСАТЬ В ДВЕРЬ КАТЕГОРИЮ ДВЕРИ
-
-            
-            //---------------------------------------
-            //
-            // ЗАДАТЬ СВОЙСТВО ДВЕРИ
-            //
-            //---------------------------------------
-
-
-
-            //  тут косяк в логике!!!
             if (currentObjectFromToCatName == currentTableFromToCatName) {
-                ires = ac_request("elem_user_property", "set", "DOOR_CATEGORY", curDoorCategory);
-                cout << "   Записываем категорию двери: " << ires << "\n";
-                doorWithoutCategory = false;
+                curDoorCategoryFromTable = tempCatFromTable;
+                curDoorCategoryFromTable = tolower(curDoorCategoryFromTable); 
             }
 
         } // end of zones for loop
 
-
+        cout << "DOOR CT!!!!!! " << curDoorCategoryFromTable << "\n";
 
 
 
@@ -498,7 +420,7 @@ int main()
 
         // ТУТ НАДО ПРОВЕРИТЬ НА 
 
-        if (curDoorCategoryFromTable != curDoorCategory) {
+        if (curDoorCategoryFromTable != theCurDoorCategory) {
             cout << "! свойство объекта: «" << curObjPropToCat << "» != «" << curDBObjToCat;
             cout << "\n";
             whaaaaa = true;
