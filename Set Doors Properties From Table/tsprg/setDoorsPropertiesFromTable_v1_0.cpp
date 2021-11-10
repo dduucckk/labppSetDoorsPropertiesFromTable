@@ -236,6 +236,12 @@ int main()
 		}
 
 
+		curObjFromCat = tolower(curObjFromCat);
+		curObjFromName = tolower(curObjFromName);
+		curObjToCat = tolower(curObjToCat);
+		curObjToName = tolower(curObjToName);
+
+
 		for (int row = 0; row < tableRowsNumber; row++) // cycle through all table rows
 		{
 			cout << "		Row: " << row+1 << " / " << tableRowsNumber << "\n";
@@ -260,10 +266,6 @@ int main()
 			curTableToName = tolower(curTableToName);
 			curDoorCategory = tolower(curDoorCategory);
 
-			curObjFromCat = tolower(curObjFromCat);
-			curObjFromName = tolower(curObjFromName);
-			curObjToCat = tolower(curObjToCat);
-			curObjToName = tolower(curObjToName);
 
 
 		
