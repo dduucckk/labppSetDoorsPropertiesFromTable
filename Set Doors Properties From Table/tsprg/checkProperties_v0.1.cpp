@@ -25,7 +25,16 @@ int main()
     //--------------------------------------------------
 
     createTable();
+    ts_table(iTableGUIDs, "get_rows_count", tableRowsNumber);
     cout << "\n";
+
+
+
+
+
+
+
+
 
     ac_request_special("load_elements_list_from_selection", 1, "DoorType", 2);
 
@@ -224,6 +233,9 @@ int main()
         if (curObjPropToCat == " ") {
             curObjPropToCat = "";
         }
+        if (curDoorCategory == " ") {
+            curDoorCategory = "";
+        }
 
 
         // 
@@ -236,6 +248,7 @@ int main()
         // 
         // 
 
+        int e1, e2, e3, e4, e5;
 
         bool whaaaaa = false;
 
@@ -273,31 +286,275 @@ int main()
         }
 
 
+
+
+
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+        // 
+
+
+        // ..######..########....###....########...######..##.....##
+        // .##....##.##.........##.##...##.....##.##....##.##.....##
+        // .##.......##........##...##..##.....##.##.......##.....##
+        // ..######..######...##.....##.########..##.......#########
+        // .......##.##.......#########.##...##...##.......##.....##
+        // .##....##.##.......##.....##.##....##..##....##.##.....##
+        // ..######..########.##.....##.##.....##..######..##.....##
+
+        //--------------------------------------------------
+        // ПОИСК!
+        //--------------------------------------------------
+        // ЗАПРОС К ТАБЛИЦЕ, и сопоставление значений имен зон с категорией (типом) двери
+        //--------------------------------------------------
+
+        // int irow = ts_table(iTableGUIDs, "search", 0, currentObjectZoneCombination);
+
+        // ZONE_FROM_NAME — имя зоны, откуда ведет дверь
+        // ZONE_FROM_CATEGORY — категория зоны, откуда ведет дверь
+        // ZONE_FROM_GUID — GUID зоны, откуда ведет дверь
+
+        // ZONE_TO_NAME — имя зоны, куда ведет дверь
+        // ZONE_TO_CATEGORY — категория зоны, куда ведет дверь
+        // ZONE_TO_GUID — GUID зоны, куда ведет дверь
+
+        bool doorWithoutCategory = true;
+        string sIDdoor, curObjFromNumber, curObjToNumber, curObjFromCat, curObjToCat, curObjFromName, curObjToName;
+
+        string  curTableFromCat, curTableToCat,
+                curTableFromName, curTableToName;
+
+        // СТРУКТУРА ТАБЛИЦЫ:
+        // [ ZONE_FROM_CATEGORY | ZONE_FROM_NAME | ZONE_TO_CATEGORY | ZONE_TO_NAME | DOOR_CATEGORY ]
+        // [ 7 | zone 1 | 3 | zone 5 | 015 ]
+
+        
+        ac_request("set_current_element_from_list", 1, i);
+        cout << "   Записываем параметры...\n";
+
+        //
+        // СВОЙСТВА ДВЕРИ ПО КЛАССИФИКАТОРУ:
+        //
+        // DOOR_CATEGORY — категория двери
+        //
+        // ZONE_FROM_NAME — имя зоны, откуда ведет дверь
+        // ZONE_FROM_CATEGORY — категория зоны, откуда ведет дверь
+        // ZONE_FROM_GUID — GUID зоны, откуда ведет дверь
+        //
+        // ZONE_TO_NAME — имя зоны, куда ведет дверь
+        // ZONE_TO_CATEGORY — категория зоны, куда ведет дверь
+        // ZONE_TO_GUID — GUID зоны, куда ведет дверь
+        //
+        //---------------------------------------
+
+        
+
+        if (curObjFromGUID != "")
+        {
+            ires = ac_request("elem_user_property", "set", "ZONE_FROM_NAME", curObjFromName);
+            // cout << "       имя зоны > " << ires << "\n";
+            ires = ac_request("elem_user_property", "set", "ZONE_FROM_CATEGORY", curObjFromCat);
+            // cout << "       категорию зоны >" << ires << "\n";
+            ires = ac_request("elem_user_property", "set", "ZONE_FROM_GUID", curObjFromGUID);
+            // cout << "       GUID зоны откуда >" << ires << "\n";
+        } else {
+            ires = ac_request("elem_user_property", "set", "ZONE_FROM_NAME", "");
+            ires = ac_request("elem_user_property", "set", "ZONE_FROM_CATEGORY", "");
+            ires = ac_request("elem_user_property", "set", "ZONE_FROM_GUID", "");
+        }
+
+        if (curObjToGUID != "")
+        {
+            ires = ac_request("elem_user_property", "set", "ZONE_TO_NAME", curObjToName);
+            // cout << "       зоны < " << ires << "\n";
+            ires = ac_request("elem_user_property", "set", "ZONE_TO_CATEGORY", curObjToCat);
+            // cout << "       категорию зоны < " << ires << "\n";
+            ires = ac_request("elem_user_property", "set", "ZONE_TO_GUID", curObjToGUID);
+            // cout << "       GUID зоны < " << ires << "\n";
+        } else {
+            ires = ac_request("elem_user_property", "set", "ZONE_TO_NAME", "");
+            ires = ac_request("elem_user_property", "set", "ZONE_TO_CATEGORY", "");
+            ires = ac_request("elem_user_property", "set", "ZONE_TO_GUID", "");
+        }
+
+
+        for (int row = 0; row < tableRowsNumber; row++) // cycle through all table rows
+        {
+            cout << "       Row: " << row+1 << " / " << tableRowsNumber << "\n";
+            ts_table(iTableGUIDs, "select_row", row); // set the row
+
+            curTableFromCat = ""; // сбрасываем переменные, чтобы не думать о возможных проблемах с повторами
+            curTableFromName = "";
+            curTableToCat = "";
+            curTableToName = "";
+            curDoorCategory = "";
+
+            ts_table(iTableGUIDs, "get_value_of", 0, curTableFromCat);  // get current zone_from cat. in this row
+            ts_table(iTableGUIDs, "get_value_of", 1, curTableFromName); // get current zone_from name in this row
+            ts_table(iTableGUIDs, "get_value_of", 2, curTableToCat);    // get current zone_from name in this row
+            ts_table(iTableGUIDs, "get_value_of", 3, curTableToName);   // get current zone_from name in this row
+            ts_table(iTableGUIDs, "get_value_of", 4, curDoorCategory);  // get current zone_from name in this row
+
+
+            curTableFromCat = tolower(curTableFromCat);
+            curTableFromName = tolower(curTableFromName);
+            curTableToCat = tolower(curTableToCat);
+            curTableToName = tolower(curTableToName);
+            curDoorCategory = tolower(curDoorCategory);
+
+            curObjFromCat = tolower(curObjFromCat);
+            curObjFromName = tolower(curObjFromName);
+            curObjToCat = tolower(curObjToCat);
+            curObjToName = tolower(curObjToName);
+
+
+        
+            // трассировочный вывод значений из таблицы
+            // cout << "!!!!! Current zone from category: " <<  curTableFromCat << "\n";
+            // cout << "!!!!! Current zone from name: " <<  curTableFromName << "\n";
+            // cout << "!!!!! Current zone to category: " <<  curTableToCat << "\n";
+            // cout << "!!!!! Current zone to name: " <<  curTableToName << "\n";
+            // cout << "!!!!! Current door category: " <<  curDoorCategory << "\n";
+
+            // ..######..########.########
+            // .##....##.##..........##...
+            // .##.......##..........##...
+            // ..######..######......##...
+            // .......##.##..........##...
+            // .##....##.##..........##...
+            // ..######..########....##...
+
+            // таблица
+            // curTableFromName, curTableFromCat, curTableToName, curTableToCat — это параметры из текущей строки таблицы
+            // объект
+            // curObjFromName, curObjFromCat, curObjToName, curObjToCat — это параметры текущего объекта
+
+            if (curTableFromCat == "*") { // переменные из таблицы: тут обхожу жопу с пробелом
+                curTableFromCat = "";
+            }
+            if (curTableFromName == "*") {
+                curTableFromName = "";
+            }
+            if (curTableToCat == "*") {
+                curTableToCat = "";
+            }
+            if (curTableToName == "*") {
+                curTableToName = "";
+            }
+
+            string currentObjectFromToCatName, currentTableFromToCatName;
+
+
+            currentObjectFromToCatName = "_|_" + curTableFromCat + "_|_" + curTableFromName + "_|_" + curTableToCat + "_|_" + curTableToName + "_|_";
+
+            currentTableFromToCatName = "_|_" + curObjFromCat + "_|_" + curObjFromName + "_|_" + curObjToCat + "_|_" + curObjToName + "_|_";
+
+
+            // ЕСЛИ ВСЕ ПАРАМЕТРЫ СОВПАДАЮТ, ТО ЗАПИСАТЬ В ДВЕРЬ КАТЕГОРИЮ ДВЕРИ
+
+            
+            //---------------------------------------
+            //
+            // ЗАДАТЬ СВОЙСТВО ДВЕРИ
+            //
+            //---------------------------------------
+
+
+
+            //  тут косяк в логике!!!
+            if (currentObjectFromToCatName == currentTableFromToCatName) {
+                ires = ac_request("elem_user_property", "set", "DOOR_CATEGORY", curDoorCategory);
+                cout << "   Записываем категорию двери: " << ires << "\n";
+                doorWithoutCategory = false;
+            }
+
+        } // end of zones for loop
+
+
+
+
+
+
+
+        /* РАСКОММЕНТИРОВАТЬ ПОСЛЕ ПОДКЛЮЧЕНИЯ ТАБЛИЦЫ!!
+
+        // ТУТ НАДО ПРОВЕРИТЬ НА 
+
+        if (curDoorCategoryFromTable != curDoorCategory) {
+            cout << "! свойство объекта: «" << curObjPropToCat << "» != «" << curDBObjToCat;
+            cout << "\n";
+            whaaaaa = true;
+        } else {
+            cout << "   OK, свойство объекта: «" << curObjPropToCat << "» == «"  << curDBObjToCat;
+            cout << "\n";
+        }
+    */
+
         // ПРОВЕРКА НА СООТВЕТСТВИЕ ТИПУ ДВЕРИ
         // 
         // 
         // 
         // 
+        // ПОДКЛЮЧИТЬ ЭКСЕЛЬ, НАЙТИ ТАМ СООТВ. СТРОКУ, 
 
 
 
-        // тут надо создать и задать свойство двери «верно или нет», 
-        // чтобы показывать неверно заданные двери графзаменой
-        // сначала — 
-        // ...
+
+
+
+
+
+
 
 
 
 
         if (whaaaaa == true) {
+
+            // тут надо создать и задать свойство двери «верно или нет», 
+            // чтобы показывать неверно заданные двери графзаменой
+            // сначала — 
+            // ...
+
+            int r0, ires;
+            bool the_res = true;
+
+            r0 = ac_request_special("get_element_value", "UP", "Wrong Category/Type");
+            // cout << r0 << "\n";
+
+            if (r0 == -1222) {  //-1222 — ошибка какая-то
+                cout << "Одно из свойств не найдено, надо создать.\n";
+                ires = ac_request("elem_user_property", "create", "Wrong Category/Type", " ", "Boolean", "OPENINGS");
+                if (ires == 0) { cout << "Создали свойство Wrong Category/Type.\n"; } else { cout << "Не вышло создать свойство Wrong Category/Type.\n"; break();}
+            }
+
+
             cout << "   Объект с ошибкой: " << sGUID << "\n";
+            ires = ac_request("elem_user_property", "set", "Wrong Category/Type", 1); // ПОСТАВИЛИ ФЛАЖОК ДЛЯ ЭЛЕМЕНТА С ОШБИБКОЙ, ДАЛЬШЕ ЕГО ГРАФЗАМЕНОЙ ВЫДЕЛИМ В AC
 
-            // ДОБАВИТЬ ОБЪЕКТ С ОШИБКОЙ В СПИСОК 2
-            // 
-            // ПОДЛЮЧИТЬ EXCEL,
-            // сюда скопировать код поиска по таблице
-            // 
 
+
+        // <!-- НЕ СТАНУ ЭТО ДЕЛАТЬ, ДОСТАТОЧНО ГРАФЗАМЕНЫ
+        // ДОБАВИТЬ ОБЪЕКТ С ОШИБКОЙ В СПИСОК 2
+        
 /*
             [16:33, 09/11/2021] Юрий Цепов: Добрый день!)
 Сейчас
@@ -323,10 +580,11 @@ int main()
 [16:43, 09/11/2021] Юрий Цепов: Можно сформировать таблицу ts_table с guid-ами и закинуть это в список 2
 
 */
+// НЕ СТАНУ ЭТО ДЕЛАТЬ, ДОСТАТОЧНО ГРАФЗАМЕНЫ -->
 
-            // 
-            // 
 
+        } else {
+            ires = ac_request("elem_user_property", "set", "Wrong Category/Type", 0); // сбросить флаг
         }
         cout << "\n";
 
@@ -342,12 +600,9 @@ int main()
     // 
     // 
     // 
+    //  НЕ СТАНУ ЭТО ДЕЛАТЬ, ДОСТАТОЧНО ГРАФЗАМЕНЫ
     // 
     // 
-    // 
-
-
-    // .########.####.##.......########
 
 
     deleteTable();

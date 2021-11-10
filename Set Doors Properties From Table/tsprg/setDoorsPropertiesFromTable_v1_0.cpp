@@ -73,6 +73,7 @@ int main()
 	//--------------------------------------------------
 
 	createTable();
+	ts_table(iTableGUIDs, "get_rows_count", tableRowsNumber);
 	cout << "\n";
 
 
@@ -185,7 +186,7 @@ int main()
 		// [ ZONE_FROM_CATEGORY | ZONE_FROM_NAME | ZONE_TO_CATEGORY | ZONE_TO_NAME | DOOR_CATEGORY ]
 		// [ 7 | zone 1 | 3 | zone 5 | 015 ]
 
-		ts_table(iTableGUIDs, "get_rows_count", tableRowsNumber);
+		
 		ac_request("set_current_element_from_list", 1, i);
 		cout << "	Записываем параметры...\n";
 
