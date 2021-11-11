@@ -18,7 +18,7 @@
 
 ## Работа через командную строку с git    
 
-1. Опционально - поставить себе git на компьютер;    
+1. Поставить себе `git` на компьютер;    
 2. Открыть командную строку `CMD`;    
 3. Перейти в папку адона командами `c:`  `cd C:\Program Files\GRAPHISOFT\ARCHICAD 23\Add-Ons\LabPP_AutomatAC23RUS\tsprglist`;    
 4. Командой `git clone git@github.com:dduucckk/labppSetDoorsPropertiesFromTable.git ./labppSetDoorsPropertiesFromTable` клонировать в текущую папку;    
