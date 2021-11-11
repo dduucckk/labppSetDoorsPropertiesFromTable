@@ -1,1 +1,4 @@
-*.*	working-tree-encoding=CP1251	eol=CRLF
+*.md	working-tree-encoding=CP1251	eol=CRLF
+*.xlsx	working-tree-encoding=CP1251	eol=CRLF
+*.cpp	working-tree-encoding=CP1251	eol=CRLF
+.git*	working-tree-encoding=CP1251	eol=CRLF
