@@ -409,6 +409,10 @@ int main()
             // ПРОВЕРКА НА СООТВЕТСТВИЕ ТИПУ ДВЕРИ
             //--------------------------------------------------
 
+            if (curDoorCategoryFromTable == "") {
+                curDoorCategoryFromTable = "—";
+            }
+
             if (curDoorCategoryFromTable != curDoorCategory) {
                 cout << "       ! Cвойство DOOR_CATEGORY:    obj«" << curDoorCategory << "» != table«" << curDoorCategoryFromTable << "»";
                 cout << "\n";
