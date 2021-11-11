@@ -14,7 +14,7 @@
 3. Он вас пригласит;    
 4. Принять приглашение;    
 5. Забрать скрипт последней версии с [дверодела](https://github.com/dduucckk/labppSetDoorsPropertiesFromTable);    
-6. Скопировать его в папку с установленным LabPP где находятся другие скрипты [C:\Program Files\GRAPHISOFT\ARCHICAD 23\Add-Ons\LabPP_AutomatAC23RUS\tsprglist](C:\Program Files\GRAPHISOFT\ARCHICAD 23\Add-Ons\LabPP_AutomatAC23RUS\tsprglist);    
+6. Скопировать его в папку с установленным `LabPP` где находятся другие скрипты `C:\Program Files\GRAPHISOFT\ARCHICAD 23\Add-Ons\LabPP_AutomatAC23RUS\tsprglist`;    
 
 ## Работа через командную строку с git    
 
