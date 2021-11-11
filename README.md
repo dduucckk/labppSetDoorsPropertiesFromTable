@@ -16,13 +16,17 @@
   6.1. Опционально - поставить себе git на компьютер;    
   6.2. Открыть командную строку `CMD`;    
   6.3. Перейти в папку адона командами `c:`  `cd C:\Program Files\GRAPHISOFT\ARCHICAD 23\Add-Ons\LabPP_AutomatAC23RUS\tsprglist`;    
-  6.2. Командой `git clone git@github.com:dduucckk/labppSetDoorsPropertiesFromTable.git ./` клонировать в текущую папку;    
+  6.2. Командой `git clone git@github.com:dduucckk/labppSetDoorsPropertiesFromTable.git ./labppSetDoorsPropertiesFromTable` клонировать в текущую папку;    
   6.3. Командой `cp "labppSetDoorsPropertiesFromTable/Set Doors Properties From Table" ../` копировать содержимое на место;    
+  6.4. Для простого обновления репы удалить привязку к оригиналу `git remote remove origin`;    
+  6.5. Создать токен как написано тут: [токенодел](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) скопировать его;     
+  6.6. Вставить заместо слова токен свой токен и привязать репу к оригиналу `git remote add origin https://[ТОКЕН]@github.com:dduucckk/labppSetDoorsPropertiesFromTable.git`;    
+  6.7. в дальнейшем чтобы не ходить на сайт можно пользоваться такой строкой из папки с репой `git pull`. Папка с репой - `labppSetDoorsPropertiesFromTable`;    
 
 ## Использование    
 
 1.    Открываем `Design-Extras-LabPP`    
-![открываем LabPP](./Снимок экрана от 2021-11-11 12-52-22.png)    
+[открываем LabPP](./Снимок экрана от 2021-11-11 12-52-22.png)    
 2.    Открываем set doors properties from file    
 ![открываем set doors properties from file](./Снимок экрана от 2021-11-11 12-52-36.png)    
 3.    Нажимаем первую функцию - назначение зон для двери. Каждой двери даём две зоны - входную и выходную. Выделяя на плане (смотри 6 пункт) зону и дверь, нажимаем либо `назначить входную зону` либо `выходную`. Вход всегда осуществляем из лифтового холла, и по направлению от него например жилой коридор это вход, квартира это выход. Лифтовый холл это вход, лестничная клетка - выход.    
