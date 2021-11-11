@@ -2,27 +2,32 @@
 
 ## Установка    
 
-1. установить себе `LabPP` `https://www.labpp.ru/labpp-automat-ru`;    
-  1.1. зарегаться на github.com;    
-  1.2. дать свой никнейм Ивану @kenchiku;    
-  1.3. он вас пригласит;    
-  1.4. принять приглашение;    
-  1.5. забрать скрипт последней версии с `https://github.com/dduucckk/labppSetDoorsPropertiesFromTable`;    
-  1.6. скопировать его в папку с установленным LabPP где находятся другие скрипты `C:\Program Files\GRAPHISOFT\ARCHICAD 23\Add-Ons\LabPP_AutomatAC23RUS\tsprglist`;    
-2. активировать лицензию на LabPP, следуя инструкциям самого `LabPP` `https://www.labpp.ru/labppregru`;    
-3. поставить майкрософт офис;    
-4. и когда будет всё готово у Ивана, каждую дверь этим скриптом привязать к одной-двум зонам;    
-5. Как быть с модульными этажами я не понимаю, надеюсь что не нужно будет открывать каждый модуль;    
-  6.1. Опционально - поставить себе git на компьютер;    
-  6.2. Открыть командную строку `CMD`;    
-  6.3. Перейти в папку адона командами `c:`  `cd C:\Program Files\GRAPHISOFT\ARCHICAD 23\Add-Ons\LabPP_AutomatAC23RUS\tsprglist`;    
-  6.2. Командой `git clone git@github.com:dduucckk/labppSetDoorsPropertiesFromTable.git ./labppSetDoorsPropertiesFromTable` клонировать в текущую папку;    
-  6.3. Командой `cp "labppSetDoorsPropertiesFromTable/Set Doors Properties From Table" ../` копировать содержимое на место;    
-  6.4. Для простого обновления репы удалить привязку к оригиналу `git remote remove origin`;    
-  6.5. Создать токен как написано тут: [токенодел](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) скопировать его;     
-  6.6. Вставить заместо слова токен свой токен и привязать репу к оригиналу `git remote add origin https://[ТОКЕН]@github.com:dduucckk/labppSetDoorsPropertiesFromTable.git`;    
-  6.7. В дальнейшем чтобы не ходить на сайт можно пользоваться такой строкой из папки с репой `git pull`. Папка с репой - `labppSetDoorsPropertiesFromTable`;    
-  6.8. При внесении изменений `git pull` `git add .` `git commit -am ''` `git push`
+1. Установить себе [`LabPP`](https://www.labpp.ru/labpp-automat-ru);    
+2. Активировать лицензию на LabPP, следуя инструкциям самого [`LabPP`](https://www.labpp.ru/labppregru);    
+3. Поставить майкрософт офис;    
+4. Взять актуальный скрипт `labppSetDoorsPropertiesFromTable` руководствуясь следующим пунктом;    
+
+## Доступ к адону    
+
+1. Зарегаться на github.com;    
+2. Дать свой никнейм Ивану [](@kenchiku) aka [](@dduucckk);    
+3. Он вас пригласит;    
+4. Принять приглашение;    
+5. Забрать скрипт последней версии с [](https://github.com/dduucckk/labppSetDoorsPropertiesFromTable);    
+6. Скопировать его в папку с установленным LabPP где находятся другие скрипты [](C:\Program Files\GRAPHISOFT\ARCHICAD 23\Add-Ons\LabPP_AutomatAC23RUS\tsprglist);    
+
+## Работа через командную строку с git    
+
+1. Опционально - поставить себе git на компьютер;    
+2. Открыть командную строку `CMD`;    
+3. Перейти в папку адона командами `c:`  `cd C:\Program Files\GRAPHISOFT\ARCHICAD 23\Add-Ons\LabPP_AutomatAC23RUS\tsprglist`;    
+4. Командой `git clone git@github.com:dduucckk/labppSetDoorsPropertiesFromTable.git ./labppSetDoorsPropertiesFromTable` клонировать в текущую папку;    
+5. Командой `cp "labppSetDoorsPropertiesFromTable/Set Doors Properties From Table" ../` копировать содержимое на место;    
+6. Для простого обновления репы удалить привязку к оригиналу `git remote remove origin`;    
+7. Создать токен как написано тут: [токенодел](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) скопировать его;     
+8. Вставить заместо слова токен свой токен и привязать репу к оригиналу `git remote add origin https://[ТОКЕН]@github.com:dduucckk/labppSetDoorsPropertiesFromTable.git`;    
+9. В дальнейшем чтобы не ходить на сайт можно пользоваться такой строкой из папки с репой `git pull`. Папка с репой - `labppSetDoorsPropertiesFromTable`;    
+10. При внесении изменений `git pull` `git add .` `git commit -am ''` `git push`
 
 ## Использование    
 
