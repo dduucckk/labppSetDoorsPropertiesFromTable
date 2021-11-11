@@ -18,7 +18,7 @@
 //--------------------------------------------------
 
 
-string sExcelGUIDs = "ЗОНЫ И ДВЕРИ_2.xlsx";
+string sExcelGUIDs = "ЗОНЫ И ДВЕРИ.xlsx";
 int iTableGUIDs; // номер таблицы с GUIDами и значениями. Заголовки в таблице Excel находятся в первой строке.
 int tableRowsNumber;
 
