@@ -10,11 +10,11 @@
 ## Доступ к адону    
 
 1. Зарегаться на github.com;    
-2. Дать свой никнейм Ивану [](@kenchiku) aka [](@dduucckk);    
+2. Дать свой никнейм Ивану [@kenchiku](@kenchiku) aka [@dduucckk](@dduucckk);    
 3. Он вас пригласит;    
 4. Принять приглашение;    
 5. Забрать скрипт последней версии с [](https://github.com/dduucckk/labppSetDoorsPropertiesFromTable);    
-6. Скопировать его в папку с установленным LabPP где находятся другие скрипты [](C:\Program Files\GRAPHISOFT\ARCHICAD 23\Add-Ons\LabPP_AutomatAC23RUS\tsprglist);    
+6. Скопировать его в папку с установленным LabPP где находятся другие скрипты [C:\Program Files\GRAPHISOFT\ARCHICAD 23\Add-Ons\LabPP_AutomatAC23RUS\tsprglist](C:\Program Files\GRAPHISOFT\ARCHICAD 23\Add-Ons\LabPP_AutomatAC23RUS\tsprglist);    
 
 ## Работа через командную строку с git    
 
