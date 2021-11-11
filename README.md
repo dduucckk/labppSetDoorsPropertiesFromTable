@@ -21,7 +21,8 @@
   6.4. Для простого обновления репы удалить привязку к оригиналу `git remote remove origin`;    
   6.5. Создать токен как написано тут: [токенодел](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) скопировать его;     
   6.6. Вставить заместо слова токен свой токен и привязать репу к оригиналу `git remote add origin https://[ТОКЕН]@github.com:dduucckk/labppSetDoorsPropertiesFromTable.git`;    
-  6.7. в дальнейшем чтобы не ходить на сайт можно пользоваться такой строкой из папки с репой `git pull`. Папка с репой - `labppSetDoorsPropertiesFromTable`;    
+  6.7. В дальнейшем чтобы не ходить на сайт можно пользоваться такой строкой из папки с репой `git pull`. Папка с репой - `labppSetDoorsPropertiesFromTable`;    
+  6.8. При внесении изменений `git pull` `git add .` `git commit -am ''` `git push`
 
 ## Использование    
 
