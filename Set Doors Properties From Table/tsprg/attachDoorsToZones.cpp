@@ -337,7 +337,7 @@ int Zoom()
 	ac_request("clear_list",7);
     ac_request("store_current_element_to_list",7,-1);
     ac_request("select_elements_from_list",7,1);
-	ac_request("Automate","ZoomToElements",7);
+	ac_request("Automate","ZoomToElements",7,1);
 	return 0;
 }
 
