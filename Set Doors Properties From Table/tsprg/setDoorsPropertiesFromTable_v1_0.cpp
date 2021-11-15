@@ -8,8 +8,8 @@
 // Комбинации зон — в таблице «Зоны и двери.xlsx»
 //
 // СТРУКТУРА ТАБЛИЦЫ:
-// [ ZONE_FROM_CATEGORY | ZONE_FROM_NAME | ZONE_TO_CATEGORY | ZONE_TO_NAME | DOOR_CATEGORY ]
-// [ 7 | zone 1 | 3 | zone 5 | 015 ]
+// [ ZONE_FROM_CATEGORY | ZONE_FROM_NAME | ZONE_TO_CATEGORY | ZONE_TO_NAME | DOOR_CATEGORY | ... ]
+// [ 7 | zone 1 | 3 | zone 5 | 015 | ... ]
 
 
 //--------------------------------------------------
@@ -31,7 +31,7 @@ int main()
 
 
 
-	
+
 	// ..######..########.##.......########..######..########
 	// .##....##.##.......##.......##.......##....##....##...
 	// .##.......##.......##.......##.......##..........##...
@@ -105,6 +105,9 @@ int main()
 
 		cout << "Получаем зоны двери.\n";
 		string sText, sguid, curObjFromGUID, curObjToGUID, sIDdoor, curObjFromNumber, curObjToNumber, curObjFromCat, curObjToCat, curObjFromName, curObjToName;
+		string curObjToCatName, curObjFromCatName;
+
+		
 
 		ac_request("get_element_value", "GuidAsText");   // считываем guid текущего элемента как текст
 		sguid = ac_getstrvalue();
@@ -125,9 +128,11 @@ int main()
 		curObjToNumber = "";
 		curObjToName = "";
 		curObjToCat = "";
+		curObjToCatName = "";
 		curObjFromNumber = "";
 		curObjFromName = "";
 		curObjFromCat = "";
+		curObjFromCatName = "";
 
 		if (curObjToGUID != "")
 		{
@@ -138,8 +143,12 @@ int main()
 			curObjToName = ac_getstrvalue();
 			ac_request("get_element_value", "ZoneCatCode");
 			curObjToCat = ac_getstrvalue();
+			ac_request("get_element_value", "ZoneCatName");
+			curObjToCatName = ac_getstrvalue();
+
 			cout << "    ZONE TO GUID =" << curObjToGUID << ".\n";
 			cout << "    ZONE TO NAME=" << curObjToName << ".\n";
+			cout << "    ZONE TO CATEGORY=" << curObjToCatName << ".\n";
 		}
 
 		if (curObjFromGUID != "")
@@ -151,8 +160,13 @@ int main()
 			curObjFromName = ac_getstrvalue();
 			ac_request("get_element_value", "ZoneCatCode");
 			curObjFromCat = ac_getstrvalue();
+			ac_request("get_element_value", "ZoneCatName");
+			curObjFromCatName = ac_getstrvalue();
+
 			cout << "    ZONE FROM GUID=" << curObjFromGUID << ".\n";
 			cout << "    ZONE FROM NAME=" << curObjFromName << ".\n";
+			cout << "    ZONE FROM CATEGORY=" << curObjFromCatName << ".\n";
+			cout << "    ZONE FROM CATEGORY N=" << curObjFromCat << ".\n";
 		}
 
 
