@@ -10,7 +10,7 @@
 ### Доступ к адону    
 
 1. Зарегаться на github.com;    
-2. Дать свой никнейм с гитхаба Ивану [@kenchiku](@kenchiku) aka [@dduucckk](@dduucckk);    
+2. Дать свой никнейм с гитхаба Ивану [kenchiku](@kenchiku) aka [dduucckk](https://github.com/dduucckk);    
 3. Он вас пригласит;    
 4. Принять приглашение;    
 5. Забрать скрипт последней версии с [дверодела](https://github.com/dduucckk/labppSetDoorsPropertiesFromTable);    
