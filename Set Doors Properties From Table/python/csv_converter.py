@@ -40,7 +40,7 @@ def read_and_adapt(filename):
                 else:
                     temp.append([k])
             finalcsvlist.append(temp)
-        #print(finalcsvlist)
+        print(finalcsvlist)
         return finalcsvlist[:-1]
 
 
