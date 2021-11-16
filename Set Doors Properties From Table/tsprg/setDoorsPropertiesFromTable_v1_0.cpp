@@ -18,7 +18,7 @@
 
 string sExcelGUIDs = "ЗОНЫ И ДВЕРИ.xlsx";
 int iTableGUIDs; // номер таблицы с GUIDами и значениями. Заголовки в таблице Excel находятся в первой строке.
-int tableRowsNumber;
+int tableRowsNumber, tableColsNumber;
 
 int main()
 {
@@ -75,7 +75,35 @@ int main()
 
 	createTable();
 	ts_table(iTableGUIDs, "get_rows_count", tableRowsNumber);
+	ts_table(iTableGUIDs, "get_columns_count", tableColsNumber);
 	cout << "\n";
+
+
+
+	// ТУТ НАДО ПРОЙТИ ПО ДОПОЛНИТЕЛЬНЫМ (от 6 до 9) КОЛОНКАМ И ПОЛУЧИТЬ ИХ НАЗВАНИЯ
+	//
+	//
+	// тут идет говнокод, потому что у Юрия нет массивов,
+	// а динамич. создаваемые переменные то ли не работают, то ли у меня руки из жопы.
+
+
+	// КОЛИЧЕСТВО КОЛОНОК ВЫЯСНЯЕМ ТУТ, ЧТОБЫ НЕ ДЕЛАТЬ ЭТО В ЦИКЛЕ
+	int tableExtraColumnsNumber = tableColsNumber - 5;
+
+	// ДАЛЬШЕ – ТАНЦЫ С БУБНОМ, ПОСКОЛЬКУ НЕТ МАССИВОВ
+	// ПРОХОДИМ ПО ДОПОЛНИТЕЛЬНЫМ ПОЛЯМ ТАБЛИЦЫ
+	// ЭТО НЕ НАДО, СДЕЛАЮ В ЦИКЛЕ, ВСЕ РАВНО
+	/*
+	string temp;
+
+	for (int i = tableExtraColumnsNumber + 1; i < tableColsNumber; i++) { // ИДЁМ ПО ДОПОЛНИТЕЛЬНЫМ КОЛОНКАМ
+		cout << i << " ";
+		// ts_table(iTableGUIDs, "select_row", 0); // set the row
+		ts_table(iTableGUIDs, "get_heading_of", i, temp); //  ТУТ НАДО ПОЛУЧИТЬ ИМЯ КОЛОНКИ!
+		var_by_txt("init", "tableExtraColumnName" + itoa(i), "string", "global", temp);
+		cout << var_by_txt("get", "tableExtraColumnName" + itoa(i)) << "\n";
+	}
+	*/
 
 
 
@@ -107,7 +135,7 @@ int main()
 		string sText, sguid, curObjFromGUID, curObjToGUID, sIDdoor, curObjFromNumber, curObjToNumber, curObjFromCat, curObjToCat, curObjFromName, curObjToName;
 		string curObjToCatName, curObjFromCatName;
 
-		
+
 
 		ac_request("get_element_value", "GuidAsText");   // считываем guid текущего элемента как текст
 		sguid = ac_getstrvalue();
@@ -196,13 +224,13 @@ int main()
 		// ZONE_TO_CATEGORY — категория зоны, куда ведет дверь
 		// ZONE_TO_GUID — GUID зоны, куда ведет дверь
 
-		string 	curTableFromCat, curTableToCat,
+		string 	curTableFromCatName, curTableToCatName,
 		        curTableFromName, curTableToName,
 		        curDoorCategory;
 
 		bool doorWithoutCategory = true;
 
-		
+
 		ac_request("set_current_element_from_list", 1, i);
 		cout << "	Записываем параметры...\n";
 
@@ -221,13 +249,13 @@ int main()
 		//
 		//---------------------------------------
 
-		
+
 
 		if (curObjFromGUID != "")
 		{
 			ires = ac_request("elem_user_property", "set", "ZONE_FROM_NAME", curObjFromName);
 			// cout << "       имя зоны > " << ires << "\n";
-			ires = ac_request("elem_user_property", "set", "ZONE_FROM_CATEGORY", curObjFromCat);
+			ires = ac_request("elem_user_property", "set", "ZONE_FROM_CATEGORY", curObjFromCatName);
 			// cout << "       категорию зоны >" << ires << "\n";
 			ires = ac_request("elem_user_property", "set", "ZONE_FROM_GUID", curObjFromGUID);
 			// cout << "       GUID зоны откуда >" << ires << "\n";
@@ -241,7 +269,7 @@ int main()
 		{
 			ires = ac_request("elem_user_property", "set", "ZONE_TO_NAME", curObjToName);
 			// cout << "       зоны < " << ires << "\n";
-			ires = ac_request("elem_user_property", "set", "ZONE_TO_CATEGORY", curObjToCat);
+			ires = ac_request("elem_user_property", "set", "ZONE_TO_CATEGORY", curObjToCatName);
 			// cout << "       категорию зоны < " << ires << "\n";
 			ires = ac_request("elem_user_property", "set", "ZONE_TO_GUID", curObjToGUID);
 			// cout << "       GUID зоны < " << ires << "\n";
@@ -252,45 +280,47 @@ int main()
 		}
 
 
-		curObjFromCat = tolower(curObjFromCat);
+		curObjFromCatName = tolower(curObjFromCatName);
 		curObjFromName = tolower(curObjFromName);
-		curObjToCat = tolower(curObjToCat);
+		curObjToCatName = tolower(curObjToCatName);
 		curObjToName = tolower(curObjToName);
+
+
+
 
 
 		for (int row = 0; row < tableRowsNumber; row++) // cycle through all table rows
 		{
-			cout << "		Row: " << row+1 << " / " << tableRowsNumber << "\n";
+			// cout << "		Row: " << row + 1 << " / " << tableRowsNumber << "\n";
 			ts_table(iTableGUIDs, "select_row", row); // set the row
 
-			curTableFromCat = ""; // сбрасываем переменные, чтобы не думать о возможных проблемах с повторами
+			curTableFromCatName = ""; // сбрасываем переменные, чтобы не думать о возможных проблемах с повторами
 			curTableFromName = "";
-			curTableToCat = "";
+			curTableToCatName = "";
 			curTableToName = "";
 			curDoorCategory = "";
 
-			ts_table(iTableGUIDs, "get_value_of", 0, curTableFromCat);	// get current zone_from cat. in this row
+			// string ex1 = ex2 = ex3 = ex4 = "";
+
+			ts_table(iTableGUIDs, "get_value_of", 0, curTableFromCatName);	// get current zone_from cat. in this row
 			ts_table(iTableGUIDs, "get_value_of", 1, curTableFromName);	// get current zone_from name in this row
-			ts_table(iTableGUIDs, "get_value_of", 2, curTableToCat);	// get current zone_from name in this row
+			ts_table(iTableGUIDs, "get_value_of", 2, curTableToCatName);	// get current zone_from name in this row
 			ts_table(iTableGUIDs, "get_value_of", 3, curTableToName);	// get current zone_from name in this row
 			ts_table(iTableGUIDs, "get_value_of", 4, curDoorCategory);	// get current zone_from name in this row
 
+			/*
+			ts_table(iTableGUIDs, "get_value_of", 5, ex1);	
+			ts_table(iTableGUIDs, "get_value_of", 6, ex2);	
+			ts_table(iTableGUIDs, "get_value_of", 7, ex3);	
+			ts_table(iTableGUIDs, "get_value_of", 8, ex4);	
+			*/
 
-			curTableFromCat = tolower(curTableFromCat);
+			curTableFromCatName = tolower(curTableFromCatName);
 			curTableFromName = tolower(curTableFromName);
-			curTableToCat = tolower(curTableToCat);
+			curTableToCatName = tolower(curTableToCatName);
 			curTableToName = tolower(curTableToName);
 			curDoorCategory = tolower(curDoorCategory);
 
-
-
-		
-			// трассировочный вывод значений из таблицы
-			// cout << "!!!!! Current zone from category: " <<  curTableFromCat << "\n";
-			// cout << "!!!!! Current zone from name: " <<  curTableFromName << "\n";
-			// cout << "!!!!! Current zone to category: " <<  curTableToCat << "\n";
-			// cout << "!!!!! Current zone to name: " <<  curTableToName << "\n";
-			// cout << "!!!!! Current door category: " <<  curDoorCategory << "\n";
 
 			// ..######..########.########
 			// .##....##.##..........##...
@@ -301,18 +331,18 @@ int main()
 			// ..######..########....##...
 
 			// таблица
-			// curTableFromName, curTableFromCat, curTableToName, curTableToCat — это параметры из текущей строки таблицы
+			// curTableFromName, curTableFromCatName, curTableToName, curTableToCatName — это параметры из текущей строки таблицы
 			// объект
-			// curObjFromName, curObjFromCat, curObjToName, curObjToCat — это параметры текущего объекта
+			// curObjFromName, curObjFromCatName, curObjToName, curObjToCatName — это параметры текущего объекта
 
-			if (curTableFromCat == "*") { // переменные из таблицы: тут обхожу жопу с пробелом
-				curTableFromCat = "";
+			if (curTableFromCatName == "*") { // переменные из таблицы: тут обхожу жопу с пробелом
+				curTableFromCatName = "";
 			}
 			if (curTableFromName == "*") {
 				curTableFromName = "";
 			}
-			if (curTableToCat == "*") {
-				curTableToCat = "";
+			if (curTableToCatName == "*") {
+				curTableToCatName = "";
 			}
 			if (curTableToName == "*") {
 				curTableToName = "";
@@ -320,35 +350,77 @@ int main()
 
 			string currentObjectFromToCatName, currentTableFromToCatName;
 
+			//  OBJECT
+			currentTableFromToCatName = "_|_" + curTableFromCatName + "_|_" + curTableFromName + "_|_" + curTableToCatName + "_|_" + curTableToName + "_|_";
 
-			currentObjectFromToCatName = "_|_" + curTableFromCat + "_|_" + curTableFromName + "_|_" + curTableToCat + "_|_" + curTableToName + "_|_";
+			// TABLE
+			currentObjectFromToCatName = "_|_" + curObjFromCatName + "_|_" + curObjFromName + "_|_" + curObjToCatName + "_|_" + curObjToName + "_|_";
 
-			currentTableFromToCatName = "_|_" + curObjFromCat + "_|_" + curObjFromName + "_|_" + curObjToCat + "_|_" + curObjToName + "_|_";
+
+			//---------------------------------------
+			//
+			// ПРОХОД ПО ДОПОЛНИТЕЛЬНЫМ ПОЛЯМ
+			//
+			//---------------------------------------
 
 
-			// ЕСЛИ ВСЕ ПАРАМЕТРЫ СОВПАДАЮТ, ТО ЗАПИСАТЬ В ДВЕРЬ КАТЕГОРИЮ ДВЕРИ
 
-			
+			// ЭТО ОЧЕНЬ МЕДЛЕННО РАБОТАЕТ!!!!!
+		
+			string currentExtraColumnName;
+			string currentExtraColumnValue;
+			string curObjExtraPropertyValue;
+
+
+			for (int i = tableExtraColumnsNumber + 1; i < tableColsNumber; i++) { // ИДЁМ ПО ДОПОЛНИТЕЛЬНЫМ КОЛОНКАМ
+				// cout << i << " ";
+				ts_table(iTableGUIDs, "get_heading_of", i, currentExtraColumnName); // имя свойства
+				ts_table(iTableGUIDs, "get_value_of", i, currentExtraColumnValue); // значение в колонке
+
+				ires = ac_request("elem_user_property", "get", currentExtraColumnName); // значение в объекте
+				curObjExtraPropertyValue = ac_getstrvalue(); // получили значение свойства объекта
+
+				if (currentExtraColumnValue == "*") {
+					currentExtraColumnValue = "";
+				}
+
+				if (curObjExtraPropertyValue == " ") {
+					curObjExtraPropertyValue = "";
+				}
+
+				currentTableFromToCatName = currentTableFromToCatName + "_|_" + currentExtraColumnValue + "_|_";
+				currentObjectFromToCatName = currentObjectFromToCatName + "_|_" + curObjExtraPropertyValue + "_|_";
+
+				// cout << "Свойства в объекте: " << currentObjectFromToCatName;
+				// cout << "\n";
+				// cout << "Свойства в таблице: " << currentTableFromToCatName;
+				// cout << "\n";
+
+			}
+
+
+
 			//---------------------------------------
 			//
 			// ЗАДАТЬ СВОЙСТВО ДВЕРИ
 			//
 			//---------------------------------------
 
+			// ЕСЛИ ВСЕ ПАРАМЕТРЫ СОВПАДАЮТ, ТО ЗАПИСАТЬ В ДВЕРЬ КАТЕГОРИЮ ДВЕРИ
 
-
-			//  тут косяк в логике!!!
 			if (currentObjectFromToCatName == currentTableFromToCatName) {
 				ires = ac_request("elem_user_property", "set", "DOOR_CATEGORY", curDoorCategory);
 				cout << "	Записываем категорию двери: " << ires << "\n";
 				doorWithoutCategory = false;
+			} else {
+				// cout << " Совпадений не найдено. \n";
 			}
 
-		} // end of zones for loop
-			if (doorWithoutCategory == true){
-				ires = ac_request("elem_user_property", "set", "DOOR_CATEGORY", "—");
-				cout << "	Записываем ПУСТУЮ категорию двери: " << ires << "\n";
-			}	
+		} // end of table rows for loop
+		if (doorWithoutCategory == true) {
+			ires = ac_request("elem_user_property", "set", "DOOR_CATEGORY", "—");
+			cout << "	Записываем ПУСТУЮ категорию двери: " << ires << "\n";
+		}
 	} // end of doors for loop
 	cout << "\n";
 	deleteTable(); // очищаем память от таблицы
@@ -364,6 +436,14 @@ int main()
 // .##.......##.....##.##..####.##..........##.....##..##.....##.##..####.......##
 // .##.......##.....##.##...###.##....##....##.....##..##.....##.##...###.##....##
 // .##........#######..##....##..######.....##....####..#######..##....##..######.
+
+
+int LoadCSV() {
+
+
+
+}
+
 
 int LoadExcel()
 {
