@@ -216,14 +216,6 @@ int main()
 
 		// int irow = ts_table(iTableGUIDs, "search", 0, currentObjectZoneCombination);
 
-		// ZONE_FROM_NAME — имя зоны, откуда ведет дверь
-		// ZONE_FROM_CATEGORY — категория зоны, откуда ведет дверь
-		// ZONE_FROM_GUID — GUID зоны, откуда ведет дверь
-
-		// ZONE_TO_NAME — имя зоны, куда ведет дверь
-		// ZONE_TO_CATEGORY — категория зоны, куда ведет дверь
-		// ZONE_TO_GUID — GUID зоны, куда ведет дверь
-
 		string 	curTableFromCatName, curTableToCatName,
 		        curTableFromName, curTableToName,
 		        curDoorCategory;
