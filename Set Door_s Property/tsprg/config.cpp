@@ -14,7 +14,7 @@ int main()
 	// ac_request("create_iconbutton","CALC_ZONE256.png",sx,sy,sx+w,sy+h,"Set Door and Zones Connections","attachDoorsToZones.cpp");
 
 	for (int i = 1; i <= numberOfTypes; i++) {
-		ac_request("create_iconbutton", "icon_0" + i + ".png", sx, sy, sx + w, sy + h, "Set Selected Doors Parameters", "simplySetDoorType_v1_0.cpp", "текстовый аргумент");
+		ac_request("create_iconbutton", "icon_0" + itoa(i) + ".png", sx, sy, sx + w, sy + h, "Set Selected Doors Parameters", "simplySetDoorType_v1_0.cpp", 0, 0.0, itoa(i));
 		sx = sx + w + offsetx;
 	}
 
@@ -26,7 +26,5 @@ int main()
 	cout << "Программа задает тип двери, который вы выбрали.";
 	cout << "\n";
 	cout << "Инструкция и последняя версия: https://github.com/dduucckk/labppSetDoorsPropertiesFromTable";
-
-
 
 }

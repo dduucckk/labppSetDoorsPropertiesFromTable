@@ -7,15 +7,22 @@
 //
 
 
-
-string 	curDoorCategory;
-
-run_cpp("get_args", curDoorCategory);
-
-
-
 int main()
 {
+
+
+	string theProperty = "DOOR_TYPE";
+
+	string curDoorCategory;
+	int iArg1;
+	double dArg2;
+	string sArg3;
+
+	run_cpp("get_args", iArg1, dArg2, sArg3);
+
+
+	curDoorCategory = sArg3;
+
 	int ires;
 	int icount;
 
@@ -52,11 +59,12 @@ int main()
 	{
 		ac_request("set_current_element_from_list", 1, i); // установить текущим элемент из списка № 1 с индексом i
 
-		ires = ac_request("elem_user_property", "set", "DOOR_CATEGORY", curDoorCategory);
-		cout << "	Записываем категорию двери: " << ires << "\n";
+		ires = ac_request("elem_user_property", "set", theProperty, curDoorCategory);
+		cout << "	Записываем тип двери: " << curDoorCategory;
+		if (ires == 0) {cout << " + \n";} else {cout << " « тут не получилось записать. \n"; }
+
 
 	} // end of doors for loop
 	cout << "\n";
-	deleteTable(); // очищаем память от таблицы
 	cout << "Программа отработала успешно\n";
 }
