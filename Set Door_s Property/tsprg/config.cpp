@@ -9,19 +9,25 @@ int main()
 	int sy = 1;
 	int h = 40;
 
-	int numberOfTypes = 10;
+	int numberOfTypes = 30;
 
 	// ac_request("create_iconbutton","CALC_ZONE256.png",sx,sy,sx+w,sy+h,"Set Door and Zones Connections","attachDoorsToZones.cpp");
 
 	for (int i = 1; i <= numberOfTypes; i++) {
 		ac_request("create_iconbutton", "icon_0" + itoa(i) + ".png", sx, sy, sx + w, sy + h, "Set Selected Doors Parameters", "simplySetDoorType_v1_0.cpp", 0, 0.0, itoa(i));
 		sx = sx + w + offsetx;
+		if ((i==10) || (i==20)) {
+			sy = sy + h + offsety;
+			sx=1;
+		}
 	}
 
 
 	sy = sy + h + offsety;
-	sx = 1;
-	ac_request("set_palette_size_and_message_place", 80, 100, 405, 300, sx, sy, 326 - sx * 2, 200 - sy);
+	ac_request("set_palette_size_and_message_place", 0, 0, sx+1, sy*2, 2, sy+4, sx-4, sy);
+
+	// тут очень странно,  вообще не понимаю, как это работает.
+	// x — по-горизонтали, y — по-вертикали. но работает очень странно.
 
 	cout << "Программа задает тип двери, который вы выбрали.";
 	cout << "\n";
