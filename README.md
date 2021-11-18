@@ -5,7 +5,9 @@
 1. Установить себе [`LabPP`](https://www.labpp.ru/labpp-automat-ru);    
 2. Активировать лицензию на LabPP, следуя инструкциям самого [`LabPP`](https://www.labpp.ru/labppregru);    
 3. Поставить майкрософт офис;    
-4. Взять актуальный скрипт `labppSetDoorsPropertiesFromTable` руководствуясь следующим пунктом доступ к адону;    
+4. Взять актуальный скрипт `labppSetDoorsPropertiesFromTable` руководствуясь следующим пунктом доступ к адону; 
+
+(images/04.png)  
 
 ### Доступ к адону    
 
