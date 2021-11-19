@@ -98,9 +98,6 @@ int main()
 	}
 	*/
 
-
-
-
 	// ..######..##....##..######..##.......########
 	// .##....##..##..##..##....##.##.......##......
 	// .##.........####...##.......##.......##......
@@ -234,10 +231,6 @@ int main()
 		//
 		//---------------------------------------
 
-
-
-
-
 		if (curObjFromGUID != "")
 		{
 			ires = ac_request("elem_user_property", "set", "ZONE_FROM_NAME", curObjFromName);
@@ -288,28 +281,24 @@ int main()
 		// .##........##...##...##.....##.##........##.......##...##......##.....##..##.............##
 		// .##........##....##..##.....##.##........##.......##....##.....##.....##..##.......##....##
 		// .##........##.....##..#######..##........########.##.....##....##....####.########..######.
-			
+
 
 		ires = ac_request("elem_user_property", "get", "Помещение"); // значение в объекте
-		if (ires!=0){cout<<"Свойство не найдено!\n";};
+		if (ires!=0){cout<<"Свойство не найдено!\n"; return;};
 		prop1 = ac_getstrvalue(); // получили значение свойства объекта
 
 		ires = ac_request("elem_user_property", "get", "Производитель"); // значение в объекте
-		if (ires!=0){cout<<"Свойство не найдено!\n";};
+		if (ires!=0){cout<<"Свойство не найдено!\n"; return;};
 		prop2 = ac_getstrvalue(); // получили значение свойства объекта
 
 		ires = ac_request("elem_user_property", "get", "Заполнение"); // значение в объекте
-		if (ires!=0){cout<<"Свойство не найдено!\n";};
+		if (ires!=0){cout<<"Свойство не найдено!\n"; return;};
 		prop3 = ac_getstrvalue(); // получили значение свойства объекта
 		
 
 		ires = ac_request("elem_user_property", "get", "Замок"); // значение в объекте
-		if (ires!=0){cout<<"Свойство не найдено!\n";};
+		if (ires!=0){cout<<"Свойство не найдено!\n"; return;};
 		prop4 = ac_getstrvalue(); // получили значение свойства объекта
-
-
-		
-
 
 		if (prop1 == " ") {prop1 = "";}
 		if (prop2 == " ") {prop2 = "";}
@@ -318,7 +307,6 @@ int main()
 
 		currentObjectFromToCatName = currentObjectFromToCatName + "_|_" + prop1 + "_|_" + prop2 + "_|_" + prop3 + "_|_" + prop4;
 
-
 		cout << "			Строк в таблице: " << tableRowsNumber << "\n";
 		cout << "			Колонок: " << tableColsNumber << "\n";
 
@@ -326,7 +314,7 @@ int main()
 
 		codemeter(0);
 
-		if ((curObjFromGUID != "") && (curObjToGUID != "")) {
+		if ((curObjFromGUID != "") || (curObjToGUID != "")) {
 
 			for (int row = 0; row < tableRowsNumber; row++) // cycle through all table rows
 			{
@@ -354,6 +342,7 @@ int main()
 				         6, col2,
 				         7, col3,
 				         8, col4);
+
 
 				curTableFromCatName = tolower(curTableFromCatName);
 				curTableFromName = tolower(curTableFromName);
