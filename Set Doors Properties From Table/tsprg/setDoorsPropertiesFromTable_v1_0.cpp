@@ -1,3 +1,4 @@
+/* encoding windows-1251 */
 // Задать свойства дверям в соответствии с прилежащими зонами.
 // LABPP AUTOMAT скрипт
 // Иван Матвеев
@@ -309,7 +310,7 @@ int main()
 		if (prop4 == " ") {prop4 = "";}
 
 		// currentObjectFromToCatName = currentObjectFromToCatName + "_|_" + prop1 + "_|_" + prop2 + "_|_" + prop3 + "_|_" + prop4;
-		currentObjectFromToCatName = currentObjectFromToCatName + "_|_" + prop2 + "_|_" + prop3 + "_|_" + prop4;
+		// currentObjectFromToCatName = currentObjectFromToCatName + "_|_" + prop2 + "_|_" + prop3 + "_|_" + prop4;
 
 		cout << "			Строк в таблице: " << tableRowsNumber << "\n";
 		cout << "			Колонок: " << tableColsNumber << "\n";
@@ -380,7 +381,7 @@ int main()
 				
 			
 				//  TABLE 
-				currentTableFromToCatName = "_|_" + curTableToCatName + "_|_" + curTableToName + "_|_" + curTableFromCatName + "_|_" + curTableFromName + "_|_";
+				currentTableFromToCatName = "_|_" + curTableFromCatName + "_|_" + curTableFromName + "_|_" + curTableToCatName + "_|_" + curTableToName + "_|_";
 
 				// 	OBJECT
 				currentObjectFromToCatName = "_|_" + curObjFromCatName + "_|_" + curObjFromName + "_|_" + curObjToCatName + "_|_" + curObjToName + "_|_";
