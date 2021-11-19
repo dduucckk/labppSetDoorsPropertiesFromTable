@@ -282,10 +282,13 @@ int main()
 		// .##........##....##..##.....##.##........##.......##....##.....##.....##..##.......##....##
 		// .##........##.....##..#######..##........########.##.....##....##....####.########..######.
 
+		/*
 
 		ires = ac_request("elem_user_property", "get", "Помещение"); // значение в объекте
 		if (ires!=0){cout<<"Свойство не найдено!\n"; return;};
 		prop1 = ac_getstrvalue(); // получили значение свойства объекта
+
+		*/
 
 		ires = ac_request("elem_user_property", "get", "Производитель"); // значение в объекте
 		if (ires!=0){cout<<"Свойство не найдено!\n"; return;};
@@ -300,12 +303,13 @@ int main()
 		if (ires!=0){cout<<"Свойство не найдено!\n"; return;};
 		prop4 = ac_getstrvalue(); // получили значение свойства объекта
 
-		if (prop1 == " ") {prop1 = "";}
+		// if (prop1 == " ") {prop1 = "";}
 		if (prop2 == " ") {prop2 = "";}
 		if (prop3 == " ") {prop3 = "";}
 		if (prop4 == " ") {prop4 = "";}
 
-		currentObjectFromToCatName = currentObjectFromToCatName + "_|_" + prop1 + "_|_" + prop2 + "_|_" + prop3 + "_|_" + prop4;
+		// currentObjectFromToCatName = currentObjectFromToCatName + "_|_" + prop1 + "_|_" + prop2 + "_|_" + prop3 + "_|_" + prop4;
+		currentObjectFromToCatName = currentObjectFromToCatName + "_|_" + prop2 + "_|_" + prop3 + "_|_" + prop4;
 
 		cout << "			Строк в таблице: " << tableRowsNumber << "\n";
 		cout << "			Колонок: " << tableColsNumber << "\n";
@@ -350,6 +354,11 @@ int main()
 				curTableToName = tolower(curTableToName);
 				curDoorCategory = tolower(curDoorCategory);
 
+				col1 = tolower(col1);
+				col2 = tolower(col2);
+				col3 = tolower(col3);
+				col4 = tolower(col4);
+
 
 				// ..######..########.########
 				// .##....##.##..........##...
@@ -364,19 +373,11 @@ int main()
 				// объект
 				// curObjFromName, curObjFromCatName, curObjToName, curObjToCatName — это параметры текущего объекта
 
-				if (curTableFromCatName == "*") { // переменные из таблицы: тут обхожу жопу с пробелом
-					curTableFromCatName = "";
-				}
-				if (curTableFromName == "*") {
-					curTableFromName = "";
-				}
-				if (curTableToCatName == "*") {
-					curTableToCatName = "";
-				}
-				if (curTableToName == "*") {
-					curTableToName = "";
-				}
-
+				if (curTableFromCatName == "*") {curTableFromCatName = "";}
+				if (curTableFromName == "*") {curTableFromName = "";}
+				if (curTableToCatName == "*") {curTableToCatName = "";}
+				if (curTableToName == "*") {curTableToName = "";}
+				
 			
 				//  TABLE 
 				currentTableFromToCatName = "_|_" + curTableFromCatName + "_|_" + curTableFromName + "_|_" + curTableToCatName + "_|_" + curTableToName + "_|_";
@@ -432,7 +433,8 @@ int main()
 				if (col3 == "*") {col3 = "";}
 				if (col4 == "*") {col4 = "";}
 
-				currentTableFromToCatName = currentTableFromToCatName + "_|_" + col1 + "_|_" + col2 + "_|_" + col3 + "_|_" + col4;
+				// currentTableFromToCatName = currentTableFromToCatName + "_|_" + col1 + "_|_" + col2 + "_|_" + col3 + "_|_" + col4;
+				currentTableFromToCatName = currentTableFromToCatName + "_|_" + col2 + "_|_" + col3 + "_|_" + col4;
 
 				// ВАРИАНТ ДЛЯ ТОГО СЛУЧАЯ, КОГДА ЮРИЙ ОПТИМИЗИРУЕТ РАБОТУ ТАБЛИЦ
 				/*
