@@ -8,7 +8,7 @@ import csv
 
 
 filename = '../ЗОНЫ И ДВЕРИ.csv'
-filenameoutput = '../ЗОНЫ И ДВЕРИ_new.csv'
+filenameoutput = '../ЗОНЫ И ДВЕРИ EXPORT.csv'
 
 def read_and_adapt(filename):
     with open(filename, newline='\n') as csvfile:
@@ -115,7 +115,7 @@ def writefile(filename, data):
     # write new csv
     with open(filename, 'w', newline='') as csvfile:
         spamwriter = csv.writer(csvfile, delimiter=';',
-                                quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                                quotechar='|', quoting=csv.QUOTE_MINIMAL)
         for group in data:
             for line in group:
                 spamwriter.writerow(line)
