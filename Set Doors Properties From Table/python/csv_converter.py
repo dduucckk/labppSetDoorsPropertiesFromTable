@@ -7,7 +7,7 @@ import csv
 #from itertools import combinations
 
 
-filename = '../ЗОНЫ И ДВЕРИ.csv'
+filename = '../src/Зоны и типы дверей.csv'
 filenameoutput = '../ЗОНЫ И ДВЕРИ EXPORT.csv'
 
 def read_and_adapt(filename):

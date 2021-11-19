@@ -2,18 +2,35 @@
 
 import csv
 
-
-filename = '../ЗОНЫ И ДВЕРИ_new.csv'
-filedoor = '../src/КОРПУС_В.csv'
+Корпус = 'В'
+filecats = '../ЗОНЫ И ДВЕРИ EXPORT.csv'
+filedoor = '../src/КОРПУС_'+Корпус+'.csv'
+имяфайла = '../IDдвери_тип_'+Корпус+'.csv'
 
 def read_and_adapt(filename):
     with open(filename, newline='\n') as csvfile:
-        reader = csv.reader(csvfile, delimiter=';', quotechar="'")
-        doors = []
+        reader = csv.reader(csvfile, delimiter=';', quotechar="|")
+        return reader
 
-        for row in reader:
+def соотнесение(категории, двери):
+    for d in двери:
+        d0 = d[0]
+        for c in категории:
+            if d in
+    return
 
-        return
+def вывод(filename, data):
+    # write new csv
+    with open(filename, 'w', newline='') as csvfile:
+        spamwriter = csv.writer(csvfile, delimiter=';',
+                                quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        for group in data:
+            for line in group:
+                spamwriter.writerow(line)
+    return
 
 if __name__ == "__main__":
-    read_and_adapt(filename)
+    категории = read_and_adapt(filecats)
+    двери = read_and_adapt(filedoor)
+    вывод = соотнесение(категории, двери)
+    вывести(имяфайла, вывод)
