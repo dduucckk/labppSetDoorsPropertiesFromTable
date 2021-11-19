@@ -77,7 +77,7 @@ int main()
 	createTable();
 	ts_table(iTableGUIDs, "get_rows_count", tableRowsNumber);
 	ts_table(iTableGUIDs, "get_columns_count", tableColsNumber);
-	cout << "\n";
+	cout << tableRowsNumber << "  - количество строк файла!!! Это смешно!\n";
 
 
 	// КОЛИЧЕСТВО КОЛОНОК ВЫЯСНЯЕМ ТУТ, ЧТОБЫ НЕ ДЕЛАТЬ ЭТО В ЦИКЛЕ
@@ -341,11 +341,11 @@ int main()
 				         1, curTableFromName,
 				         2, curTableToCatName,
 				         3, curTableToName,
-				         4, curDoorCategory, /* ТУТ СТОИТ ПРОВЕРИТ КОЛИЧЕСТВО ДОП КОЛОНОК, ПОСКОЛЬКУ ВАРИАНТ С АВТОПОДСЧЕТОМ НЕ ИСПОЛЬЗУЕТСЯ, см. ниже*/
-				         5, col1,
+				         4, curDoorCategory); //, /* ТУТ СТОИТ ПРОВЕРИТЬ КОЛИЧЕСТВО ДОП КОЛОНОК, ПОСКОЛЬКУ ВАРИАНТ С АВТОПОДСЧЕТОМ НЕ ИСПОЛЬЗУЕТСЯ, см. ниже*/
+				      /* 5, col1,
 				         6, col2,
 				         7, col3,
-				         8, col4);
+				         8, col4); */
 
 
 				curTableFromCatName = tolower(curTableFromCatName);
@@ -380,7 +380,7 @@ int main()
 				
 			
 				//  TABLE 
-				currentTableFromToCatName = "_|_" + curTableFromCatName + "_|_" + curTableFromName + "_|_" + curTableToCatName + "_|_" + curTableToName + "_|_";
+				currentTableFromToCatName = "_|_" + curTableToCatName + "_|_" + curTableToName + "_|_" + curTableFromCatName + "_|_" + curTableFromName + "_|_";
 
 				// 	OBJECT
 				currentObjectFromToCatName = "_|_" + curObjFromCatName + "_|_" + curObjFromName + "_|_" + curObjToCatName + "_|_" + curObjToName + "_|_";
@@ -434,7 +434,7 @@ int main()
 				if (col4 == "*") {col4 = "";}
 
 				// currentTableFromToCatName = currentTableFromToCatName + "_|_" + col1 + "_|_" + col2 + "_|_" + col3 + "_|_" + col4;
-				currentTableFromToCatName = currentTableFromToCatName + "_|_" + col2 + "_|_" + col3 + "_|_" + col4;
+				// currentTableFromToCatName = currentTableFromToCatName + "_|_" + col2 + "_|_" + col3 + "_|_" + col4;
 
 				// ВАРИАНТ ДЛЯ ТОГО СЛУЧАЯ, КОГДА ЮРИЙ ОПТИМИЗИРУЕТ РАБОТУ ТАБЛИЦ
 				/*
@@ -459,6 +459,7 @@ int main()
 					}
 					currentTableFromToCatName = currentTableFromToCatName + "_|_" + currentExtraColumnValue + "_|_";
 					currentObjectFromToCatName = currentObjectFromToCatName + "_|_" + curObjExtraPropertyValue + "_|_";
+
 				}
 				*/
 
@@ -470,10 +471,19 @@ int main()
 
 				// ЕСЛИ ВСЕ ПАРАМЕТРЫ СОВПАДАЮТ, ТО ЗАПИСАТЬ В ДВЕРЬ КАТЕГОРИЮ ДВЕРИ
 
+                                if (row == 200) {
+                                        cout << "Далее объект / табица значения для сравнения \n";
+                                        cout << currentObjectFromToCatName << "\n";
+                                        cout << currentTableFromToCatName << "\n";
+                                }
+
 				if (currentObjectFromToCatName == currentTableFromToCatName) {
 					ires = ac_request("elem_user_property", "set", "DOOR_CATEGORY", curDoorCategory);
 					cout << "	Записываем категорию двери: " << ires << "\n";
 					doorWithoutCategory = false;
+                                        cout << "Далее объект / табица значения для сравнения \n";
+                                        cout << currentObjectFromToCatName << "\n";
+                                        cout << currentTableFromToCatName << "\n";
 				} else {
 					// cout << " Совпадений не найдено. \n";
 				}
@@ -481,7 +491,6 @@ int main()
 			} // end of table rows for loop
 			cout << "Цикл в " << tableRowsNumber << " проходов выполнен за " << codemeter(2)/1000 << " сек. \n";
 		} else { cout << "	Пропускаем эту дверь.\n"; }
-
 
 		if (doorWithoutCategory == true) {
 			ires = ac_request("elem_user_property", "set", "DOOR_CATEGORY", "—");
