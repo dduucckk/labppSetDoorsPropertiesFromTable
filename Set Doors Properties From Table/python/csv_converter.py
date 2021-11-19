@@ -4,11 +4,11 @@
 # import urllib.request
 import csv
 #from combinatorics import *
-from itertools import combinations
+#from itertools import combinations
 
 
-filename = '../ЗОНЫ И ДВЕРИ.csv'
-filenameoutput = '../ЗОНЫ И ДВЕРИ_new.csv'
+filename = '../src/Зоны и типы дверей.csv'
+filenameoutput = '../ЗОНЫ И ДВЕРИ EXPORT.csv'
 
 def read_and_adapt(filename):
     with open(filename, newline='\n') as csvfile:
@@ -49,23 +49,19 @@ def combinatorics(data):
     # для каждой двери каждого свойства
     # итерируются другие свойства. Это ужас
     # ll == line length, для каждой ячейки её длина
-    # далее идё говнокод
+    # далее идёт говнокод
     adapted = []
     def lldef(ll,adapted_line): # не пригодилось
         if ll > 1:
             ll -= 1
         return ll
     def assignvalues(ll,i):
-        v0=i[0][ll[0]-1]
-        v1=i[1][ll[1]-1]
-        v2=i[2][ll[2]-1]
-        v3=i[3][ll[3]-1]
-        v4=i[4][ll[4]-1]
-        v5=i[5][ll[5]-1]
-        v6=i[6][ll[6]-1]
-        v7=i[7][ll[7]-1]
-        v8=i[8][ll[8]-1]
-        return [v0,v1,v2,v3,v4,v5,v6,v7,v8]
+        out = []
+        #print('проверка ',i,ll)
+        for k in range(9):
+            a = '"'+str(i[k][ll[k]-1])+'"'
+            out.append(a)
+        return out
     for i in data: # строки
         # по длине каждой ячейки проходим все остальные
         # сегодня без рекурсии, задрало
