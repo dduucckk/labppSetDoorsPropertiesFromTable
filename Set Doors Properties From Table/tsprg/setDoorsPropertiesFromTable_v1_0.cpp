@@ -17,6 +17,7 @@
 //--------------------------------------------------
 
 string sExcelGUIDs = "ЗОНЫ И ДВЕРИ.xlsx";
+string sCSVFilepath = "D:\\table.csv";
 int iTableGUIDs; // номер таблицы с GUIDами и значениями. Заголовки в таблице Excel находятся в первой строке.
 int tableRowsNumber, tableColsNumber;
 
@@ -112,7 +113,7 @@ int main()
 	// ЦИКЛ ПО ДВЕРЯМ
 	//--------------------------------------------------
 
-	cout << "Проходим по выбранным дверям. \n";
+	cout << "Проходим по выбранным дверям...\n";
 	cout << "\n";
 
 	for (int i = 0; i < icount; i++)
@@ -123,7 +124,7 @@ int main()
 		// ВЫЯСНЯЕМ, К КАКИМ ЗОНАМ ОТНОСИТСЯ ЭЛЕМЕНТ
 		//--------------------------------------------------
 
-		cout << "Получаем зоны двери.\n";
+		cout << "Получаем зоны двери...\n";
 		string sText, sguid, curObjFromGUID, curObjToGUID, sIDdoor, curObjFromNumber, curObjToNumber, curObjFromCat, curObjToCat, curObjFromName, curObjToName;
 		string curObjToCatName, curObjFromCatName;
 
@@ -216,7 +217,7 @@ int main()
 
 
 		ac_request("set_current_element_from_list", 1, i);
-		cout << "	Записываем параметры...\n";
+		cout << "	Цикл записи параметров из таблицы...\n";
 
 		//
 		// СВОЙСТВА ДВЕРИ ПО КЛАССИФИКАТОРУ:
@@ -232,6 +233,8 @@ int main()
 		// ZONE_TO_GUID — GUID зоны, куда ведет дверь
 		//
 		//---------------------------------------
+
+
 
 
 
@@ -269,143 +272,215 @@ int main()
 		curObjToCatName = tolower(curObjToCatName);
 		curObjToName = tolower(curObjToName);
 
+		string currentObjectFromToCatName, currentTableFromToCatName;
+		string prop1, prop2, prop3, prop4;
 
 
+		prop1 = prop2 = prop3 = prop4 = "";
+
+		currentObjectFromToCatName = currentTableFromToCatName ="";
+
+		ires = ac_request("elem_user_property", "get", "помещение"); // значение в объекте
+		prop1 = ac_getstrvalue(); // получили значение свойства объекта
+
+		ires = ac_request("elem_user_property", "get", "производитель"); // значение в объекте
+		prop2 = ac_getstrvalue(); // получили значение свойства объекта
+
+		ires = ac_request("elem_user_property", "get", "заполнение"); // значение в объекте
+		prop3 = ac_getstrvalue(); // получили значение свойства объекта
+
+		ires = ac_request("elem_user_property", "get", "замок"); // значение в объекте
+		prop4 = ac_getstrvalue(); // получили значение свойства объекта
+
+		if (prop1 == " ") {prop1 = "";}
+		if (prop2 == " ") {prop2 = "";}
+		if (prop3 == " ") {prop3 = "";}
+		if (prop4 == " ") {prop4 = "";}
+
+		currentObjectFromToCatName = currentObjectFromToCatName + "_|_" + prop1 + "_|_" + prop2 + "_|_" + prop3 + "_|_" + prop4;
 
 
-		for (int row = 0; row < tableRowsNumber; row++) // cycle through all table rows
-		{
-			// cout << "		Row: " << row + 1 << " / " << tableRowsNumber << "\n";
-			ts_table(iTableGUIDs, "select_row", row); // set the row
+		cout << "			Строк в таблице: " << tableRowsNumber << "\n";
+		cout << "			Колонок: " << tableColsNumber << "\n";
 
-			curTableFromCatName = ""; // сбрасываем переменные, чтобы не думать о возможных проблемах с повторами
-			curTableFromName = "";
-			curTableToCatName = "";
-			curTableToName = "";
-			curDoorCategory = "";
+		//  поехал таймер тут, унц-унц
 
-			// string ex1 = ex2 = ex3 = ex4 = "";
+		codemeter(0);
 
-			ts_table(iTableGUIDs, "get_value_of", 0, curTableFromCatName);	// get current zone_from cat. in this row
-			ts_table(iTableGUIDs, "get_value_of", 1, curTableFromName);	// get current zone_from name in this row
-			ts_table(iTableGUIDs, "get_value_of", 2, curTableToCatName);	// get current zone_from name in this row
-			ts_table(iTableGUIDs, "get_value_of", 3, curTableToName);	// get current zone_from name in this row
-			ts_table(iTableGUIDs, "get_value_of", 4, curDoorCategory);	// get current zone_from name in this row
+		if ((curObjFromGUID != "") && (curObjToGUID != "")) {
 
-			/*
-			ts_table(iTableGUIDs, "get_value_of", 5, ex1);	
-			ts_table(iTableGUIDs, "get_value_of", 6, ex2);	
-			ts_table(iTableGUIDs, "get_value_of", 7, ex3);	
-			ts_table(iTableGUIDs, "get_value_of", 8, ex4);	
-			*/
+			for (int row = 0; row < tableRowsNumber; row++) // cycle through all table rows
+			{
+				// cout << "		Row: " << row + 1 << " / " << tableRowsNumber << "\n";
+				ts_table(iTableGUIDs, "select_row", row); // set the row
 
-			curTableFromCatName = tolower(curTableFromCatName);
-			curTableFromName = tolower(curTableFromName);
-			curTableToCatName = tolower(curTableToCatName);
-			curTableToName = tolower(curTableToName);
-			curDoorCategory = tolower(curDoorCategory);
-
-
-			// ..######..########.########
-			// .##....##.##..........##...
-			// .##.......##..........##...
-			// ..######..######......##...
-			// .......##.##..........##...
-			// .##....##.##..........##...
-			// ..######..########....##...
-
-			// таблица
-			// curTableFromName, curTableFromCatName, curTableToName, curTableToCatName — это параметры из текущей строки таблицы
-			// объект
-			// curObjFromName, curObjFromCatName, curObjToName, curObjToCatName — это параметры текущего объекта
-
-			if (curTableFromCatName == "*") { // переменные из таблицы: тут обхожу жопу с пробелом
-				curTableFromCatName = "";
-			}
-			if (curTableFromName == "*") {
+				curTableFromCatName = ""; // сбрасываем переменные, чтобы не думать о возможных проблемах с повторами
 				curTableFromName = "";
-			}
-			if (curTableToCatName == "*") {
 				curTableToCatName = "";
-			}
-			if (curTableToName == "*") {
 				curTableToName = "";
-			}
+				curDoorCategory = "";
 
-			string currentObjectFromToCatName, currentTableFromToCatName;
+				string col1, col2, col3, col4;
+				col1 = col2 = col3 = col4 = "";
 
-			//  OBJECT
-			currentTableFromToCatName = "_|_" + curTableFromCatName + "_|_" + curTableFromName + "_|_" + curTableToCatName + "_|_" + curTableToName + "_|_";
+				// последовательные вызовы очень медленные. надо формировать 1 запрос. но это дико неудобно.
 
-			// TABLE
-			currentObjectFromToCatName = "_|_" + curObjFromCatName + "_|_" + curObjFromName + "_|_" + curObjToCatName + "_|_" + curObjToName + "_|_";
+				ts_table(iTableGUIDs, "get_value_of",
+				         0, curTableFromCatName,
+				         1, curTableFromName,
+				         2, curTableToCatName,
+				         3, curTableToName,
+				         4, curDoorCategory, /* ТУТ СТОИТ ПРОВЕРИТ КОЛИЧЕСТВО ДОП КОЛОНОК, ПОСКОЛЬКУ ВАРИАНТ С АВТОПОДСЧЕТОМ НЕ ИСПОЛЬЗУЕТСЯ, см. ниже*/
+				         5, col1,
+				         6, col2,
+				         7, col3,
+				         8, col4);
 
-
-			//---------------------------------------
-			//
-			// ПРОХОД ПО ДОПОЛНИТЕЛЬНЫМ ПОЛЯМ
-			//
-			//---------------------------------------
-
-
-
-			// ЭТО ОЧЕНЬ МЕДЛЕННО РАБОТАЕТ!!!!!
-		
-			string currentExtraColumnName;
-			string currentExtraColumnValue;
-			string curObjExtraPropertyValue;
+				curTableFromCatName = tolower(curTableFromCatName);
+				curTableFromName = tolower(curTableFromName);
+				curTableToCatName = tolower(curTableToCatName);
+				curTableToName = tolower(curTableToName);
+				curDoorCategory = tolower(curDoorCategory);
 
 
-			for (int i = tableExtraColumnsNumber + 1; i < tableColsNumber; i++) { // ИДЁМ ПО ДОПОЛНИТЕЛЬНЫМ КОЛОНКАМ
-				// cout << i << " ";
-				ts_table(iTableGUIDs, "get_heading_of", i, currentExtraColumnName); // имя свойства
-				ts_table(iTableGUIDs, "get_value_of", i, currentExtraColumnValue); // значение в колонке
+				// ..######..########.########
+				// .##....##.##..........##...
+				// .##.......##..........##...
+				// ..######..######......##...
+				// .......##.##..........##...
+				// .##....##.##..........##...
+				// ..######..########....##...
 
-				ires = ac_request("elem_user_property", "get", currentExtraColumnName); // значение в объекте
-				curObjExtraPropertyValue = ac_getstrvalue(); // получили значение свойства объекта
+				// таблица
+				// curTableFromName, curTableFromCatName, curTableToName, curTableToCatName — это параметры из текущей строки таблицы
+				// объект
+				// curObjFromName, curObjFromCatName, curObjToName, curObjToCatName — это параметры текущего объекта
 
-				if (currentExtraColumnValue == "*") {
-					currentExtraColumnValue = "";
+				if (curTableFromCatName == "*") { // переменные из таблицы: тут обхожу жопу с пробелом
+					curTableFromCatName = "";
+				}
+				if (curTableFromName == "*") {
+					curTableFromName = "";
+				}
+				if (curTableToCatName == "*") {
+					curTableToCatName = "";
+				}
+				if (curTableToName == "*") {
+					curTableToName = "";
 				}
 
-				if (curObjExtraPropertyValue == " ") {
-					curObjExtraPropertyValue = "";
+			
+				//  TABLE 
+				currentTableFromToCatName = "_|_" + curTableFromCatName + "_|_" + curTableFromName + "_|_" + curTableToCatName + "_|_" + curTableToName + "_|_";
+
+				// 	OBJECT
+				currentObjectFromToCatName = "_|_" + curObjFromCatName + "_|_" + curObjFromName + "_|_" + curObjToCatName + "_|_" + curObjToName + "_|_";
+
+				//---------------------------------------
+				//
+				// ПРОХОД ПО ДОПОЛНИТЕЛЬНЫМ ПОЛЯМ
+				//
+				//---------------------------------------
+
+
+				// ЭТО ОЧЕНЬ МЕДЛЕННО РАБОТАЕТ!!!!!
+
+				// ЭТО ОЧЕНЬ МЕДЛЕННООО!!!!!
+				// ЗАПРОСЫ ПРИДЕТСЯ БЛОКИРОВАТЬ В ОДИН ВЫЗОВ >  СТАТИЧЕСКОЕ РЕШЕНИЕ БУДЕТ ПОЭТОМУ. НО ЕСЛИ ЮРИЙ ОПТИМИЗИРУЕТ
+
+				// придется ПРАВИТЬ НАСТРОЙКИ ДЛЯ КАЖДОГО НОВОГО ПРОЕКТА!
+				// количество дополнительных колонок для прохода
+
+
+				// .########....###....########..##.......########
+				// ....##......##.##...##.....##.##.......##......
+				// ....##.....##...##..##.....##.##.......##......
+				// ....##....##.....##.########..##.......######..
+				// ....##....#########.##.....##.##.......##......
+				// ....##....##.....##.##.....##.##.......##......
+				// ....##....##.....##.########..########.########
+
+				// .########.##.....##.########.########.....###...
+				// .##........##...##.....##....##.....##...##.##..
+				// .##.........##.##......##....##.....##..##...##.
+				// .######......###.......##....########..##.....##
+				// .##.........##.##......##....##...##...#########
+				// .##........##...##.....##....##....##..##.....##
+				// .########.##.....##....##....##.....##.##.....##
+
+				// ..######...#######..##.......##.....##.##.....##.##....##..######.
+				// .##....##.##.....##.##.......##.....##.###...###.###...##.##....##
+				// .##.......##.....##.##.......##.....##.####.####.####..##.##......
+				// .##.......##.....##.##.......##.....##.##.###.##.##.##.##..######.
+				// .##.......##.....##.##.......##.....##.##.....##.##..####.......##
+				// .##....##.##.....##.##.......##.....##.##.....##.##...###.##....##
+				// ..######...#######..########..#######..##.....##.##....##..######.
+
+
+				// 4 ПАРАМЕТРА ИЗ 4 ДОПОЛНИТЕЛЬНЫХ КОЛОНОК:
+
+				if (col1 == "*") {col1 = "";}
+				if (col2 == "*") {col2 = "";}
+				if (col3 == "*") {col3 = "";}
+				if (col4 == "*") {col4 = "";}
+
+				currentTableFromToCatName = currentTableFromToCatName + "_|_" + col1 + "_|_" + col2 + "_|_" + col3 + "_|_" + col4;
+
+				// ВАРИАНТ ДЛЯ ТОГО СЛУЧАЯ, КОГДА ЮРИЙ ОПТИМИЗИРУЕТ РАБОТУ ТАБЛИЦ
+				/*
+				string currentExtraColumnName;
+				string currentExtraColumnValue;
+				string curObjExtraPropertyValue;
+
+				for (int i = tableExtraColumnsNumber + 1; i < tableColsNumber; i++) { // ИДЁМ ПО ДОПОЛНИТЕЛЬНЫМ КОЛОНКАМ
+					// cout << i << " ";
+					ts_table(iTableGUIDs, "get_heading_of", i, currentExtraColumnName); // имя свойства
+					ts_table(iTableGUIDs, "get_value_of", i, currentExtraColumnValue); // значение в колонке
+
+					ires = ac_request("elem_user_property", "get", currentExtraColumnName); // значение в объекте
+					curObjExtraPropertyValue = ac_getstrvalue(); // получили значение свойства объекта
+
+					if (currentExtraColumnValue == "*") {
+						currentExtraColumnValue = "";
+					}
+
+					if (curObjExtraPropertyValue == " ") {
+						curObjExtraPropertyValue = "";
+					}
+					currentTableFromToCatName = currentTableFromToCatName + "_|_" + currentExtraColumnValue + "_|_";
+					currentObjectFromToCatName = currentObjectFromToCatName + "_|_" + curObjExtraPropertyValue + "_|_";
+				}
+				*/
+
+				//---------------------------------------
+				//
+				// ЗАДАТЬ СВОЙСТВО ДВЕРИ
+				//
+				//---------------------------------------
+
+				// ЕСЛИ ВСЕ ПАРАМЕТРЫ СОВПАДАЮТ, ТО ЗАПИСАТЬ В ДВЕРЬ КАТЕГОРИЮ ДВЕРИ
+
+				if (currentObjectFromToCatName == currentTableFromToCatName) {
+					ires = ac_request("elem_user_property", "set", "DOOR_CATEGORY", curDoorCategory);
+					cout << "	Записываем категорию двери: " << ires << "\n";
+					doorWithoutCategory = false;
+				} else {
+					// cout << " Совпадений не найдено. \n";
 				}
 
-				currentTableFromToCatName = currentTableFromToCatName + "_|_" + currentExtraColumnValue + "_|_";
-				currentObjectFromToCatName = currentObjectFromToCatName + "_|_" + curObjExtraPropertyValue + "_|_";
-
-				// cout << "Свойства в объекте: " << currentObjectFromToCatName;
-				// cout << "\n";
-				// cout << "Свойства в таблице: " << currentTableFromToCatName;
-				// cout << "\n";
-
-			}
+			} // end of table rows for loop
+			cout << "Цикл в " << tableRowsNumber << " проходов выполнен за " << codemeter(1) << " сек. \n";
+		} else { cout << "	Пропускаем эту дверь.\n"; }
 
 
-
-			//---------------------------------------
-			//
-			// ЗАДАТЬ СВОЙСТВО ДВЕРИ
-			//
-			//---------------------------------------
-
-			// ЕСЛИ ВСЕ ПАРАМЕТРЫ СОВПАДАЮТ, ТО ЗАПИСАТЬ В ДВЕРЬ КАТЕГОРИЮ ДВЕРИ
-
-			if (currentObjectFromToCatName == currentTableFromToCatName) {
-				ires = ac_request("elem_user_property", "set", "DOOR_CATEGORY", curDoorCategory);
-				cout << "	Записываем категорию двери: " << ires << "\n";
-				doorWithoutCategory = false;
-			} else {
-				// cout << " Совпадений не найдено. \n";
-			}
-
-		} // end of table rows for loop
 		if (doorWithoutCategory == true) {
 			ires = ac_request("elem_user_property", "set", "DOOR_CATEGORY", "—");
 			cout << "	Записываем ПУСТУЮ категорию двери: " << ires << "\n";
 		}
+
 	} // end of doors for loop
+
+
 	cout << "\n";
 	deleteTable(); // очищаем память от таблицы
 	cout << "Программа отработала успешно\n";
@@ -422,10 +497,47 @@ int main()
 // .##........#######..##....##..######.....##....####..#######..##....##..######.
 
 
-int LoadCSV() {
+int LoadCSV(int iTable, string filepath, string column_separator) {
+	int iFileDescr;
 
+	object("create", "ts_file", iFileDescr); // создать объект типа файл в памяти
 
+// открыть для записи чистый файл, если его нет, то создать
 
+	int ires = ts_file(iFileDescr, "open", filepath, "create", "r");
+	if (ires != 0)
+	{
+		cout << "Файл не удалось открыть:" << filepath << "\n"; // выдать в окно сообщений
+		return;
+	} else {
+		cout << "Файл открыли.\n";
+	}
+
+	string csv_source;
+	ires = ts_file(iFileDescr, "read", csv_source); // записать в файл две строки
+
+	if (ires != 0)
+	{
+		cout << "Не удалось считать csv из файла.\n";
+		return;
+	} else {
+		cout << "Считали csv из файла.\n";
+	}
+	ires = ts_file(iFileDescr, "close"); // закрыть файл
+	if (ires != 0)
+	{
+		cout << "Не удалось закрыть файл.\n";
+		return;
+	} else {
+		cout << "Файл закрыли.\n";
+	}
+
+	object("delete", iFileDescr); // удалить объект файла из памяти
+	cout << "разделитель: " << column_separator << "\n";
+
+	ts_table(iTable, "import_from_csv", csv_source, column_separator);
+
+	return 0;
 }
 
 
@@ -516,7 +628,11 @@ int createTable() {
 	int icount;
 	int ires;
 	object("create", "ts_table", iTableGUIDs); // создаем объект ts_table и получаем его номер для работы с ним
-	ires = LoadExcel(); // загружаем данные из эксель (см. определение функции ниже)
+	// ires = LoadExcel(); // загружаем данные из эксель (см. определение функции ниже)
+	//
+	ires = LoadCSV(iTableGUIDs, sCSVFilepath, ";");
+	// int LoadCSV(int iTableGUID, string column_separator, string filepath){}
+	//
 	if (ires != 0) {
 		cout << "Ошибка в ходе загрузки из Excel, программа завершена";
 		return -1;

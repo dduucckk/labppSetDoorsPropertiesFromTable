@@ -272,6 +272,10 @@ int Load()
 		height = ac_getnumvalue() * 1000;
 
 		szoneguidFrom = get_linked_zone_guid(sguid, true);
+
+		sZoneNumberFrom = ""; sZoneNameFrom = ""; sZoneCatFrom = "";
+		sZoneNumberTo = ""; sZoneNameTo = ""; sZoneCatTo = "";
+
 		if (szoneguidFrom != "")
 		{
 			ac_request("set_element_by_guidstr_as_current", szoneguidFrom);
@@ -352,13 +356,16 @@ int do_iButtonAttachDoorsToRoom(bool bOn, bool bRoomFrom)
 	cout << "attach floors to room";
 
 	int flag1, flag2;
+	int flag11, flag22;
 	if (bRoomFrom)
 	{
 		flag1 = 1024; flag2 = 2048;
+		flag11 = 4096; flag22 = 8192;
 	}
 	else
 	{
 		flag1 = 4096; flag2 = 8192;
+		flag11 = 1024; flag22 = 2048;
 	}
 
 	// загружаем выбранные зоны в список 1
@@ -389,16 +396,32 @@ int do_iButtonAttachDoorsToRoom(bool bOn, bool bRoomFrom)
 	ac_request("get_element_value", "GuidAsText");
 	string sGUIDzone = ac_getstrvalue();
 	coutvar << sGUIDzone;
-	int iGuid;
-	object("create", "ts_guid", iGuid);
-	ts_guid(iGuid, "ConvertFromString", sGUIDzone);
 
 	int iTableDoorsTmp;
 	object("create", "ts_table", iTableDoorsTmp);
 	ts_table(iTableDoorsTmp, "load_sguids_from_list", 2);
-	ac_request_special("linkingElems", "uplinkBiWardByFlags", iGuid, flag1, bOn, flag2, bOn, iTableDoorsTmp);
 
-	object("delete", iGuid);
+	if (bOn == true)
+	{
+		// TS: отключить все двери от других зон в качестве bRoomFrom
+		int i;
+		ts_table(iTableDoorsTmp, "get_rows_count", icount);
+
+		string sDoorGuid;
+		int iTableZonesToDetach;
+		object("create", "ts_table", iTableZonesToDetach);
+		int j, jcount;
+		for (i = 0; i < icount; i++)
+		{
+			ts_table(iTableDoorsTmp, "get_value_of", 0, sDoorGuid);
+			ac_request_special("linkingElems", "getLinkedElemsByFlags", sDoorGuid, flag2, iTableZonesToDetach);
+			ac_request_special("linkingElems", "uplinkBiWardByFlags", sDoorGuid, flag2, false, flag1, false, iTableZonesToDetach);
+		}
+		ac_request_special("linkingElems", "uplinkBiWardByFlags", sGUIDzone, flag11, false, flag22, false, iTableDoorsTmp); 
+		object("delete", iTableZonesToDetach);
+	}
+	ac_request_special("linkingElems", "uplinkBiWardByFlags", sGUIDzone, flag1, bOn, flag2, bOn, iTableDoorsTmp);
+
 	object("delete", iTableDoorsTmp);
 }
 
