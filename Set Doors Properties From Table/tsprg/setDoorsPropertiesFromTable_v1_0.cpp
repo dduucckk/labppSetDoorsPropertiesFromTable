@@ -469,7 +469,7 @@ int main()
 				}
 
 			} // end of table rows for loop
-			cout << "Цикл в " << tableRowsNumber << " проходов выполнен за " << codemeter(1) << " сек. \n";
+			cout << "Цикл в " << tableRowsNumber << " проходов выполнен за " << codemeter(2)/1000 << " сек. \n";
 		} else { cout << "	Пропускаем эту дверь.\n"; }
 
 
@@ -521,7 +521,7 @@ int LoadCSV(int iTable, string filepath, string column_separator) {
 		cout << "Не удалось считать csv из файла.\n";
 		return;
 	} else {
-		cout << "Считали csv из файла.\n";
+		cout << "Считали CSV из файла.\n";
 	}
 	ires = ts_file(iFileDescr, "close"); // закрыть файл
 	if (ires != 0)
