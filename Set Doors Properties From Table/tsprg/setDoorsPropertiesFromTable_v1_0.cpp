@@ -384,7 +384,7 @@ int main()
 				currentTableFromToCatName = "_|_" + curTableFromCatName + "_|_" + curTableFromName + "_|_" + curTableToCatName + "_|_" + curTableToName + "_|_";
 
 				// 	OBJECT
-				currentObjectFromToCatName = "_|_" + curObjFromCatName + "_|_" + curObjFromName + "_|_" + curObjToCatName + "_|_" + curObjToName + "_|_";
+				currentObjectFromToCatName = "_|_" + curObjToCatName + "_|_" + curObjToName + "_|_" + curObjFromCatName + "_|_" + curObjFromName + "_|_";
 
 				//---------------------------------------
 				//
@@ -473,7 +473,7 @@ int main()
 				// ЕСЛИ ВСЕ ПАРАМЕТРЫ СОВПАДАЮТ, ТО ЗАПИСАТЬ В ДВЕРЬ КАТЕГОРИЮ ДВЕРИ
 
                                 if (row == 200) {
-                                        cout << "Далее объект / табица значения для сравнения \n";
+                                        cout << "Промежуточная строка сравнения \n";
                                         cout << currentObjectFromToCatName << "\n";
                                         cout << currentTableFromToCatName << "\n";
                                 }
