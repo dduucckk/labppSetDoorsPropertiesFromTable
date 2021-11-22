@@ -8,7 +8,7 @@ import csv
 
 
 filename = '../src/Зоны и типы дверей.csv'
-filenameoutput = '../ЗОНЫ И ДВЕРИ EXPORT.csv'
+filenameoutput = '../table.csv'
 
 def read_and_adapt(filename):
     with open(filename, newline='\n') as csvfile:

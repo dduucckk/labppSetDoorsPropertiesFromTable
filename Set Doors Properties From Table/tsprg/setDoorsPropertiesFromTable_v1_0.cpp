@@ -49,10 +49,14 @@ int main()
 
 	// ЗАГРУЗИТЬ ДВЕРИ ИЗ СПИСКА ВЫБРАННЫХ ЭЛЕМЕНТОВ
 	ac_request_special("load_elements_list_from_selection", 1, "DoorType", 2);
+        icount = ac_getnumvalue();
+        if (icount == 0)
+        {
+            // ЗАГРУЗИТЬ ВСЕ ДВЕРИ ИЗ ПРОЕКТА
+	    ac_request("load_elements_list", 1, "DoorType", "MainFilter", 2);
+            cout << "Поскольку ничего не выделено, обрабатываю все двери в проекте.";
+        }
 
-	// ЗАГРУЗИТЬ ВСЕ ДВЕРИ ИЗ ПРОЕКТА
-	// ac_request("load_elements_list", 1, "DoorType", "MainFilter", 2);
-	//
 
 	ac_request("get_loaded_elements_list_count", 1); // считать количество элементов, находящихся в списке №1
 	icount = ac_getnumvalue(); // получить в переменную icount результат предыдущей операции как число
@@ -380,7 +384,7 @@ int main()
 				if (curTableToName == "*") {curTableToName = "";}
 				
 			
-				//  TABLE 
+				//  TABLE - здесь поперепутаны входы и выходы по причине того, что ассоциировали не верно, недоразумение вышло. Или вошло.
 				currentTableFromToCatName = "_|_" + curTableFromCatName + "_|_" + curTableFromName + "_|_" + curTableToCatName + "_|_" + curTableToName + "_|_";
 
 				// 	OBJECT
@@ -472,19 +476,17 @@ int main()
 
 				// ЕСЛИ ВСЕ ПАРАМЕТРЫ СОВПАДАЮТ, ТО ЗАПИСАТЬ В ДВЕРЬ КАТЕГОРИЮ ДВЕРИ
 
-                                if (row == 200) {
-                                        cout << "Промежуточная строка сравнения \n";
-                                        cout << currentObjectFromToCatName << "\n";
-                                        cout << currentTableFromToCatName << "\n";
-                                }
+
+                                
 
 				if (currentObjectFromToCatName == currentTableFromToCatName) {
 					ires = ac_request("elem_user_property", "set", "DOOR_CATEGORY", curDoorCategory);
-					cout << "	Записываем категорию двери: " << ires << "\n";
+					cout << "	Записываем категорию двери: " << curDoorCategory << " статус: " << ires << "\n";
 					doorWithoutCategory = false;
-                                        cout << "Далее объект / табица значения для сравнения \n";
-                                        cout << currentObjectFromToCatName << "\n";
-                                        cout << currentTableFromToCatName << "\n";
+                                        // cout << "    Далее объект / табица значения для сравнения \n";
+                                        // cout << currentObjectFromToCatName << "\n";
+                                        // cout << currentTableFromToCatName << "\n";
+                                        row = tableRowsNumber;
 				} else {
 					// cout << " Совпадений не найдено. \n";
 				}
@@ -522,7 +524,7 @@ int LoadCSV(int iTable, string filepath, string column_separator) {
 
 	object("create", "ts_file", iFileDescr); // создать объект типа файл в памяти
 
-// открыть для записи чистый файл, если его нет, то создать
+// открыть для записи чистый файл
 
 	int ires = ts_file(iFileDescr, "open", filepath, "create", "r");
 	if (ires != 0)

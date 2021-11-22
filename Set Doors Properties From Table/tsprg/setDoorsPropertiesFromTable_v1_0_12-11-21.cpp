@@ -188,7 +188,7 @@ int main()
 
 		bool doorWithoutCategory = true;
 
-		
+
 		ac_request("set_current_element_from_list", 1, i);
 		cout << "	Записываем параметры...\n";
 
@@ -207,7 +207,7 @@ int main()
 		//
 		//---------------------------------------
 
-		
+
 
 		if (curObjFromGUID != "")
 		{
@@ -270,7 +270,7 @@ int main()
 
 
 
-		
+
 			// трассировочный вывод значений из таблицы
 			// cout << "!!!!! Current zone from category: " <<  curTableFromCat << "\n";
 			// cout << "!!!!! Current zone from name: " <<  curTableFromName << "\n";
@@ -314,7 +314,7 @@ int main()
 
 			// ЕСЛИ ВСЕ ПАРАМЕТРЫ СОВПАДАЮТ, ТО ЗАПИСАТЬ В ДВЕРЬ КАТЕГОРИЮ ДВЕРИ
 
-			
+
 			//---------------------------------------
 			//
 			// ЗАДАТЬ СВОЙСТВО ДВЕРИ
@@ -334,7 +334,7 @@ int main()
 			if (doorWithoutCategory == true){
 				ires = ac_request("elem_user_property", "set", "DOOR_CATEGORY", "—");
 				cout << "	Записываем ПУСТУЮ категорию двери: " << ires << "\n";
-			}	
+			}
 	} // end of doors for loop
 	cout << "\n";
 	deleteTable(); // очищаем память от таблицы
