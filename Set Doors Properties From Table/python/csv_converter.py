@@ -3,6 +3,8 @@
 # import xml.dom.minidom
 # import urllib.request
 import csv
+import shutil
+import os
 #from combinatorics import *
 #from itertools import combinations
 
@@ -121,6 +123,13 @@ def writefile(filename, data):
                 spamwriter.writerow(line)
     return
 
+def copyfile():
+    src = filenameoutput
+    dst =  r'D:\table.csv'
+    shutil.copyfile(src, dst)
+
+
+
 if __name__ == '__main__':
     data = read_and_adapt(filename)
     #for i in data:
@@ -130,3 +139,4 @@ if __name__ == '__main__':
     #for i in adapted[2]:
     #    print(*i)
     writefile(filenameoutput, adapted)
+    copyfile()

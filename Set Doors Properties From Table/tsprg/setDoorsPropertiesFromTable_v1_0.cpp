@@ -24,8 +24,16 @@ int tableRowsNumber, tableColsNumber;
 
 int main()
 {
-	int ires;
 	int icount;
+  int iFileDescr;
+  object("create", "ts_file", iFileDescr);
+  int ires = ts_file(iFileDescr, "open", sCSVFilepath, "ignore", "r");
+  if (ires != 0)
+  {
+      ac_request("dialog_get_filename", "Файл таблицы помещений", "csv", "", sCSVFilepath);
+  }
+  ts_file(iFileDescr, "close");
+  object("delete", iFileDescr);
 
 	//--------------------------------------------------
 	// ЗАГРУЖАЕМ ДВЕРИ (ВСЕ)
@@ -302,7 +310,7 @@ int main()
 		ires = ac_request("elem_user_property", "get", "Заполнение"); // значение в объекте
 		if (ires!=0){cout<<"Свойство не найдено!\n"; return;};
 		prop3 = ac_getstrvalue(); // получили значение свойства объекта
-		
+
 
 		ires = ac_request("elem_user_property", "get", "Замок"); // значение в объекте
 		if (ires!=0){cout<<"Свойство не найдено!\n"; return;};
@@ -382,8 +390,8 @@ int main()
 				if (curTableFromName == "*") {curTableFromName = "";}
 				if (curTableToCatName == "*") {curTableToCatName = "";}
 				if (curTableToName == "*") {curTableToName = "";}
-				
-			
+
+
 				//  TABLE - здесь поперепутаны входы и выходы по причине того, что ассоциировали не верно, недоразумение вышло. Или вошло.
 				currentTableFromToCatName = "_|_" + curTableFromCatName + "_|_" + curTableFromName + "_|_" + curTableToCatName + "_|_" + curTableToName + "_|_";
 
@@ -477,7 +485,7 @@ int main()
 				// ЕСЛИ ВСЕ ПАРАМЕТРЫ СОВПАДАЮТ, ТО ЗАПИСАТЬ В ДВЕРЬ КАТЕГОРИЮ ДВЕРИ
 
 
-                                
+
 
 				if (currentObjectFromToCatName == currentTableFromToCatName) {
 					ires = ac_request("elem_user_property", "set", "DOOR_CATEGORY", curDoorCategory);
