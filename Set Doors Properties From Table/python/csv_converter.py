@@ -42,7 +42,8 @@ def read_and_adapt(filename):
                 else:
                     temp.append([k])
             finalcsvlist.append(temp)
-        print(finalcsvlist)
+        #print(finalcsvlist)
+        print("    файл прочтён")
         return finalcsvlist[:-1]
 
 
@@ -110,6 +111,10 @@ def combinatorics(data):
                                             adapted_line.append(assignvalues(ll8,i))
             #print(adapted_line)
         adapted.append(adapted_line)
+        print("    категории {1} скомбинированы, {0} строк".format(str(len(adapted_line)),i[4][0]))
+    # print(len(adapted[1:])
+    su = sum([len(u) for u in adapted[1:]])
+    print("    всего {0} строк".format(str(su)))
     return adapted
 
 
@@ -121,13 +126,15 @@ def writefile(filename, data):
         for group in data:
             for line in group:
                 spamwriter.writerow(line)
+    print("    файл записан в {0}".format(os.path.abspath("../")))
     return
 
 def copyfile():
     src = filenameoutput
     dst =  r'D:\table.csv'
     shutil.copyfile(src, dst)
-
+    print("    файл скопирован в {0}".format(dst))
+    return
 
 
 if __name__ == '__main__':

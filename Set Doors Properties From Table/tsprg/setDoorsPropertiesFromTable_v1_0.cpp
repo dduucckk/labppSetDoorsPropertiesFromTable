@@ -67,13 +67,13 @@ int main()
         {
             // ЗАГРУЗИТЬ ВСЕ ДВЕРИ ИЗ ПРОЕКТА
 	    ac_request("load_elements_list", 1, "DoorType", "MainFilter", 2);
-            cout << "Поскольку ничего не выделено, обрабатываю все двери в проекте.";
+            cout << "Поскольку ничего не выделено, обрабатываю все двери в проекте. ";
         }
 
 
 	ac_request("get_loaded_elements_list_count", 1); // считать количество элементов, находящихся в списке №1
 	icount = ac_getnumvalue(); // получить в переменную icount результат предыдущей операции как число
-	cout << "Количество выбранных дверей: " << icount << "\n"; // выдать сообщение о количестве элементов
+	cout << "Количество выбранных дверей: " << icount; // выдать сообщение о количестве элементов
 
 
 	if (icount == 0)
@@ -83,7 +83,7 @@ int main()
 		return -1; // число здесь не важно, но обычно если возвращается отрицательное значение, значит программа не сделала то, что хотелось.
 	}
 
-	cout << "Список дверей загружен.\n";
+	cout << "Список дверей загружен. ";
 
 	checkAndCreateUserParameters(); // проверка параметров и создание недостающих, если вдруг
 
@@ -95,7 +95,7 @@ int main()
 	createTable();
 	ts_table(iTableGUIDs, "get_rows_count", tableRowsNumber);
 	ts_table(iTableGUIDs, "get_columns_count", tableColsNumber);
-	cout << tableRowsNumber << "  - количество строк файла!!! Это смешно!\n";
+	// cout << tableRowsNumber << "  - количество строк файла!!! Это смешно!\n";
 
 
 	// КОЛИЧЕСТВО КОЛОНОК ВЫЯСНЯЕМ ТУТ, ЧТОБЫ НЕ ДЕЛАТЬ ЭТО В ЦИКЛЕ
@@ -155,12 +155,14 @@ int main()
 
 		// ВЫЯСНЯЕМ ИМЯ И ПРОЧИЕ ПАРАМЕТРЫ ПОЛУЧЕНЫХ ЗОН
 
-		if (curObjToGUID == "") {
+		/*
+    if (curObjToGUID == "") {
 			cout << "   Зона _откуда не привязана.\n";
 		}
 		if (curObjFromGUID == "") {
 			cout << "   Зона _куда не привязана.\n";
 		}
+    */
 		curObjToNumber = "";
 		curObjToName = "";
 		curObjToCat = "";
