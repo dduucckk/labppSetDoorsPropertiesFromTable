@@ -30,6 +30,11 @@ int main()
   int ires = ts_file(iFileDescr, "open", sCSVFilepath, "ignore", "r");
   if (ires != 0)
   {
+      // Это копирование файла от Юрия. Обещал прислать коды ошибок
+      // надо всю конструкцию в отдельную функцию перенести бы
+      // https://www.labpp.ru/TSHelp/LabPP_Automat/RUS/copy.html
+      // int err = shell_func("file","copy","..\\table.csv",sCSVFilepath);
+      // coutvar << err;
       ac_request("dialog_get_filename", "Файл таблицы помещений", "csv", "", sCSVFilepath);
   }
   ts_file(iFileDescr, "close");
