@@ -1,0 +1,998 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<BuildingInformation>
+	<PropertyDefinitionGroups>
+		<PropertyDefinitionGroup>
+			<Name>Двери</Name>
+			<PropertyDefinitions>
+				<PropertyDefinition>
+					<Name>Марка</Name>
+					<Description/>
+					<ValueDescriptor Type="SingleValueDescriptor">
+						<ValueType>String</ValueType>
+					</ValueDescriptor>
+					<MeasureType>Default</MeasureType>
+					<DefaultValue>
+						<DefaultValueType>Basic</DefaultValueType>
+						<Variant Type="StringVariant">
+							<Status>Normal</Status>
+							<Value>Д1</Value>
+						</Variant>
+					</DefaultValue>
+					<ClassificationIDs>
+						<ClassificationID>
+							<ItemID>Дверь</ItemID>
+							<SystemIDName>Классификация ARCHICAD</SystemIDName>
+							<SystemIDVersion>21</SystemIDVersion>
+						</ClassificationID>
+					</ClassificationIDs>
+				</PropertyDefinition>
+				<PropertyDefinition>
+					<Name>Расположение</Name>
+					<Description/>
+					<ValueDescriptor Type="EnumerationValueDescriptor" Version="2">
+						<EnumerationValueDescriptorWithStoredValues>
+							<ValueType>3</ValueType>
+							<Values>
+								<Key>A271FAD4-1303-4437-955B-7372B6626068</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Наружная</Value>
+									</Variant>
+								</Value>
+								<Key>AF04D26A-C82B-417D-A71F-EB31823FC13F</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Внутренняя</Value>
+									</Variant>
+								</Value>
+							</Values>
+						</EnumerationValueDescriptorWithStoredValues>
+						<HasMultiValue>false</HasMultiValue>
+					</ValueDescriptor>
+					<MeasureType>Default</MeasureType>
+					<DefaultValue>
+						<DefaultValueType>Basic</DefaultValueType>
+						<Variant Type="GuidVariant">
+							<Status>Normal</Status>
+							<Value>AF04D26A-C82B-417D-A71F-EB31823FC13F</Value>
+						</Variant>
+					</DefaultValue>
+					<ClassificationIDs>
+						<ClassificationID>
+							<ItemID>Дверь</ItemID>
+							<SystemIDName>Классификация ARCHICAD</SystemIDName>
+							<SystemIDVersion>21</SystemIDVersion>
+						</ClassificationID>
+					</ClassificationIDs>
+				</PropertyDefinition>
+				<PropertyDefinition>
+					<Name>Производитель</Name>
+					<Description>Hörmann
+ГОСТ 53780-2010
+СЕРИЯ 5.904-4</Description>
+					<ValueDescriptor Type="SingleValueDescriptor">
+						<ValueType>String</ValueType>
+					</ValueDescriptor>
+					<MeasureType>Default</MeasureType>
+					<DefaultValue>
+						<DefaultValueType>Expression</DefaultValueType>
+						<ExpressionDefaultValue>
+							<Expression>IFS ( COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "1" ) = 0, "Hörmann", COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "2" ) = 0, "Hörmann", COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "3" ) = 0, "Hörmann", COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "14" ) = 0, "Hörmann", COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "20" ) = 0, "Hörmann", COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "15" ) = 0, "СЕРИЯ 5.904-4", COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "10" ) = 0, "ГОСТ 53780-2010", TRUE, "" )</Expression>
+						</ExpressionDefaultValue>
+					</DefaultValue>
+					<ClassificationIDs>
+						<ClassificationID>
+							<ItemID>Дверь</ItemID>
+							<SystemIDName>Классификация ARCHICAD</SystemIDName>
+							<SystemIDVersion>21</SystemIDVersion>
+						</ClassificationID>
+					</ClassificationIDs>
+				</PropertyDefinition>
+				<PropertyDefinition>
+					<Name>Пожаростойкость</Name>
+					<Description/>
+					<ValueDescriptor Type="SingleValueDescriptor">
+						<ValueType>String</ValueType>
+					</ValueDescriptor>
+					<MeasureType>Default</MeasureType>
+					<DefaultValue>
+						<DefaultValueType>Expression</DefaultValueType>
+						<ExpressionDefaultValue>
+							<Expression>IFS ( COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "2" ) = 0, "EIS 60", COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "3" ) = 0, "EIWS 60", COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "6" ) = 0, "EIS 90", COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "10" ) = 0, "EI 60", COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "12" ) = 0, "EI 30", COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "13" ) = 0, "EIS 90", COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "14" ) = 0, "EIWS 60", COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "16" ) = 0, "EI 90", COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "17" ) = 0, "EI 60", COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "18" ) = 0, "EI 30", COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "20" ) = 0, "EIS 30", COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "21" ) = 0, "EIS 30", TRUE, "" )</Expression>
+						</ExpressionDefaultValue>
+					</DefaultValue>
+					<ClassificationIDs>
+						<ClassificationID>
+							<ItemID>Дверь</ItemID>
+							<SystemIDName>Классификация ARCHICAD</SystemIDName>
+							<SystemIDVersion>21</SystemIDVersion>
+						</ClassificationID>
+					</ClassificationIDs>
+				</PropertyDefinition>
+				<PropertyDefinition>
+					<Name>Петли</Name>
+					<Description/>
+					<ValueDescriptor Type="EnumerationValueDescriptor" Version="2">
+						<EnumerationValueDescriptorWithStoredValues>
+							<ValueType>3</ValueType>
+							<Values>
+								<Key>9924F774-4A69-4235-8B7D-4B6F12A05D05</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Наружные</Value>
+									</Variant>
+								</Value>
+								<Key>16C05468-50F0-4C35-8C95-926DE9060CD7</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Скрытые</Value>
+									</Variant>
+								</Value>
+								<Key>9956AD7B-B3C5-4C2E-A01B-27905B157D75</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Шатающиеся</Value>
+									</Variant>
+								</Value>
+							</Values>
+						</EnumerationValueDescriptorWithStoredValues>
+						<HasMultiValue>false</HasMultiValue>
+					</ValueDescriptor>
+					<MeasureType>Default</MeasureType>
+					<DefaultValue>
+						<DefaultValueType>Basic</DefaultValueType>
+						<Variant Type="GuidVariant">
+							<Status>Normal</Status>
+							<Value>9924F774-4A69-4235-8B7D-4B6F12A05D05</Value>
+						</Variant>
+					</DefaultValue>
+					<ClassificationIDs>
+						<ClassificationID>
+							<ItemID>Дверь</ItemID>
+							<SystemIDName>Классификация ARCHICAD</SystemIDName>
+							<SystemIDVersion>21</SystemIDVersion>
+						</ClassificationID>
+					</ClassificationIDs>
+				</PropertyDefinition>
+				<PropertyDefinition>
+					<Name>Заполнение</Name>
+					<Description/>
+					<ValueDescriptor Type="EnumerationValueDescriptor" Version="2">
+						<EnumerationValueDescriptorWithStoredValues>
+							<ValueType>3</ValueType>
+							<Values>
+								<Key>88C31A7C-03DE-42D7-8000-7A8DDCE3B004</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Глухая</Value>
+									</Variant>
+								</Value>
+								<Key>0D09F211-FCD2-4343-9229-DE32CE8D9E90</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Остеклённая</Value>
+									</Variant>
+								</Value>
+								<Key>EEDE30A1-7843-430E-94D6-6ECCF2D78044</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Перфорированное</Value>
+									</Variant>
+								</Value>
+							</Values>
+						</EnumerationValueDescriptorWithStoredValues>
+						<HasMultiValue>false</HasMultiValue>
+					</ValueDescriptor>
+					<MeasureType>Default</MeasureType>
+					<DefaultValue>
+						<DefaultValueType>Basic</DefaultValueType>
+						<Variant Type="GuidVariant">
+							<Status>Normal</Status>
+							<Value>88C31A7C-03DE-42D7-8000-7A8DDCE3B004</Value>
+						</Variant>
+					</DefaultValue>
+					<ClassificationIDs>
+						<ClassificationID>
+							<ItemID>Дверь</ItemID>
+							<SystemIDName>Классификация ARCHICAD</SystemIDName>
+							<SystemIDVersion>21</SystemIDVersion>
+						</ClassificationID>
+					</ClassificationIDs>
+				</PropertyDefinition>
+				<PropertyDefinition>
+					<Name>Материал</Name>
+					<Description/>
+					<ValueDescriptor Type="EnumerationValueDescriptor" Version="2">
+						<EnumerationValueDescriptorWithStoredValues>
+							<ValueType>3</ValueType>
+							<Values>
+								<Key>B959EF21-8218-4591-AE58-2321CBE3564E</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Сталь</Value>
+									</Variant>
+								</Value>
+								<Key>31CAB85C-4389-4C66-A746-02BCF0B6A25E</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Алюминий</Value>
+									</Variant>
+								</Value>
+								<Key>23E1E205-4857-454A-94C9-957DA82FA18C</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Дерево</Value>
+									</Variant>
+								</Value>
+								<Key>3B0C3F54-F993-48EA-AE20-5108BABE79C7</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Стекло</Value>
+									</Variant>
+								</Value>
+								<Key>CE7F00A6-06F0-4736-85E6-E9CAAFCA8717</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Ламинат</Value>
+									</Variant>
+								</Value>
+								<Key>C502DDFC-2F7A-414B-A836-451FE8DE62C4</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Шпон</Value>
+									</Variant>
+								</Value>
+								<Key>A3998931-657D-44D9-8796-0F1B21435AE9</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>HPL/пластик</Value>
+									</Variant>
+								</Value>
+							</Values>
+						</EnumerationValueDescriptorWithStoredValues>
+						<HasMultiValue>false</HasMultiValue>
+					</ValueDescriptor>
+					<MeasureType>Default</MeasureType>
+					<DefaultValue>
+						<DefaultValueType>Basic</DefaultValueType>
+						<Variant Type="GuidVariant">
+							<Status>Normal</Status>
+							<Value>B959EF21-8218-4591-AE58-2321CBE3564E</Value>
+						</Variant>
+					</DefaultValue>
+					<ClassificationIDs>
+						<ClassificationID>
+							<ItemID>Дверь</ItemID>
+							<SystemIDName>Классификация ARCHICAD</SystemIDName>
+							<SystemIDVersion>21</SystemIDVersion>
+						</ClassificationID>
+					</ClassificationIDs>
+				</PropertyDefinition>
+				<PropertyDefinition>
+					<Name>Полотна</Name>
+					<Description/>
+					<ValueDescriptor Type="EnumerationValueDescriptor" Version="2">
+						<EnumerationValueDescriptorWithStoredValues>
+							<ValueType>3</ValueType>
+							<Values>
+								<Key>8C7C8F70-2E18-461A-84B4-F1513AE53AF1</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Одинарная</Value>
+									</Variant>
+								</Value>
+								<Key>31E80E4D-6F3C-4A76-BFF7-DA9F5156EA07</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Равнопольная</Value>
+									</Variant>
+								</Value>
+								<Key>39705BD9-BE4B-4F7F-B418-D22A0BEB7CA5</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Неравнопольная</Value>
+									</Variant>
+								</Value>
+							</Values>
+						</EnumerationValueDescriptorWithStoredValues>
+						<HasMultiValue>false</HasMultiValue>
+					</ValueDescriptor>
+					<MeasureType>Default</MeasureType>
+					<DefaultValue>
+						<DefaultValueType>Basic</DefaultValueType>
+						<Variant Type="GuidVariant">
+							<Status>Normal</Status>
+							<Value>8C7C8F70-2E18-461A-84B4-F1513AE53AF1</Value>
+						</Variant>
+					</DefaultValue>
+					<ClassificationIDs>
+						<ClassificationID>
+							<ItemID>Дверь</ItemID>
+							<SystemIDName>Классификация ARCHICAD</SystemIDName>
+							<SystemIDVersion>21</SystemIDVersion>
+						</ClassificationID>
+					</ClassificationIDs>
+				</PropertyDefinition>
+				<PropertyDefinition>
+					<Name>Уплотнитель</Name>
+					<Description/>
+					<ValueDescriptor Type="SingleValueDescriptor">
+						<ValueType>Boolean</ValueType>
+					</ValueDescriptor>
+					<MeasureType>Default</MeasureType>
+					<DefaultValue>
+						<DefaultValueType>Expression</DefaultValueType>
+						<ExpressionDefaultValue>
+							<Expression>IFS ( COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "1" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "2" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "3" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "4" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "5" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "6" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "10" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "14" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "15" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "20" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "21" ) = 0, TRUE, TRUE, FALSE )</Expression>
+						</ExpressionDefaultValue>
+					</DefaultValue>
+					<ClassificationIDs>
+						<ClassificationID>
+							<ItemID>Дверь</ItemID>
+							<SystemIDName>Классификация ARCHICAD</SystemIDName>
+							<SystemIDVersion>21</SystemIDVersion>
+						</ClassificationID>
+					</ClassificationIDs>
+				</PropertyDefinition>
+				<PropertyDefinition>
+					<Name>Утеплитель</Name>
+					<Description/>
+					<ValueDescriptor Type="SingleValueDescriptor">
+						<ValueType>Boolean</ValueType>
+					</ValueDescriptor>
+					<MeasureType>Default</MeasureType>
+					<DefaultValue>
+						<DefaultValueType>Expression</DefaultValueType>
+						<ExpressionDefaultValue>
+							<Expression>IFS ( COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "15" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "20" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "21" ) = 0, TRUE, TRUE, FALSE )</Expression>
+						</ExpressionDefaultValue>
+					</DefaultValue>
+					<ClassificationIDs>
+						<ClassificationID>
+							<ItemID>Дверь</ItemID>
+							<SystemIDName>Классификация ARCHICAD</SystemIDName>
+							<SystemIDVersion>21</SystemIDVersion>
+						</ClassificationID>
+					</ClassificationIDs>
+				</PropertyDefinition>
+				<PropertyDefinition>
+					<Name>Геркон</Name>
+					<Description/>
+					<ValueDescriptor Type="SingleValueDescriptor">
+						<ValueType>Boolean</ValueType>
+					</ValueDescriptor>
+					<MeasureType>Default</MeasureType>
+					<DefaultValue>
+						<DefaultValueType>Expression</DefaultValueType>
+						<ExpressionDefaultValue>
+							<Expression>IFS ( COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "2" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "4" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "5" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "6" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "7" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "8" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "9" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "10" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "13" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "15" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "16" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "17" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "18" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "19" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "20" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "21" ) = 0, TRUE, TRUE, FALSE )</Expression>
+						</ExpressionDefaultValue>
+					</DefaultValue>
+					<ClassificationIDs>
+						<ClassificationID>
+							<ItemID>Дверь</ItemID>
+							<SystemIDName>Классификация ARCHICAD</SystemIDName>
+							<SystemIDVersion>21</SystemIDVersion>
+						</ClassificationID>
+					</ClassificationIDs>
+				</PropertyDefinition>
+				<PropertyDefinition>
+					<Name>Ручка</Name>
+					<Description/>
+					<ValueDescriptor Type="EnumerationValueDescriptor" Version="2">
+						<EnumerationValueDescriptorWithStoredValues>
+							<ValueType>3</ValueType>
+							<Values>
+								<Key>9ED61F31-631C-44B6-9FD0-415443B8B0A6</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Нажимная</Value>
+									</Variant>
+								</Value>
+								<Key>1924092C-E9F2-4E69-B077-62651EF8F418</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Накладная</Value>
+									</Variant>
+								</Value>
+								<Key>372774AD-E550-4639-BEDB-75F37FAC856E</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Поворотная круглая</Value>
+									</Variant>
+								</Value>
+								<Key>3A0FF59D-EEBE-494F-92CF-CF043C666030</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Накладная круглая</Value>
+									</Variant>
+								</Value>
+								<Key>2D699E32-AD20-4292-8C62-7551C95E5C5A</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Антипаника балка</Value>
+									</Variant>
+								</Value>
+								<Key>239AED71-4252-4CC6-926A-8043AFFC6ED2</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Антипаника ручка</Value>
+									</Variant>
+								</Value>
+								<Key>1E2C0AB6-0CD7-48E5-8CA2-7B90D8FE9110</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Врезная</Value>
+									</Variant>
+								</Value>
+							</Values>
+						</EnumerationValueDescriptorWithStoredValues>
+						<HasMultiValue>false</HasMultiValue>
+					</ValueDescriptor>
+					<MeasureType>Default</MeasureType>
+					<DefaultValue>
+						<DefaultValueType>Basic</DefaultValueType>
+						<Variant Type="GuidVariant">
+							<Status>Normal</Status>
+							<Value>9ED61F31-631C-44B6-9FD0-415443B8B0A6</Value>
+						</Variant>
+					</DefaultValue>
+					<ClassificationIDs>
+						<ClassificationID>
+							<ItemID>Дверь</ItemID>
+							<SystemIDName>Классификация ARCHICAD</SystemIDName>
+							<SystemIDVersion>21</SystemIDVersion>
+						</ClassificationID>
+					</ClassificationIDs>
+				</PropertyDefinition>
+				<PropertyDefinition>
+					<Name>Замок</Name>
+					<Description/>
+					<ValueDescriptor Type="EnumerationValueDescriptor" Version="2">
+						<EnumerationValueDescriptorWithStoredValues>
+							<ValueType>3</ValueType>
+							<Values>
+								<Key>49832184-711D-458D-9369-AF81DE5CDF73</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Цилиндр</Value>
+									</Variant>
+								</Value>
+								<Key>62A66D99-2860-49EB-BC84-243A3A31396E</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Электро-механический</Value>
+									</Variant>
+								</Value>
+								<Key>9653E707-41A8-4EE6-9BC3-E7354A96F20E</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Защёлка</Value>
+									</Variant>
+								</Value>
+								<Key>EDE5E92C-B6D1-406B-9806-FC3B25B5CDAB</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Засов</Value>
+									</Variant>
+								</Value>
+								<Key>9D4A5163-C787-4EEC-907B-D46DFDD4E689</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Цилиндр ГОСТ Р 53780-2010</Value>
+									</Variant>
+								</Value>
+								<Key>86353382-FE5B-42C0-A8AF-A3DB74C83718</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Треугольник</Value>
+									</Variant>
+								</Value>
+							</Values>
+						</EnumerationValueDescriptorWithStoredValues>
+						<HasMultiValue>true</HasMultiValue>
+					</ValueDescriptor>
+					<MeasureType>Default</MeasureType>
+					<DefaultValue>
+						<DefaultValueType>Basic</DefaultValueType>
+						<Variant Type="GuidListVariant">
+							<Status>Normal</Status>
+							<ValueArray/>
+						</Variant>
+					</DefaultValue>
+					<ClassificationIDs>
+						<ClassificationID>
+							<ItemID>Дверь</ItemID>
+							<SystemIDName>Классификация ARCHICAD</SystemIDName>
+							<SystemIDVersion>21</SystemIDVersion>
+						</ClassificationID>
+					</ClassificationIDs>
+				</PropertyDefinition>
+				<PropertyDefinition>
+					<Name>СКУД</Name>
+					<Description/>
+					<ValueDescriptor Type="SingleValueDescriptor">
+						<ValueType>Boolean</ValueType>
+					</ValueDescriptor>
+					<MeasureType>Default</MeasureType>
+					<DefaultValue>
+						<DefaultValueType>Expression</DefaultValueType>
+						<ExpressionDefaultValue>
+							<Expression>IFS ( COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "2" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "3" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "4" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "5" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "6" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "11" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "12" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "13" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "14" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "20" ) = 0, TRUE, TRUE, FALSE )</Expression>
+						</ExpressionDefaultValue>
+					</DefaultValue>
+					<ClassificationIDs>
+						<ClassificationID>
+							<ItemID>Дверь</ItemID>
+							<SystemIDName>Классификация ARCHICAD</SystemIDName>
+							<SystemIDVersion>21</SystemIDVersion>
+						</ClassificationID>
+					</ClassificationIDs>
+				</PropertyDefinition>
+				<PropertyDefinition>
+					<Name>Влагостойкая</Name>
+					<Description/>
+					<ValueDescriptor Type="SingleValueDescriptor">
+						<ValueType>Boolean</ValueType>
+					</ValueDescriptor>
+					<MeasureType>Default</MeasureType>
+					<DefaultValue>
+						<DefaultValueType>Expression</DefaultValueType>
+						<ExpressionDefaultValue>
+							<Expression>IFS ( COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "4" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "5" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "6" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "7" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "8" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "11" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "12" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "15" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "16" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "17" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "18" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "19" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "20" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "21" ) = 0, TRUE, TRUE, FALSE )</Expression>
+						</ExpressionDefaultValue>
+					</DefaultValue>
+					<ClassificationIDs>
+						<ClassificationID>
+							<ItemID>Дверь</ItemID>
+							<SystemIDName>Классификация ARCHICAD</SystemIDName>
+							<SystemIDVersion>21</SystemIDVersion>
+						</ClassificationID>
+					</ClassificationIDs>
+				</PropertyDefinition>
+				<PropertyDefinition>
+					<Name>Коробка</Name>
+					<Description/>
+					<ValueDescriptor Type="EnumerationValueDescriptor" Version="2">
+						<EnumerationValueDescriptorWithStoredValues>
+							<ValueType>3</ValueType>
+							<Values>
+								<Key>41173750-FE48-46AE-A5DB-FBD4E0B675D7</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Блочная</Value>
+									</Variant>
+								</Value>
+								<Key>5A2ABCF0-0AC0-4B13-B1BE-D4C19999287A</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Угловая</Value>
+									</Variant>
+								</Value>
+								<Key>1FD9E671-85CC-46F4-BB15-C332948466E2</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Скрытая</Value>
+									</Variant>
+								</Value>
+							</Values>
+						</EnumerationValueDescriptorWithStoredValues>
+						<HasMultiValue>false</HasMultiValue>
+					</ValueDescriptor>
+					<MeasureType>Default</MeasureType>
+					<DefaultValue>
+						<DefaultValueType>Basic</DefaultValueType>
+						<Variant Type="GuidVariant">
+							<Status>Normal</Status>
+							<Value>41173750-FE48-46AE-A5DB-FBD4E0B675D7</Value>
+						</Variant>
+					</DefaultValue>
+					<ClassificationIDs>
+						<ClassificationID>
+							<ItemID>Дверь</ItemID>
+							<SystemIDName>Классификация ARCHICAD</SystemIDName>
+							<SystemIDVersion>21</SystemIDVersion>
+						</ClassificationID>
+					</ClassificationIDs>
+				</PropertyDefinition>
+				<PropertyDefinition>
+					<Name>Цвет полотна</Name>
+					<Description/>
+					<ValueDescriptor Type="EnumerationValueDescriptor" Version="2">
+						<EnumerationValueDescriptorWithStoredValues>
+							<ValueType>3</ValueType>
+							<Values>
+								<Key>9ADA6EC9-E29E-4BC1-8564-EE4F24284187</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Разраб. отдельно</Value>
+									</Variant>
+								</Value>
+								<Key>F33D4610-CE9F-4844-8FB8-B173031367EE</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>RAL 7021</Value>
+									</Variant>
+								</Value>
+								<Key>56C1F5A3-CFF1-4E0C-ACBC-F93CDD07E081</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>RAL 9003</Value>
+									</Variant>
+								</Value>
+							</Values>
+						</EnumerationValueDescriptorWithStoredValues>
+						<HasMultiValue>false</HasMultiValue>
+					</ValueDescriptor>
+					<MeasureType>Default</MeasureType>
+					<DefaultValue>
+						<DefaultValueType>Basic</DefaultValueType>
+						<Variant Type="GuidVariant">
+							<Status>Normal</Status>
+							<Value>9ADA6EC9-E29E-4BC1-8564-EE4F24284187</Value>
+						</Variant>
+					</DefaultValue>
+					<ClassificationIDs>
+						<ClassificationID>
+							<ItemID>Дверь</ItemID>
+							<SystemIDName>Классификация ARCHICAD</SystemIDName>
+							<SystemIDVersion>21</SystemIDVersion>
+						</ClassificationID>
+					</ClassificationIDs>
+				</PropertyDefinition>
+				<PropertyDefinition>
+					<Name>Цвет коробки</Name>
+					<Description/>
+					<ValueDescriptor Type="EnumerationValueDescriptor" Version="2">
+						<EnumerationValueDescriptorWithStoredValues>
+							<ValueType>3</ValueType>
+							<Values>
+								<Key>EA160577-5B63-4D3D-8FEE-56612B39B714</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Разраб. отдельно</Value>
+									</Variant>
+								</Value>
+								<Key>DE774B5D-9AD5-469B-9D04-F5C7231D6748</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>RAL 7021</Value>
+									</Variant>
+								</Value>
+								<Key>85F7DE55-6ACF-4BF8-8B6F-E7B8539B9821</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>RAL 9003</Value>
+									</Variant>
+								</Value>
+							</Values>
+						</EnumerationValueDescriptorWithStoredValues>
+						<HasMultiValue>false</HasMultiValue>
+					</ValueDescriptor>
+					<MeasureType>Default</MeasureType>
+					<DefaultValue>
+						<DefaultValueType>Basic</DefaultValueType>
+						<Variant Type="GuidVariant">
+							<Status>Normal</Status>
+							<Value>EA160577-5B63-4D3D-8FEE-56612B39B714</Value>
+						</Variant>
+					</DefaultValue>
+					<ClassificationIDs>
+						<ClassificationID>
+							<ItemID>Дверь</ItemID>
+							<SystemIDName>Классификация ARCHICAD</SystemIDName>
+							<SystemIDVersion>21</SystemIDVersion>
+						</ClassificationID>
+					</ClassificationIDs>
+				</PropertyDefinition>
+				<PropertyDefinition>
+					<Name>Доводчик</Name>
+					<Description/>
+					<ValueDescriptor Type="EnumerationValueDescriptor" Version="2">
+						<EnumerationValueDescriptorWithStoredValues>
+							<ValueType>3</ValueType>
+							<Values>
+								<Key>7284C870-6E88-4309-AF71-2CD32C4D16A1</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Нет</Value>
+									</Variant>
+								</Value>
+								<Key>2FAB2854-F89C-4C91-B30F-4D9984B0317B</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Верхний</Value>
+									</Variant>
+								</Value>
+								<Key>E1DC77D3-A633-4319-9E0F-CA5C04FD3537</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Напольный</Value>
+									</Variant>
+								</Value>
+								<Key>775975A3-A970-472E-8AE1-8C63A3C8D9AD</Key>
+								<Value Empty="false">
+									<Variant Type="StringVariant">
+										<Status>Normal</Status>
+										<Value>Скрытый</Value>
+									</Variant>
+								</Value>
+							</Values>
+						</EnumerationValueDescriptorWithStoredValues>
+						<HasMultiValue>false</HasMultiValue>
+					</ValueDescriptor>
+					<MeasureType>Default</MeasureType>
+					<DefaultValue>
+						<DefaultValueType>Basic</DefaultValueType>
+						<Variant Type="GuidVariant">
+							<Status>Normal</Status>
+							<Value>7284C870-6E88-4309-AF71-2CD32C4D16A1</Value>
+						</Variant>
+					</DefaultValue>
+					<ClassificationIDs>
+						<ClassificationID>
+							<ItemID>Дверь</ItemID>
+							<SystemIDName>Классификация ARCHICAD</SystemIDName>
+							<SystemIDVersion>21</SystemIDVersion>
+						</ClassificationID>
+					</ClassificationIDs>
+				</PropertyDefinition>
+				<PropertyDefinition>
+					<Name>Координатор</Name>
+					<Description/>
+					<ValueDescriptor Type="SingleValueDescriptor">
+						<ValueType>Boolean</ValueType>
+					</ValueDescriptor>
+					<MeasureType>Default</MeasureType>
+					<DefaultValue>
+						<DefaultValueType>Expression</DefaultValueType>
+						<ExpressionDefaultValue>
+							<Expression>IFS ( NOT ( COMPARE ( "Нет", {Property:Двери/Доводчик} ) = 0 ), TRUE, NOT ( COMPARE ( "Одинарная", {Property:Двери/Полотна} ) = 0 ), TRUE, TRUE, FALSE )</Expression>
+						</ExpressionDefaultValue>
+					</DefaultValue>
+					<ClassificationIDs>
+						<ClassificationID>
+							<ItemID>Дверь</ItemID>
+							<SystemIDName>Классификация ARCHICAD</SystemIDName>
+							<SystemIDVersion>21</SystemIDVersion>
+						</ClassificationID>
+					</ClassificationIDs>
+				</PropertyDefinition>
+				<PropertyDefinition>
+					<Name>Помещение</Name>
+					<Description/>
+					<ValueDescriptor Type="SingleValueDescriptor">
+						<ValueType>String</ValueType>
+					</ValueDescriptor>
+					<MeasureType>Default</MeasureType>
+					<DefaultValue>
+						<DefaultValueType>Basic</DefaultValueType>
+						<Variant Type="StringVariant">
+							<Status>Normal</Status>
+							<Value/>
+						</Variant>
+					</DefaultValue>
+					<ClassificationIDs>
+						<ClassificationID>
+							<ItemID>Дверь</ItemID>
+							<SystemIDName>Классификация ARCHICAD</SystemIDName>
+							<SystemIDVersion>21</SystemIDVersion>
+						</ClassificationID>
+					</ClassificationIDs>
+				</PropertyDefinition>
+				<PropertyDefinition>
+					<Name>Корпус</Name>
+					<Description/>
+					<ValueDescriptor Type="SingleValueDescriptor">
+						<ValueType>String</ValueType>
+					</ValueDescriptor>
+					<MeasureType>Default</MeasureType>
+					<DefaultValue>
+						<DefaultValueType>Basic</DefaultValueType>
+						<Variant Type="StringVariant">
+							<Status>Normal</Status>
+							<Value>В</Value>
+						</Variant>
+					</DefaultValue>
+					<ClassificationIDs>
+						<ClassificationID>
+							<ItemID>Дверь</ItemID>
+							<SystemIDName>Классификация ARCHICAD</SystemIDName>
+							<SystemIDVersion>21</SystemIDVersion>
+						</ClassificationID>
+					</ClassificationIDs>
+				</PropertyDefinition>
+				<PropertyDefinition>
+					<Name>Открывание</Name>
+					<Description/>
+					<ValueDescriptor Type="SingleValueDescriptor">
+						<ValueType>String</ValueType>
+					</ValueDescriptor>
+					<MeasureType>Default</MeasureType>
+					<DefaultValue>
+						<DefaultValueType>Expression</DefaultValueType>
+						<ExpressionDefaultValue>
+							<Expression>IFS ( OR ( CONTAINS ( "L", {Property:3C5E6BC4-E8E9-4B34-AAC4-637532D440EB} ), CONTAINS ( "Л", {Property:3C5E6BC4-E8E9-4B34-AAC4-637532D440EB} ) ), "Левая", OR ( CONTAINS ( "R", {Property:3C5E6BC4-E8E9-4B34-AAC4-637532D440EB} ), CONTAINS ( "П", {Property:3C5E6BC4-E8E9-4B34-AAC4-637532D440EB} ) ), "Правая" )</Expression>
+						</ExpressionDefaultValue>
+					</DefaultValue>
+					<ClassificationIDs>
+						<ClassificationID>
+							<ItemID>Дверь</ItemID>
+							<SystemIDName>Классификация ARCHICAD</SystemIDName>
+							<SystemIDVersion>21</SystemIDVersion>
+						</ClassificationID>
+						<ClassificationID>
+							<ItemID>Door</ItemID>
+							<SystemIDName>ARCHICAD Classification</SystemIDName>
+							<SystemIDVersion>v 2.0</SystemIDVersion>
+						</ClassificationID>
+						<ClassificationID>
+							<ItemID>Gate</ItemID>
+							<SystemIDName>ARCHICAD Classification</SystemIDName>
+							<SystemIDVersion>v 2.0</SystemIDVersion>
+						</ClassificationID>
+						<ClassificationID>
+							<ItemID>Trapdoor</ItemID>
+							<SystemIDName>ARCHICAD Classification</SystemIDName>
+							<SystemIDVersion>v 2.0</SystemIDVersion>
+						</ClassificationID>
+					</ClassificationIDs>
+				</PropertyDefinition>
+				<PropertyDefinition>
+					<Name>Домофон</Name>
+					<Description/>
+					<ValueDescriptor Type="SingleValueDescriptor">
+						<ValueType>Boolean</ValueType>
+					</ValueDescriptor>
+					<MeasureType>Default</MeasureType>
+					<DefaultValue>
+						<DefaultValueType>Expression</DefaultValueType>
+						<ExpressionDefaultValue>
+							<Expression>IFS ( COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "2" ) = 0, TRUE, TRUE, FALSE )</Expression>
+						</ExpressionDefaultValue>
+					</DefaultValue>
+					<ClassificationIDs>
+						<ClassificationID>
+							<ItemID>Дверь</ItemID>
+							<SystemIDName>Классификация ARCHICAD</SystemIDName>
+							<SystemIDVersion>21</SystemIDVersion>
+						</ClassificationID>
+					</ClassificationIDs>
+				</PropertyDefinition>
+				<PropertyDefinition>
+					<Name>Звукоизоляция</Name>
+					<Description/>
+					<ValueDescriptor Type="SingleValueDescriptor">
+						<ValueType>Boolean</ValueType>
+					</ValueDescriptor>
+					<MeasureType>Default</MeasureType>
+					<DefaultValue>
+						<DefaultValueType>Expression</DefaultValueType>
+						<ExpressionDefaultValue>
+							<Expression>IFS ( COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "1" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "2" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "4" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "5" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "6" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "10" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "20" ) = 0, TRUE, COMPARE ( {Property:OPENINGS/DOOR_CATEGORY}, "21" ) = 0, TRUE, TRUE, FALSE )</Expression>
+						</ExpressionDefaultValue>
+					</DefaultValue>
+					<ClassificationIDs>
+						<ClassificationID>
+							<ItemID>Дверь</ItemID>
+							<SystemIDName>Классификация ARCHICAD</SystemIDName>
+							<SystemIDVersion>21</SystemIDVersion>
+						</ClassificationID>
+					</ClassificationIDs>
+				</PropertyDefinition>
+				<PropertyDefinition>
+					<Name>Порог</Name>
+					<Description/>
+					<ValueDescriptor Type="SingleValueDescriptor">
+						<ValueType>String</ValueType>
+					</ValueDescriptor>
+					<MeasureType>Default</MeasureType>
+					<DefaultValue>
+						<DefaultValueType>Expression</DefaultValueType>
+						<ExpressionDefaultValue>
+							<Expression>IFS ( COMPARE ( "Остеклённая", {Property:Двери/Заполнение} ) = 0, "Автоматический порог", TRUE, "12" )</Expression>
+						</ExpressionDefaultValue>
+					</DefaultValue>
+					<ClassificationIDs>
+						<ClassificationID>
+							<ItemID>Дверь</ItemID>
+							<SystemIDName>Классификация ARCHICAD</SystemIDName>
+							<SystemIDVersion>21</SystemIDVersion>
+						</ClassificationID>
+						<ClassificationID>
+							<ItemID>Door</ItemID>
+							<SystemIDName>ARCHICAD Classification</SystemIDName>
+							<SystemIDVersion>v 2.0</SystemIDVersion>
+						</ClassificationID>
+					</ClassificationIDs>
+				</PropertyDefinition>
+				<PropertyDefinition>
+					<Name>Тип</Name>
+					<Description/>
+					<ValueDescriptor Type="SingleValueDescriptor">
+						<ValueType>String</ValueType>
+					</ValueDescriptor>
+					<MeasureType>Default</MeasureType>
+					<DefaultValue>
+						<DefaultValueType>Expression</DefaultValueType>
+						<ExpressionDefaultValue>
+							<Expression>TEXTJOIN ( ".", FALSE, TEXTJOIN ( "", FALSE, "Д", {Property:OPENINGS/DOOR_CATEGORY} ), {Property:Двери/Подтип} )</Expression>
+						</ExpressionDefaultValue>
+					</DefaultValue>
+					<ClassificationIDs>
+						<ClassificationID>
+							<ItemID>Дверь</ItemID>
+							<SystemIDName>Классификация ARCHICAD</SystemIDName>
+							<SystemIDVersion>21</SystemIDVersion>
+						</ClassificationID>
+					</ClassificationIDs>
+				</PropertyDefinition>
+				<PropertyDefinition>
+					<Name>Подтип</Name>
+					<Description/>
+					<ValueDescriptor Type="SingleValueDescriptor">
+						<ValueType>String</ValueType>
+					</ValueDescriptor>
+					<MeasureType>Default</MeasureType>
+					<DefaultValue>
+						<DefaultValueType>Basic</DefaultValueType>
+						<Variant Type="StringVariant">
+							<Status>Normal</Status>
+							<Value/>
+						</Variant>
+					</DefaultValue>
+					<ClassificationIDs>
+						<ClassificationID>
+							<ItemID>Дверь</ItemID>
+							<SystemIDName>Классификация ARCHICAD</SystemIDName>
+							<SystemIDVersion>21</SystemIDVersion>
+						</ClassificationID>
+					</ClassificationIDs>
+				</PropertyDefinition>
+			</PropertyDefinitions>
+		</PropertyDefinitionGroup>
+	</PropertyDefinitionGroups>
+</BuildingInformation>
