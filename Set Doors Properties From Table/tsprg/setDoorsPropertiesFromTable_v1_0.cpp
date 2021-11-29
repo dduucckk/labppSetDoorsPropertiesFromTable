@@ -25,20 +25,20 @@ int tableRowsNumber, tableColsNumber;
 int main()
 {
 	int icount;
-  int iFileDescr;
-  object("create", "ts_file", iFileDescr);
-  int ires = ts_file(iFileDescr, "open", sCSVFilepath, "ignore", "r");
-  if (ires != 0)
-  {
-      // Это копирование файла от Юрия. Обещал прислать коды ошибок
-      // надо всю конструкцию в отдельную функцию перенести бы
-      // https://www.labpp.ru/TSHelp/LabPP_Automat/RUS/copy.html
-      // int err = shell_func("file","copy","..\\table.csv",sCSVFilepath);
-      // coutvar << err;
-      ac_request("dialog_get_filename", "Файл таблицы помещений", "csv", "", sCSVFilepath);
-  }
-  ts_file(iFileDescr, "close");
-  object("delete", iFileDescr);
+	int iFileDescr;
+	object("create", "ts_file", iFileDescr);
+	int ires = ts_file(iFileDescr, "open", sCSVFilepath, "ignore", "r");
+	if (ires != 0)
+	{
+		// Это копирование файла от Юрия. Обещал прислать коды ошибок
+		// надо всю конструкцию в отдельную функцию перенести бы
+		// https://www.labpp.ru/TSHelp/LabPP_Automat/RUS/copy.html
+		// int err = shell_func("file","copy","..\\table.csv",sCSVFilepath);
+		// coutvar << err;
+		ac_request("dialog_get_filename", "Файл таблицы помещений", "csv", "", sCSVFilepath);
+	}
+	ts_file(iFileDescr, "close");
+	object("delete", iFileDescr);
 
 	//--------------------------------------------------
 	// ЗАГРУЖАЕМ ДВЕРИ (ВСЕ)
@@ -62,18 +62,18 @@ int main()
 
 	// ЗАГРУЗИТЬ ДВЕРИ ИЗ СПИСКА ВЫБРАННЫХ ЭЛЕМЕНТОВ
 	ac_request_special("load_elements_list_from_selection", 1, "DoorType", 2);
-        icount = ac_getnumvalue();
-        if (icount == 0)
-        {
-            // ЗАГРУЗИТЬ ВСЕ ДВЕРИ ИЗ ПРОЕКТА
-	    ac_request("load_elements_list", 1, "DoorType", "MainFilter", 2);
-            cout << "Поскольку ничего не выделено, обрабатываю все двери в проекте. ";
-        }
+	icount = ac_getnumvalue();
+	if (icount == 0)
+	{
+		// ЗАГРУЗИТЬ ВСЕ ДВЕРИ ИЗ ПРОЕКТА
+		ac_request("load_elements_list", 1, "DoorType", "MainFilter", 2);
+		cout << "Поскольку ничего не выделено, обрабатываю все двери в проекте.\n";
+	}
 
 
 	ac_request("get_loaded_elements_list_count", 1); // считать количество элементов, находящихся в списке №1
 	icount = ac_getnumvalue(); // получить в переменную icount результат предыдущей операции как число
-	cout << "Количество выбранных дверей: " << icount; // выдать сообщение о количестве элементов
+	cout << "Количество выбранных дверей: " << icount << "\n"; // выдать сообщение о количестве элементов
 
 
 	if (icount == 0)
@@ -156,13 +156,13 @@ int main()
 		// ВЫЯСНЯЕМ ИМЯ И ПРОЧИЕ ПАРАМЕТРЫ ПОЛУЧЕНЫХ ЗОН
 
 		/*
-    if (curObjToGUID == "") {
+		if (curObjToGUID == "") {
 			cout << "   Зона _откуда не привязана.\n";
 		}
 		if (curObjFromGUID == "") {
 			cout << "   Зона _куда не привязана.\n";
 		}
-    */
+		*/
 		curObjToNumber = "";
 		curObjToName = "";
 		curObjToCat = "";
@@ -291,7 +291,7 @@ int main()
 
 		prop1 = prop2 = prop3 = prop4 = "";
 
-		currentObjectFromToCatName = currentTableFromToCatName ="";
+		currentObjectFromToCatName = currentTableFromToCatName = "";
 
 
 		// .########..########...#######..########..########.########..########.####.########..######.
@@ -311,16 +311,16 @@ int main()
 		*/
 
 		ires = ac_request("elem_user_property", "get", "Производитель"); // значение в объекте
-		if (ires!=0){cout<<"Свойство не найдено!\n"; return;};
+		if (ires != 0) {cout << "Свойство не найдено!\n"; return;};
 		prop2 = ac_getstrvalue(); // получили значение свойства объекта
 
 		ires = ac_request("elem_user_property", "get", "Заполнение"); // значение в объекте
-		if (ires!=0){cout<<"Свойство не найдено!\n"; return;};
+		if (ires != 0) {cout << "Свойство не найдено!\n"; return;};
 		prop3 = ac_getstrvalue(); // получили значение свойства объекта
 
 
 		ires = ac_request("elem_user_property", "get", "Замок"); // значение в объекте
-		if (ires!=0){cout<<"Свойство не найдено!\n"; return;};
+		if (ires != 0) {cout << "Свойство не найдено!\n"; return;};
 		prop4 = ac_getstrvalue(); // получили значение свойства объекта
 
 		// if (prop1 == " ") {prop1 = "";}
@@ -362,10 +362,10 @@ int main()
 				         2, curTableToCatName,
 				         3, curTableToName,
 				         4, curDoorCategory); //, /* ТУТ СТОИТ ПРОВЕРИТЬ КОЛИЧЕСТВО ДОП КОЛОНОК, ПОСКОЛЬКУ ВАРИАНТ С АВТОПОДСЧЕТОМ НЕ ИСПОЛЬЗУЕТСЯ, см. ниже*/
-				      /* 5, col1,
-				         6, col2,
-				         7, col3,
-				         8, col4); */
+				/* 5, col1,
+				   6, col2,
+				   7, col3,
+				   8, col4); */
 
 
 				curTableFromCatName = tolower(curTableFromCatName);
@@ -498,16 +498,16 @@ int main()
 					ires = ac_request("elem_user_property", "set", "DOOR_CATEGORY", curDoorCategory);
 					cout << "	Записываем категорию двери: " << curDoorCategory << " статус: " << ires << "\n";
 					doorWithoutCategory = false;
-                                        // cout << "    Далее объект / табица значения для сравнения \n";
-                                        // cout << currentObjectFromToCatName << "\n";
-                                        // cout << currentTableFromToCatName << "\n";
-                                        row = tableRowsNumber;
+					// cout << "    Далее объект / табица значения для сравнения \n";
+					// cout << currentObjectFromToCatName << "\n";
+					// cout << currentTableFromToCatName << "\n";
+					row = tableRowsNumber;
 				} else {
 					// cout << " Совпадений не найдено. \n";
 				}
 
 			} // end of table rows for loop
-			cout << "Цикл в " << tableRowsNumber << " проходов выполнен за " << codemeter(2)/1000 << " сек. \n";
+			cout << "Цикл в " << tableRowsNumber << " проходов выполнен за " << codemeter(2) / 1000 << " сек. \n";
 		} else { cout << "	Пропускаем эту дверь.\n"; }
 
 		if (doorWithoutCategory == true) {
