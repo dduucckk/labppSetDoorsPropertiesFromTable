@@ -66,8 +66,10 @@ int main()
 	if (icount == 0)
 	{
 		// ЗАГРУЗИТЬ ВСЕ ДВЕРИ ИЗ ПРОЕКТА
-		ac_request("load_elements_list", 1, "DoorType", "MainFilter", 2);
-		cout << "Поскольку ничего не выделено, обрабатываю все двери в проекте.\n";
+		//ac_request("load_elements_list", 1, "DoorType", "MainFilter", 2);
+		//cout << "Поскольку ничего не выделено, обрабатываю все двери в проекте.\n";
+		cout << "Ни одной двери не выбрано.\n";
+		return -1;
 	}
 
 
