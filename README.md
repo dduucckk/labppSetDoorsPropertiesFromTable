@@ -80,3 +80,4 @@ LabPP_AutomatAC23INT\tsprglist\Set Doors Properties From Table\src\Зоны и �
 ## Проблемы    
 
 ![ошибка регистрации](images/01.png)    
+Решается вызовом админа    
