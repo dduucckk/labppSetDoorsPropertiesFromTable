@@ -3,8 +3,8 @@
 ## Установка    
 
 1. Установить себе [`LabPP`](https://www.labpp.ru/labpp-automat-ru);    
-2. Активировать лицензию на LabPP, следуя инструкциям самого [`LabPP`](https://www.labpp.ru/labppregru);    
-3. Поставить майкрософт офис;    
+2. Активировать лицензию на LabPP, следуя инструкциям самого [`LabPP`](https://www.labpp.ru/labppregru) (лучше попросить админа);    
+3. Поставить майкрософт офис (опционально);    
 4. Взять актуальный скрипт `labppSetDoorsPropertiesFromTable` руководствуясь следующим пунктом доступ к адону;   
 
 https://user-images.githubusercontent.com/94056361/142477262-8b3ed457-3d18-45f5-b742-8009ada6efc4.mp4
@@ -19,6 +19,7 @@ https://user-images.githubusercontent.com/94056361/142477262-8b3ed457-3d18-45f5-
 4. Принять приглашение;    
 5. Забрать скрипт последней версии с [дверодела](https://github.com/dduucckk/labppSetDoorsPropertiesFromTable);    
 6. Скопировать его в папку с установленным `LabPP` где находятся другие скрипты `C:\Program Files\GRAPHISOFT\ARCHICAD 23\Add-Ons\LabPP_AutomatAC23RUS\tsprglist`;    
+7. Переписать `LabPP` из папки `Extras` `LabPP_Automat.apx` в папку с установленным адоном. Можно сразу попросить это сделать админа;    
 
 ## Работа через командную строку с git    
 
